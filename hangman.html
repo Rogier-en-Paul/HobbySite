@@ -14,27 +14,35 @@
     </head>
     <body>
         <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <input type="text" placeholder="Guess a letter" class="form-control" id="guess">
+            <div class="col-md-3 col-md-offset-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" placeholder="Guess a letter" class="form-control" id="guess">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="answer" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default" id="submit">Submit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="index.html">
+                            <button type="button" class="btn btn-default">Back</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" id = "test">
+                <samp id="alerts"></samp>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <input type="text" class="form-control" id="answer" disabled>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <button type="button" class="btn btn-default" id="submit">Submit</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <a href="index.html">
-                    <button type="button" class="btn btn-default">Back</button>
-                </a>
-            </div>
-        </div>
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="js/hangman.js"></script>

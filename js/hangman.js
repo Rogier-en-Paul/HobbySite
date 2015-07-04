@@ -3,7 +3,7 @@ $( document ).ready(function() {
     var word = words[Math.floor(Math.random() * words.length)];
     
     var allowedChars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
-    var guessedLetters = [];
+    var guessedChars = [];
     var nOfWrongGuesses = 0;
     var answer = "";
     for(var i = 0;i<word.length;i++){
@@ -18,35 +18,71 @@ $( document ).ready(function() {
         guessedRight = false;
         for(var i = 0;i<word.length;i++){
             if(guess == word[i]){
-                console.log("yay");
                 guessedRight = true;
+                guessedChars.push(guess);
                 break;
             }
         }
-        if(guessedRight == false){
+        if(!guessedRight){
             nOfWrongGuesses++;
+            if(nOfWrongGuesses > 7){
+                word = words[Math.floor(Math.random() * words.length)];
+                console.log(word);
+                nOfWrongGuesses = 0;
+                alert("u got rekt m8");
+            }
         }
-        if(nOfWrongGuesses > 7){
+        answer = "";
+        for(var i = 0;i<word.length;i++){
+            var found = false;
+            for(var j = 0;j<guessedChars.length;j++){
+                if(word[i] == guessedChars[j]){
+                    answer += guessedChars[j];
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                answer += "-";
+            }
+            
+        }
+        $("#answer").val(answer);
+        if(answer == word){
+            alert("such win");
             word = words[Math.floor(Math.random() * words.length)];
             console.log(word);
             nOfWrongGuesses = 0;
-            alert("u got rekt m8");
-        }
-        for(var i = 0;i<word.length;i++){
-            $("#answer").val("-");
+            guessedChars = [];
+            answer = "";
+            for(var i = 0;i<word.length;i++){
+                answer += "-"
+            }
+            $("#answer").val(answer);
         }
     });
     
     $("#guess").on("keyup",function(e){
-        var input = String.fromCharCode(e.keyCode).toLowerCase(); 
+        var input = String.fromCharCode(e.keyCode).toLowerCase();
+        for(var i = 0;i< guessedChars.length;i++){
+            if(input == guessedChars[i]){
+                $("#alerts").replaceWith("character has already been guessed");
+                $("#guess").val("");
+                return;
+            }
+        }
         for(var i = 0;i< allowedChars.length;i++){
             if(input == allowedChars[i]){
-                allowed = true;
                 $("#guess").val(input);
                 return;
             }    
         }
-        console.log("character is not allowed");
+        $("#alerts").replaceWith("character is not allowed");
         $("#guess").val("");
     });
+    
+    $("#guess").on("keydown",function(e){
+        $("#guess").val("");
+    });
+    
 });
