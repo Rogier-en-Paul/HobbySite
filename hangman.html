@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hangman</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .row {
+                margin: 10px; padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">
+                <div class="row">                    
+                    <div class="col-md-12" id="counter">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" id="guessedChars">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" placeholder="Guess a letter" class="form-control" id="guess">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="answer" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default btn-block" id="submit">Submit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="index.html">
+                            <button type="button" class="btn btn-default">Back</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" id = "alerts">
+            </div>
+        </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="js/hangman.js"></script>
+    </body>
+</html>
