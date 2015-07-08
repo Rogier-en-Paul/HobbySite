@@ -17,7 +17,7 @@ $( document ).ready(function() {
         }
         guessedChars.push(guess);
         
-        guessedRight = false;
+        var guessedRight = false;
         for(var i = 0;i<word.length;i++){
             if(guess == word[i]){
                 guessedRight = true;
