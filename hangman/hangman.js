@@ -1,15 +1,17 @@
 $( document ).ready(function() {
+    var socket = io.connect();
     var words = ["pizza","piraat","edelsteen","discobal","hearthstone","koffieautomaat"];
     var word = words[Math.floor(Math.random() * words.length)];
-    
+    var previousPlayer = "not initialized";
+
     var allowedChars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
     var guessedChars = [];
     var nOfWrongGuesses = 0;
-    var maxWrongGuesses = 7;
+    var maxWrongGuesses = 9;
     var answer;
     
     reset();
-    
+
     $("#submit").on("click",function(){
         var guess = $("#guess").val();
         if(guess == ""){
@@ -27,13 +29,21 @@ $( document ).ready(function() {
         if(!guessedRight){
             nOfWrongGuesses++;
             if(nOfWrongGuesses >= maxWrongGuesses){
-                alert("u got rekt m8");
+                alert("u lost but the answer was: " + word);
                 reset();
             }
         }
         set();
         if(answer == word){
             alert("such win");
+            var name = prompt("enter your name");
+            var newWord = prompt("enter word for next visitor");
+            if(isAllowed(newWord)){
+                socket.emit("won",{name:name,newWord:newWord});
+            }else{
+                alert("word wasn't saved because it contained illegal characters or was null");
+            }
+
             reset();
         }
         $("#guess").val("");
@@ -62,9 +72,16 @@ $( document ).ready(function() {
     $("#guess").on("keydown",function(e){
         $("#guess").val("");
     });
-    
+
+    socket.on("requestWord",function(data){
+        console.log(data);
+        word = data.word;
+        previousPlayer = data.name;
+        setAnswer();
+    });
+
     function reset(){
-        word = words[Math.floor(Math.random() * words.length)];
+        socket.emit("requestWord");
         console.log(word);
         guessedChars = [];
         nOfWrongGuesses = 0;
@@ -93,6 +110,24 @@ $( document ).ready(function() {
             }
         }
         $("#answer").val(answer);
+    }
+
+    function isAllowed(word){
+        if(word == null){
+            return false;
+        }
+        for(var i = 0;i< word.length;i++){
+            var foundChar = false;
+            for(var j = 0;j<allowedChars.length;j++){
+                if(word[i] == allowedChars[j]){
+                    foundChar = true;
+                }
+            }
+            if(foundChar == false){
+                return false;
+            }
+        }
+        return true;
     }
     
 });
