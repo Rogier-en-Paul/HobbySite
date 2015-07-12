@@ -13,23 +13,8 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="glyphicon glyphicon-menu-hamburger"></span>
-              </button>
-              <a class="navbar-brand" href="index.html">Brand</a>
-            </div>
-            
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li><a href="hangman/hangman.html">Hangman</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+        <div id="navbar">
+        </div>
         
         <div class="jumbotron">
           <h1>Hello, world! (commit van Rogier)</h1>
@@ -38,5 +23,8 @@
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        $("#navbar").load("/HobbySite/shared.html");
+    </script>
     </body>
 </html>

@@ -3,7 +3,7 @@ var dog2 = new Dog("test",404);
 
 dog1.howl();
 dog2.howl();
-//$("body").append("asd");
-//$("body").append("asd");
-$("body").append(dog1.name);
-$("body").append(dog1.age);
+
+var body = $("body");
+body.append(dog1.name + "<br/>");
+body.append(dog1.age + "<br/>");
