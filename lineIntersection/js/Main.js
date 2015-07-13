@@ -1,3 +1,9 @@
-/**
- * Created by Paul Boon on 13/07/2015.
- */
+$(document).ready(function(){
+    var canvas = document.getElementById("mycanvas");
+    canvas.addEventListener('keydown', doKeyDown, true);
+    var ctxt = canvas.getContext("2d");
+    ctxt.fillRect(10,10,10,10);
+    function doKeyDown(e){
+
+    }
+});
