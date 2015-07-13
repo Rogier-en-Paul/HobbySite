@@ -23,9 +23,9 @@ function doMouseMove(e){
 function update(){
     ctxt.clearRect(0, 0, canvas.width, canvas.height);
     Point1.drawPoint(ctxt);
-    console.log(Point1.isInTriangle(Triangle));
     Line.drawLine(ctxt);
     Triangle.drawTriangle(ctxt);
+    console.log(Point1.isInTriangle(Triangle));
 }
 
 function getMousePos(canvas,e){
