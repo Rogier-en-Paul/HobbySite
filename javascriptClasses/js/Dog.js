@@ -5,5 +5,5 @@ function Dog (name,legs) {
 Dog.prototype = Object.create(Animal.prototype);
 //Dog.prototype.constructor = Dog;
 Dog.prototype.howl = function(){
-    console.log("woef"+ this.name + " :" + this.legs);
+    body.append("bark my name is "+ this.name + " and i have this many legs " + this.legs + "<br/>");
 };
