@@ -33,9 +33,8 @@ function update(){
 
 function doLineSegmentsIntersect(line1,line2){
     var intersectionPoint = getIntersectionPoint(line1,line2);
-    var sharedBoundingBox = getSharedBoundingBox(line1,line2);
     intersectionPoint.drawPoint(ctxt);
-    return isPointInBox(intersectionPoint,sharedBoundingBox);
+    return isPointInBox(intersectionPoint,line1) && isPointInBox(intersectionPoint,line2);
 }
 
 function getIntersectionPoint(line1,line2){
@@ -52,21 +51,14 @@ function getIntersectionPoint(line1,line2){
 
 }
 
-function getSharedBoundingBox(line1,line2){
-    var rightestLeftSide;
-    var leftestRightSide;
-    var highestBottomSide;
-    var lowestTopSide;
-
-
-    var point1 = new Point(rightestLeftSide,highestBottomSide);
-    var point2 = new Point(leftestRightSide,lowestTopSide);
-    var SharedBoundingBox = new Line(point1,point2);
-    SharedBoundingBox.drawBox(100,ctxt);
-    return SharedBoundingBox;
-}
-
 function isPointInBox(point,line){
+    if(point.x > Math.min(line.points[0].x,line.points[1].x) &&
+        point.x < Math.max(line.points[0].x,line.points[1].x) &&
+        point.y > Math.min(line.points[0].y,line.points[1].y) &&
+        point.y < Math.max(line.points[0].y,line.points[1].y)
+        ){
+        return true
+    }
     return false;
 }
 
@@ -82,20 +74,4 @@ function getDistance(Point1,Point2){
     var a = Point1.x - Point2.x;
     var b = Point1.y - Point2.y;
     return Math.pow(Math.pow(a,2)+Math.pow(b,2),0.5);
-}
-
-function min(a,b){
-    if(a < b){
-        return a;
-    }else{
-        return b;
-    }
-}
-
-function max(a,b){
-    if(a > b){
-        return a;
-    }else{
-        return b;
-    }
 }
