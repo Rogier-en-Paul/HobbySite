@@ -19,7 +19,11 @@ function Line(Point1,Point2){
         return this.points[0].y - this.points[0].x * this.getDelta();
     }
 
-    this.drawBox = function(illumination,ctxt){
+    this.drawBox = function(ctxt,isPointInBox){
+        var illumination = 128;
+        if(isPointInBox){
+            illumination = 64;
+        }
         ctxt.fillStyle = 'rgb(' + illumination + ',' + illumination + ',' + illumination + ')';
         ctxt.fillRect(this.points[0].x,this.points[0].y,this.points[1].x - this.points[0].x, this.points[1].y - this.points[0].y);
         ctxt.fillStyle = 'rgb(0,0,0)';

@@ -2,9 +2,15 @@ function Point(x,y){
     this.x = x;
     this.y = y;
 
-    this.drawPoint = function(ctxt){
+    this.drawPoint = function(ctxt, lineSegmentsIntersect){
         var size = 10;
+        var color = 0;
+        if(lineSegmentsIntersect){
+            color = 255;
+        }
+        ctxt.fillStyle = 'rgb(' + color + ',0,0)';
         ctxt.fillRect(this.x - size/2, this.y-size/2, size, size);
+        ctxt.fillStyle = 'rgb(0,0,0)';
     };
 
     this.isInTriangle = function(Triangle){
