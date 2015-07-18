@@ -32,10 +32,9 @@ while(openList.length > 0){
         if(arrayContaintsObject(closedList,adjacentTiles[i])){
             continue;
         }else if(!arrayContaintsObject(openList,adjacentTiles[i])){
-            var node = new Node();//needs to be calculated
-            openList.push(node)
-        }else if(true){
-            
+            openList.push(new Node(getH));
+        }else if(currentPoint.g + currentPoint.h + 1 < adjacentTiles[i].f){
+            adjacentTiles.parent = currentPoint;
         }
     }
 }
