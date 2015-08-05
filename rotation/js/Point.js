@@ -6,15 +6,14 @@ function Point(x,y){
 }
 
 Point.prototype.drawPoint = function(){
-    var rotatedPoint = this;//this.rotate(this,this.rotation);
+    var rotatedPoint = this.rotate(this,this.rotation);
     var size = 10;
     ctxt.fillRect(rotatedPoint.x - size / 2 + 250, rotatedPoint.y - size / 2 + 250, size, size);
 };
 
 Point.prototype.rotate = function(Point,rotation){
     var rotatedPoint = $.extend(true,{},Point);
-    var length = Math.pow(Math.pow(rotatedPoint.x,2) + Math.pow(rotatedPoint.y,2),0.5);
-    rotatedPoint.x = Math.cos(rotation) * length;
-    rotatedPoint.y = Math.sin(rotation) * length;
+    rotatedPoint.x = Point.x * Math.cos(rotation) - Point.y * Math.sin(rotation);
+    rotatedPoint.y = Point.x * Math.sin(rotation) + Point.y * Math.cos(rotation);
     return rotatedPoint;
 };
