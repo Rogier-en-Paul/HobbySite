@@ -5,8 +5,16 @@ function Polygon(points){
 Polygon.prototype.drawPolygon = function(){
     ctxt.beginPath();
     this.points.forEach(function(point){
-        ctxt.lineTo(point.x + 250,point.y + 250);
+        var rotatedPoint = point.rotate(point,point.rotation);
+        ctxt.lineTo(rotatedPoint.x + 250,rotatedPoint.y + 250);
     });
-    ctxt.lineTo(this.points[0].x + 250,this.points[0].y + 250);
+    var rotatedPoint = this.points[0].rotate(this.points[0],this.points[0].rotation);
+    ctxt.lineTo(rotatedPoint.x + 250,rotatedPoint.y + 250);
     ctxt.stroke();
+};
+
+Polygon.prototype.rotate = function(rotation){
+  this.points.forEach(function(point){
+      point.rotation = rotation;
+  });
 };
