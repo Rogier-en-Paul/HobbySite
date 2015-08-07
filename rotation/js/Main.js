@@ -1,15 +1,13 @@
 var canvas = document.getElementById("mycanvas");
 canvas.addEventListener("mousemove", doMouseMove);
+canvas.addEventListener("click",doClick);
 var ctxt = canvas.getContext("2d");
 var mousePos = {x:0, y:0};
 var width = canvas.width;
 var height = canvas.height;
 
-var origin = new Point(0,0);
-var point = new Point(0,-30);
-
-var triangle = new Polygon([new Point(30,0),new Point(-30,0),new Point(0,-30)]);
-
+var center = new Point(-30,0);
+ var tiangle = new Polygon([new Vector(30,0),new Vector(-30,0),new Vector(0,-30)]);
 
 update();
 
@@ -18,13 +16,16 @@ function doMouseMove(e){
     update();
 }
 
+function doClick(e){
+    //mousePos = getMousePos(canvas,e);
+    //center.x = mousePos.x - width / 2;
+    //center.y = mousePos.y - height / 2;
+    //update();
+}
+
 function update(){
     ctxt.clearRect(0, 0, canvas.width, canvas.height);
-    origin.drawPoint();
-
-    //point.drawPoint();
-    //point.rotation = 1;
-    //point.drawPoint();
+    center.drawPoint();
 
     triangle.rotate((mousePos.x / width) * (Math.PI * 2));
     triangle.drawPolygon();
