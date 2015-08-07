@@ -14,7 +14,7 @@ Vector.prototype.drawPoint = function(){
 
 Vector.prototype.rotate = function(Point,rotation){
     var rotatedPoint = $.extend({},Point);
-    rotatedPoint.x = (Point.x - this.origin.x) * Math.cos(rotation) - (Point.y - this.origin.y) * Math.sin(rotation);
-    rotatedPoint.y = (Point.x - this.origin.x) * Math.sin(rotation) + (Point.y - this.origin.y) * Math.cos(rotation);
+    rotatedPoint.x = (Point.x - this.origin.x) * Math.cos(rotation) - (Point.y - this.origin.y) * Math.sin(rotation) + this.origin.x;
+    rotatedPoint.y = (Point.x - this.origin.x) * Math.sin(rotation) + (Point.y - this.origin.y) * Math.cos(rotation) + this.origin.y;
     return rotatedPoint;
 };

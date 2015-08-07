@@ -1,20 +1,20 @@
-function Polygon(points){
-    this.points = points
+function Polygon(vertices){
+    this.vertices = vertices
 }
 
 Polygon.prototype.drawPolygon = function(){
     ctxt.beginPath();
-    this.points.forEach(function(point){
-        var rotatedPoint = point.rotate(point,point.rotation);
+    this.vertices.forEach(function(vector){
+        var rotatedPoint = vector.rotate(vector,vector.rotation);
         ctxt.lineTo(rotatedPoint.x + 250,rotatedPoint.y + 250);
     });
-    var rotatedPoint = this.points[0].rotate(this.points[0],this.points[0].rotation);
+    var rotatedPoint = this.vertices[0].rotate(this.vertices[0],this.vertices[0].rotation);
     ctxt.lineTo(rotatedPoint.x + 250,rotatedPoint.y + 250);
     ctxt.stroke();
 };
 
 Polygon.prototype.rotate = function(rotation){
-  this.points.forEach(function(point){
+  this.vertices.forEach(function(point){
       point.rotation = rotation;
   });
 };

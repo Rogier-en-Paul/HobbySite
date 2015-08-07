@@ -6,8 +6,9 @@ var mousePos = {x:0, y:0};
 var width = canvas.width;
 var height = canvas.height;
 
-var center = new Point(-30,0);
- var tiangle = new Polygon([new Vector(30,0),new Vector(-30,0),new Vector(0,-30)]);
+var absoluteCenter = new Point(0,0);
+var center = new Point(0,0);
+var triangle = new Polygon([new Vector(30,0),new Vector(-30,0),new Vector(0,-30)]);
 
 update();
 
@@ -17,15 +18,16 @@ function doMouseMove(e){
 }
 
 function doClick(e){
-    //mousePos = getMousePos(canvas,e);
-    //center.x = mousePos.x - width / 2;
-    //center.y = mousePos.y - height / 2;
-    //update();
+    mousePos = getMousePos(canvas,e);
+    center.x = mousePos.x - width / 2;
+    center.y = mousePos.y - height / 2;
+    update();
 }
 
 function update(){
     ctxt.clearRect(0, 0, canvas.width, canvas.height);
     center.drawPoint();
+    absoluteCenter.drawPoint();
 
     triangle.rotate((mousePos.x / width) * (Math.PI * 2));
     triangle.drawPolygon();
