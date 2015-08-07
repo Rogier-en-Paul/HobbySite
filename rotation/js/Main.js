@@ -1,5 +1,5 @@
 var canvas = document.getElementById("mycanvas");
-canvas.addEventListener("mousemove", doMouseMove);
+//canvas.addEventListener("mousemove", doMouseMove);
 canvas.addEventListener("click",doClick);
 var ctxt = canvas.getContext("2d");
 var mousePos = {x:0, y:0};
@@ -8,14 +8,21 @@ var height = canvas.height;
 
 var absoluteCenter = new Point(0,0);
 var center = new Point(0,0);
-var triangle = new Polygon([new Vector(30,0),new Vector(-30,0),new Vector(0,-30)]);
+var triangle = new Polygon([new Vector(-100,100),new Vector(100,100),new Vector(0,-100)]);
+var rotation = 0;
 
 update();
 
-function doMouseMove(e){
-    mousePos = getMousePos(canvas,e);
+//function doMouseMove(e){
+//    mousePos = getMousePos(canvas,e);
+//    update();
+//}
+
+setInterval(function () {
+    rotation += 0.005;
+    triangle.rotate(rotation);
     update();
-}
+}, 1/60);
 
 function doClick(e){
     mousePos = getMousePos(canvas,e);
@@ -29,7 +36,6 @@ function update(){
     center.drawPoint();
     absoluteCenter.drawPoint();
 
-    triangle.rotate((mousePos.x / width) * (Math.PI * 2));
     triangle.drawPolygon();
 }
 
