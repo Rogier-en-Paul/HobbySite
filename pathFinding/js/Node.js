@@ -1,8 +1,8 @@
-function Node(h,parent,point){
+function Node(point){
     this.point = point;
     this.g = this.getG();
-    this.h = h;
-    this.f = this.g+h;
+    this.h = null;
+    this.f = this.g+this.h;
     this.parent = parent;
 }
 Node.prototype.draw = function(ctxt){
@@ -19,5 +19,9 @@ Node.prototype.getG = function(){
 };
 
 Node.prototype.getNeighbours = function(){
+    var neighbours = [];
+};
 
+Node.prototype.addNodeToList = function(node){
+    
 };

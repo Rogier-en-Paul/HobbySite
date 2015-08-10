@@ -2,12 +2,7 @@ var canvas = document.getElementById("mycanvas");
 var ctxt = canvas.getContext("2d");
 ctxt.fillRect(10,10,10,10);
 
-
-var destination = new Point(6,6);
-var start = new Node(0,null,new Point(1,1));
-
-
-var grid = [
+var walkableGrid = [
     [0,0,0,0,0,0],
     [0,0,0,1,0,0],
     [0,0,0,1,0,0],
@@ -15,10 +10,15 @@ var grid = [
     [0,1,0,0,0,0],
     [0,0,0,0,0,0]
 ];
-var openList = [start];
+var grid = createGrid();
+var destination = grid[6][6];
+var start = grid[1][1];
+
+var openList = [];
 var closedList = [];
 
-while(openList.length > 1000){
+
+while(openList.length > 0){
     var currentNode = getNodeWithLowestF();
     openList.splice(openList.indexOf(currentNode),1);
     closedList.push(currentNode);
@@ -40,4 +40,27 @@ function getNodeWithLowestF(){
         }
     }
     return nodeWithLowestF;
+}
+
+function addNodeToList(node){
+
+}
+
+function createGrid(){
+    var grid = create2DArray(6,6);
+
+    for(var x = 0;x < 6;x++){
+        for(var y = 0;y < 6;y++){
+
+            grid[x][y] = new Node(new Point(x,y));
+        }
+    }
+}
+
+function create2DArray(x,y){
+    var array = new Array(x);
+    for(var i = 0;i < x;i++){
+        array[i] = new Array(y);
+    }
+    return array;
 }
