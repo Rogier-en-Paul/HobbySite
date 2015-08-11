@@ -11,7 +11,7 @@ var walkableGrid = [
     [0,0,0,0,0,0]
 ];
 var grid = createGrid();
-var destination = grid[5][5];
+var destination = grid[2][2];
 var start = grid[1][1];
 
 var openList = [];
@@ -25,6 +25,7 @@ while(openList.length > 0){
 
     if(currentNode == destination){
         console.log(retracePath());
+        drawGrid();
         break;
     }
 
@@ -35,7 +36,7 @@ while(openList.length > 0){
                 neighbour.g = newMovementCostToNeighbour;
                 neighbour.parent = currentNode;
 
-                if (openList.indexOf(neighbour) != -1) {
+                if (openList.indexOf(neighbour) == -1) {
                     openList.push(neighbour);
                 }
             }
