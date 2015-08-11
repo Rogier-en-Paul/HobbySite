@@ -5,20 +5,16 @@ function Node(point){
     this.f = null;
     this.parent = null;
 }
+
 Node.prototype.draw = function(ctxt){
     ctxt.font = "11px Arial";
     ctxt.fillRect(this.point.x,this.point.y,40,40);
     ctxt.fillText(this.h,this.point.x + 20,this.point.y + 20);
     ctxt.fillText(this.g,this.point.x,this.point.y + 20);
     ctxt.fillText(this.f,this.point.x,this.point.y);
-    ctxt.fillText(this.parent.point.x + "," + this.parent.point.y,this.point.x,this.point.y);
-};
-
-Node.prototype.addToOpenList = function(g){
-    this.g = g;
-    this.h = (destination.point.x - this.point.x + destination.point.y - this.point.y) * 10;
-    this.f = this.g+this.h;
-    openList.push(this);
+    if(this.parent != undefined){
+        ctxt.fillText(this.parent.point.x + "," + this.parent.point.y,this.point.x,this.point.y);
+    }
 };
 
 Node.prototype.getNeighbours = function(){
@@ -35,7 +31,7 @@ Node.prototype.getNeighbours = function(){
         if(checkX >= 0 && checkY >= 0 && checkX < 6 && checkY < 6){
             var neighbour = grid[checkX][checkY];
             neighbour.g = currentNode.g + neighbourMap[i].distance;
-            neighbour.h = (destination.point.x - neighbour.point.x + destination.point.y - neighbour.point.y) * 10;
+            neighbour.h = neighbour.getH();
             neighbour.f = neighbour.g+neighbour.h;
             neighbours.push(neighbour);
         }
@@ -43,10 +39,6 @@ Node.prototype.getNeighbours = function(){
     return neighbours;
 };
 
-function drawGrid(){
-    for(var i = 0; i < grid.length;i++){
-        for(var j = 0; j < grid[0].length; j++){
-            grid[i][j].draw();
-        }
-    }
-}
+Node.prototype.getH = function(){
+    return (destination.point.x - this.point.x + destination.point.y - this.point.y) * 10;
+};

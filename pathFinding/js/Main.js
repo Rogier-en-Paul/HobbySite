@@ -13,10 +13,12 @@ var walkableGrid = [
 var grid = createGrid();
 var destination = grid[2][2];
 var start = grid[1][1];
+start.g = 0;
+start.h = start.getH();
+start.f = start.g + start.h;
 
-var openList = [];
+var openList = [start];
 var closedList = [];
-start.addToOpenList(0);
 
 while(openList.length > 0){
     var currentNode = getNodeWithLowestF();
@@ -28,7 +30,6 @@ while(openList.length > 0){
         drawGrid();
         break;
     }
-
     currentNode.getNeighbours().forEach(function(neighbour){
         if(!walkableGrid[neighbour.point.x][neighbour.point.y] && closedList.indexOf(neighbour) == -1) {
             var newMovementCostToNeighbour = currentNode.g + 10;
@@ -73,6 +74,14 @@ function createGrid(){
         }
     }
     return grid;
+}
+
+function drawGrid(){
+    for(var i = 0; i < grid.length;i++){
+        for(var j = 0; j < grid[0].length; j++){
+            grid[i][j].draw(ctxt);
+        }
+    }
 }
 
 function create2DArray(x,y){
