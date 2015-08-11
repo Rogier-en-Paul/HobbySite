@@ -11,12 +11,12 @@ var walkableGrid = [
     [0,0,0,0,0,0]
 ];
 var grid = createGrid();
-var destination = grid[6][6];
+var destination = grid[5][5];
 var start = grid[1][1];
 
 var openList = [];
 var closedList = [];
-start.addToOpenList();
+start.addToOpenList(0);
 
 while(openList.length > 0){
     var currentNode = getNodeWithLowestF();
@@ -24,26 +24,37 @@ while(openList.length > 0){
     closedList.push(currentNode);
 
     if(currentNode == destination){
+        console.log(retracePath());
         break;
     }
 
     currentNode.getNeighbours().forEach(function(neighbour){
-        if(!walkableGrid[neighbour.point.x][neighbour.point.y] || closedList.indexOf(neighbour) == -1){
-            continue;
-        }
-        var newMovementCostToNeighbour = currentNode.g + GetDistance(currentNode, neighbour);
-        if(0 || openList.indexOf(neighbour) == -1){
-            //add some stuff here
-            if(openList.indexOf(neighbour) != -1){
-                openList.push(neighbour);
+        if(!walkableGrid[neighbour.point.x][neighbour.point.y] && closedList.indexOf(neighbour) == -1) {
+            var newMovementCostToNeighbour = currentNode.g + 10;
+            if (newMovementCostToNeighbour < neighbour.g || openList.indexOf(neighbour) == -1) {
+                neighbour.g = newMovementCostToNeighbour;
+                neighbour.parent = currentNode;
+
+                if (openList.indexOf(neighbour) != -1) {
+                    openList.push(neighbour);
+                }
             }
         }
-
     });
 }
 
+function retracePath(start,destination){
+    var path = [];
+    var currentNode = destination;
+    while(destination != start){
+        path.push(currentNode);
+        currentNode = currentNode.parent;
+    }
+    return path.reverse();
+}
+
 function getNodeWithLowestF(){
-    var nodeWithLowestF = null;
+    var nodeWithLowestF = openList[0];
     for(var i = 0;i < openList.length;i++){
         if(openList[i].f < nodeWithLowestF.f || openList[i].f == nodeWithLowestF.f && openList[i].h < nodeWithLowestF.h){
             nodeWithLowestF = openList[i];
@@ -57,7 +68,6 @@ function createGrid(){
 
     for(var x = 0;x < 6;x++){
         for(var y = 0;y < 6;y++){
-
             grid[x][y] = new Node(new Point(x,y));
         }
     }
