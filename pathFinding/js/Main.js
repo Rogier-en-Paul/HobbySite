@@ -1,34 +1,34 @@
 var canvas = document.getElementById("mycanvas");
 var ctxt = canvas.getContext("2d");
-ctxt.fillRect(10,10,10,10);
+canvas.addEventListener("keydown", doKeyDown);
 
 var walkableGrid = [
     [0,0,0,0,0,0],
-    [0,0,0,1,0,0],
-    [0,0,0,1,0,0],
-    [0,0,0,1,0,0],
     [0,1,0,0,0,0],
+    [0,1,1,1,1,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
     [0,0,0,0,0,0]
 ];
 var grid = createGrid();
-var destination = grid[2][2];
-var start = grid[1][1];
+var destination = grid[1][2];
+var start = grid[4][3];
 start.g = 0;
 start.h = start.getH();
 start.f = start.g + start.h;
 
 var openList = [start];
 var closedList = [];
+var currentNode = null;
+drawGrid();
 
-while(openList.length > 0){
-    var currentNode = getNodeWithLowestF();
+function findPath(){
+    currentNode = getNodeWithLowestF();
     openList.splice(openList.indexOf(currentNode),1);
     closedList.push(currentNode);
 
     if(currentNode == destination){
         console.log(retracePath());
-        drawGrid();
-        break;
     }
     currentNode.getNeighbours().forEach(function(neighbour){
         if(!walkableGrid[neighbour.point.x][neighbour.point.y] && closedList.indexOf(neighbour) == -1) {
@@ -43,6 +43,11 @@ while(openList.length > 0){
             }
         }
     });
+}
+
+function doKeyDown(){
+    findPath();
+    drawGrid();
 }
 
 function retracePath(start,destination){
@@ -77,11 +82,14 @@ function createGrid(){
 }
 
 function drawGrid(){
-    for(var i = 0; i < grid.length;i++){
-        for(var j = 0; j < grid[0].length; j++){
-            grid[i][j].draw(ctxt);
-        }
+    for(var i = 0;i < closedList.length;i++){
+        closedList[i].draw(ctxt,'rgb(255,0,0)');
     }
+    for(var i = 0;i < openList.length;i++){
+        openList[i].draw(ctxt,'rgb(0,255,0)');
+    }
+    start.draw(ctxt,'rgb(100,100,255)');
+    destination.draw(ctxt,'rgb(100,100,255)');
 }
 
 function create2DArray(x,y){
