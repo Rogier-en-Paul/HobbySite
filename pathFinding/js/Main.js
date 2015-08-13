@@ -1,8 +1,11 @@
 var canvas = document.getElementById("mycanvas");
 var ctxt = canvas.getContext("2d");
+ctxt.textAlign = "center";
+ctxt.font = "14px Arial";
 var width = canvas.width;
 var height = canvas.height;
 canvas.addEventListener("keydown", doKeyDown);
+canvas.addEventListener("click", doClick);
 
 var walkableGrid = [
     [0,0,0,0,0,0],
@@ -17,16 +20,26 @@ var gridHeight = walkableGrid.length;
 var grid = createGrid(gridWidth,gridHeight);
 var destination = grid[1][2];
 var start = grid[4][3];
+var unwalkableNodes = [];
+for(var i = 0;i < walkableGrid.length;i++){
+    for(var j = 0;j < walkableGrid[0].length;j++){
+        if(walkableGrid[j][i] == 1){
+            unwalkableNodes.push(grid[j][i]);
+        }
+    }
+}
 start.g = 0;
 start.h = start.getH();
 start.f = start.g + start.h;
 
-var pathfound = false;
+var pathFound = false;
 var path = [];
 var openList = [start];
 var closedList = [];
 var currentNode = null;
-drawGrid();
+start.draw(ctxt,'rgb(100,100,255)');
+destination.draw(ctxt,'rgb(100,100,255)');
+drawNodes(unwalkableNodes,'rgb(0,0,0)');
 
 function findPath(){
     currentNode = getNodeWithLowestF();
@@ -35,7 +48,7 @@ function findPath(){
 
     if(currentNode == destination){
         path = retracePath();
-        pathfound = true;
+        pathFound = true;
     }
     var neighbours = currentNode.getNeighbours();
     for(var i = 0 ; i < neighbours.length;i++){
@@ -53,18 +66,29 @@ function findPath(){
             }
         }
     }
-
-
-
 }
 
 function doKeyDown(){
-    if(pathfound){
+    ctxt.clearRect(0, 0, canvas.width, canvas.height);
+    if(pathFound){
+        drawNodes(closedList,'rgb(255,0,0)');
+        drawNodes(openList,'rgb(0,255,0)');
         drawNodes(path,'rgb(100,100,255)');
+        drawNodes(unwalkableNodes,'rgb(0,0,0)');
+        start.draw(ctxt,'rgb(100,100,255)');
+        destination.draw(ctxt,'rgb(100,100,255)');
     }else{
         findPath();
-        drawGrid();
+        drawNodes(closedList,'rgb(255,0,0)');
+        drawNodes(openList,'rgb(0,255,0)');
+        drawNodes(unwalkableNodes,'rgb(0,0,0)');
+        start.draw(ctxt,'rgb(100,100,255)');
+        destination.draw(ctxt,'rgb(100,100,255)');
     }
+}
+
+function doClick(){
+
 }
 
 function retracePath(){
@@ -89,24 +113,12 @@ function getNodeWithLowestF(){
 
 function createGrid(x,y){
     var grid = create2DArray(x,y);
-
     for(var i = 0;i < y;i++){
         for(var j = 0;j < x;j++){
             grid[i][j] = new Node(new Point(j,i));
         }
     }
     return grid;
-}
-
-function drawGrid(){
-    for(var i = 0;i < closedList.length;i++){
-        closedList[i].draw(ctxt,'rgb(255,0,0)');
-    }
-    for(var i = 0;i < openList.length;i++){
-        openList[i].draw(ctxt,'rgb(0,255,0)');
-    }
-    start.draw(ctxt,'rgb(100,100,255)');
-    destination.draw(ctxt,'rgb(100,100,255)');
 }
 
 function create2DArray(x,y){
