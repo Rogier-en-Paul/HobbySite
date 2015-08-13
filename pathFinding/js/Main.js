@@ -1,5 +1,7 @@
 var canvas = document.getElementById("mycanvas");
 var ctxt = canvas.getContext("2d");
+var width = canvas.width;
+var height = canvas.height;
 canvas.addEventListener("keydown", doKeyDown);
 
 var walkableGrid = [
@@ -10,13 +12,17 @@ var walkableGrid = [
     [0,0,0,0,0,0],
     [0,0,0,0,0,0]
 ];
-var grid = createGrid();
+var gridWidth = walkableGrid[0].length;
+var gridHeight = walkableGrid.length;
+var grid = createGrid(gridWidth,gridHeight);
 var destination = grid[1][2];
 var start = grid[4][3];
 start.g = 0;
 start.h = start.getH();
 start.f = start.g + start.h;
 
+var pathfound = false;
+var path = [];
 var openList = [start];
 var closedList = [];
 var currentNode = null;
@@ -28,32 +34,43 @@ function findPath(){
     closedList.push(currentNode);
 
     if(currentNode == destination){
-        console.log(retracePath());
+        path = retracePath();
+        pathfound = true;
     }
-    currentNode.getNeighbours().forEach(function(neighbour){
-        if(!walkableGrid[neighbour.point.x][neighbour.point.y] && closedList.indexOf(neighbour) == -1) {
+    var neighbours = currentNode.getNeighbours();
+    for(var i = 0 ; i < neighbours.length;i++){
+        if(!walkableGrid[neighbours[i].point.y][neighbours[i].point.x] && closedList.indexOf(neighbours[i]) == -1) {
             var newMovementCostToNeighbour = currentNode.g + 10;
-            if (newMovementCostToNeighbour < neighbour.g || openList.indexOf(neighbour) == -1) {
-                neighbour.g = newMovementCostToNeighbour;
-                neighbour.parent = currentNode;
+            if (newMovementCostToNeighbour < neighbours[i].g || openList.indexOf(neighbours[i]) == -1) {
+                neighbours[i].g = newMovementCostToNeighbour;
+                neighbours[i].h = neighbours[i].getH();
+                neighbours[i].f = neighbours[i].g + neighbours[i].h;
+                neighbours[i].parent = currentNode;
 
-                if (openList.indexOf(neighbour) == -1) {
-                    openList.push(neighbour);
+                if (openList.indexOf(neighbours[i]) == -1) {
+                    openList.push(neighbours[i]);
                 }
             }
         }
-    });
+    }
+
+
+
 }
 
 function doKeyDown(){
-    findPath();
-    drawGrid();
+    if(pathfound){
+        drawNodes(path,'rgb(100,100,255)');
+    }else{
+        findPath();
+        drawGrid();
+    }
 }
 
-function retracePath(start,destination){
+function retracePath(){
     var path = [];
     var currentNode = destination;
-    while(destination != start){
+    while(currentNode != start){
         path.push(currentNode);
         currentNode = currentNode.parent;
     }
@@ -70,12 +87,12 @@ function getNodeWithLowestF(){
     return nodeWithLowestF;
 }
 
-function createGrid(){
-    var grid = create2DArray(6,6);
+function createGrid(x,y){
+    var grid = create2DArray(x,y);
 
-    for(var x = 0;x < 6;x++){
-        for(var y = 0;y < 6;y++){
-            grid[x][y] = new Node(new Point(x,y));
+    for(var i = 0;i < y;i++){
+        for(var j = 0;j < x;j++){
+            grid[i][j] = new Node(new Point(j,i));
         }
     }
     return grid;
@@ -93,9 +110,15 @@ function drawGrid(){
 }
 
 function create2DArray(x,y){
-    var array = new Array(x);
+    var array = new Array(y);
     for(var i = 0;i < x;i++){
-        array[i] = new Array(y);
+        array[i] = new Array(x);
     }
     return array;
+}
+
+function drawNodes(nodes,color){
+    for(var i = 0; i < nodes.length ; i++){
+        nodes[i].draw(ctxt,color);
+    }
 }
