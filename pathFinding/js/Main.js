@@ -69,19 +69,15 @@ function findPath(){
 }
 
 function doKeyDown(){
-    ctxt.clearRect(0, 0, canvas.width, canvas.height);
-    if(pathFound){
-        drawNodes(closedList,'rgb(255,0,0)');
-        drawNodes(openList,'rgb(0,255,0)');
-        drawNodes(path,'rgb(100,100,255)');
-        drawNodes(unwalkableNodes,'rgb(0,0,0)');
-        start.draw(ctxt,'rgb(100,100,255)');
-        destination.draw(ctxt,'rgb(100,100,255)');
-    }else{
+    if(!pathFound){
+        ctxt.clearRect(0, 0, canvas.width, canvas.height);
         findPath();
         drawNodes(closedList,'rgb(255,0,0)');
         drawNodes(openList,'rgb(0,255,0)');
         drawNodes(unwalkableNodes,'rgb(0,0,0)');
+        if(pathFound){
+            drawNodes(path,'rgb(100,100,255)');
+        }
         start.draw(ctxt,'rgb(100,100,255)');
         destination.draw(ctxt,'rgb(100,100,255)');
     }
