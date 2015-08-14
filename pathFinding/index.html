@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>path finding</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .row {
+            margin: 10px;
+            padding: 0;
+        }
+        canvas{
+             border: solid black 1px;
+        }
+    </style>
+</head>
+<body>
+<div id="navbar">
+
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <canvas width="500" height="500" ID="mycanvas" tabindex="0" >Canvas tag not supported</canvas>
+        <button type="button" class="btn btn-primary btn-block" id="search">Search</button>
+    </div>
+    <div class="col-md-5">
+        <h1>
+            Explanation
+        </h1>
+        <p>
+            This is the A* path finding algorithm. Every time you press a key the algorithm will make a step towards
+            finding the shortest path from A to B. You can use the mouse to add and remove walls.</p>
+        <p>
+            The A* algorithm uses 3 values to determine what the next step towards the destination should be.
+        </p>
+        <p>
+            <b>H</b> (top left)<br>
+            H is a value that describes the distance from a node to the goal.
+        </p>
+        <p>
+            <b>G</b> (top right)<br>
+            G is a value that describes the distance that has to be traveled to get from the starting node to this node.
+        </p>
+        <p>
+            <b>F</b> (middle) G + H<br>
+            F is the value that the algorithm uses to determine what the most promising node
+            is to investigate next on it's journey towards finding the shortest path.
+        </p>
+        <p>
+            <b>Parent</b> (bottom middle) <br>
+            In the A* algorithm each node keeps a set of coordinates to point to it's parent.
+            These coordinates will ultimately be used make a chain (marked in blue when shortest path is found) from the goal back to the start.
+        </p>
+            <b>Helpful explanations</b><br>
+            <a href="https://www.youtube.com/watch?v=-L-WgKMFuhE">https://www.youtube.com/watch?v=-L-WgKMFuhE</a><br>
+            <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">https://en.wikipedia.org/wiki/A*_search_algorithm</a>
+        </p>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="js/Point.js"></script>
+<script src="js/Node.js"></script>
+<script src="js/Main.js"></script>
+
+<script>
+    $("#navbar").load("../shared.html");
+</script>
+</body>
+</html>
