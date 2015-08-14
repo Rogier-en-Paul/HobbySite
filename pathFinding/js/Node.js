@@ -28,10 +28,14 @@ Node.prototype.draw = function(ctxt,color){
 Node.prototype.getNeighbours = function(){
     var neighbours = [];
     var neighbourMap = [
-        {x:-1,y:0},
+        {x:-1,y:0},//straight
         {x:1,y:0},
         {x:0,y:-1},
-        {x:0,y:1}
+        {x:0,y:1},
+        {x:-1,y:-1},//diagonal
+        {x:1,y:1},
+        {x:1,y:-1},
+        {x:-1,y:1}
     ];
     for(var i = 0;i < neighbourMap.length;i++){
         var checkX = this.point.x + neighbourMap[i].x;
@@ -42,10 +46,4 @@ Node.prototype.getNeighbours = function(){
         }
     }
     return neighbours;
-};
-
-Node.prototype.getH = function(){
-    var distanceX = Math.abs(destination.point.y - this.point.y) ;
-    var distanceY = Math.abs(destination.point.x - this.point.x);
-    return (distanceX + distanceY) * 10;
 };

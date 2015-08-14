@@ -25,7 +25,7 @@ var start = grid[4][3];
 var unwalkableNodes;
 updateUnwalkableNodes();
 start.g = 0;
-start.h = start.getH();
+start.h = getDistance(start,destination);
 start.f = start.g + start.h;
 
 var pathFound = false;
@@ -49,10 +49,10 @@ function findPath(){
     var neighbours = currentNode.getNeighbours();
     for(var i = 0 ; i < neighbours.length;i++){
         if(!walkableGrid[neighbours[i].point.y][neighbours[i].point.x] && closedList.indexOf(neighbours[i]) == -1) {
-            var newMovementCostToNeighbour = currentNode.g + 10;
+            var newMovementCostToNeighbour = currentNode.g + getDistance(currentNode,neighbours[i]);
             if (newMovementCostToNeighbour < neighbours[i].g || openList.indexOf(neighbours[i]) == -1) {
                 neighbours[i].g = newMovementCostToNeighbour;
-                neighbours[i].h = neighbours[i].getH();
+                neighbours[i].h = getDistance(neighbours[i],destination);
                 neighbours[i].f = neighbours[i].g + neighbours[i].h;
                 neighbours[i].parent = currentNode;
 
@@ -63,6 +63,10 @@ function findPath(){
         }
     }
 }
+
+$("#search").on("click",function(){
+    doKeyDown();
+});
 
 function doKeyDown(){
     if(!pathFound && openList.length > 0){
@@ -124,6 +128,16 @@ function getNodeWithLowestF(){
         }
     }
     return nodeWithLowestF;
+}
+
+function getDistance(startNode,destinationNode){
+    var x = Math.abs(startNode.point.x - destinationNode.point.x);
+    var y = Math.abs(startNode.point.y - destinationNode.point.y);
+    var difference = Math.abs(x - y);
+    var straight = difference;
+    var diagonal = Math.max(x,y) - difference;
+    return straight * 10 + diagonal * 14;
+
 }
 
 function createGrid(x,y){
