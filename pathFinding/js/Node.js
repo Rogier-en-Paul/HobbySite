@@ -8,8 +8,7 @@ function Node(point){
 
 Node.prototype.draw = function(ctxt,color){
     if(color === undefined) color = 'rgb(0,255,0)';
-    var nodeWidth = width/gridWidth;
-    var nodeHeight = height/gridHeight;
+
     ctxt.fillStyle = 'rgb(80,80,80)';
     ctxt.fillRect(this.point.x * nodeWidth - 2,this.point.y * nodeHeight - 2,nodeWidth + 4,nodeHeight + 4);
     ctxt.fillStyle = color;

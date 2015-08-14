@@ -18,16 +18,12 @@ var walkableGrid = [
 var gridWidth = walkableGrid[0].length;
 var gridHeight = walkableGrid.length;
 var grid = createGrid(gridWidth,gridHeight);
+var nodeWidth = width/gridWidth;
+var nodeHeight = height/gridHeight;
 var destination = grid[1][2];
 var start = grid[4][3];
-var unwalkableNodes = [];
-for(var i = 0;i < walkableGrid.length;i++){
-    for(var j = 0;j < walkableGrid[0].length;j++){
-        if(walkableGrid[j][i] == 1){
-            unwalkableNodes.push(grid[j][i]);
-        }
-    }
-}
+var unwalkableNodes;
+updateUnwalkableNodes();
 start.g = 0;
 start.h = start.getH();
 start.f = start.g + start.h;
@@ -83,8 +79,31 @@ function doKeyDown(){
     }
 }
 
-function doClick(){
+function doClick(e){
+    var mousePos = getMousePos(canvas,e);
+    for(var i = 0;i < grid.length;i++){
+        for(var j = 0; j < grid[0].length;j++){
+            var node = grid[i][j];
+            if(mousePos.x > node.point.x * nodeWidth && mousePos.x < node.point.x  * nodeWidth + nodeWidth
+                && mousePos.y > node.point.y * nodeHeight && mousePos.y < node.point.y * nodeHeight + nodeHeight){
+                if(walkableGrid[node.point.y][node.point.x] == 1){
+                    walkableGrid[node.point.y][node.point.x] = 0;
+                }else{
+                    walkableGrid[node.point.y][node.point.x] = 1;
+                }
 
+            }
+        }
+    }
+    updateUnwalkableNodes();
+    openList = [start];
+    closedList = [];
+    ctxt.clearRect(0, 0, canvas.width, canvas.height);
+    drawNodes(closedList,'rgb(255,0,0)');
+    drawNodes(openList,'rgb(0,255,0)');
+    drawNodes(unwalkableNodes,'rgb(0,0,0)');
+    start.draw(ctxt,'rgb(100,100,255)');
+    destination.draw(ctxt,'rgb(100,100,255)');
 }
 
 function retracePath(){
@@ -129,4 +148,23 @@ function drawNodes(nodes,color){
     for(var i = 0; i < nodes.length ; i++){
         nodes[i].draw(ctxt,color);
     }
+}
+
+function updateUnwalkableNodes(){
+    unwalkableNodes = [];
+    for(var i = 0;i < walkableGrid.length;i++){
+        for(var j = 0;j < walkableGrid[0].length;j++){
+            if(walkableGrid[i][j] == 1){
+                unwalkableNodes.push(grid[i][j]);
+            }
+        }
+    }
+}
+
+function getMousePos(canvas,e){
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+    };
 }
