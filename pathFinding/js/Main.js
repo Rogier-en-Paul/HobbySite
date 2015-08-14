@@ -65,7 +65,7 @@ function findPath(){
 }
 
 function doKeyDown(){
-    if(!pathFound){
+    if(!pathFound && openList.length > 0){
         ctxt.clearRect(0, 0, canvas.width, canvas.height);
         findPath();
         drawNodes(closedList,'rgb(255,0,0)');
@@ -91,19 +91,19 @@ function doClick(e){
                 }else{
                     walkableGrid[node.point.y][node.point.x] = 1;
                 }
-
             }
         }
     }
     updateUnwalkableNodes();
     openList = [start];
     closedList = [];
+    pathFound = false;
     ctxt.clearRect(0, 0, canvas.width, canvas.height);
     drawNodes(closedList,'rgb(255,0,0)');
     drawNodes(openList,'rgb(0,255,0)');
-    drawNodes(unwalkableNodes,'rgb(0,0,0)');
     start.draw(ctxt,'rgb(100,100,255)');
     destination.draw(ctxt,'rgb(100,100,255)');
+    drawNodes(unwalkableNodes,'rgb(0,0,0)');
 }
 
 function retracePath(){
