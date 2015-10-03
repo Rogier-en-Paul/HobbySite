@@ -1,35 +1,34 @@
 function Camera(x,y,z){
     Vector.call(this,x,y,z);
-    this.ex = 0;
-    this.ey = 0;
-    this.ez = 0;
+	this.screensize = 14;
+    //orientation yaw pitch roll
+    //fov
 }
 
 Camera.prototype = Object.create(Vector.prototype);
 
+
 Camera.prototype.drawVector = function(vector){
-      ctxt.fillRect(vector.x,vector.y,10,10);
+	var x = this.getVectorXScreenPos(vector);
+	var y = this.getVectorYScreenPos(vector);
+
+	ctxt.fillRect(x,y,10,10);
 };
 
-Camera.prototype.convertTo2D = function(vector){
-    var d = new Vector();
-    var rx = vector.x - this.x;
-    var ry = vector.y - this.y;
-    var rz = vector.z - this.z;
+Camera.prototype.getVectorXScreenPos = function(vector){
+	return Math.floor((vector.x - this.x) / (vector.z - this.z) * this.screensize + width / 2);
+};
 
-    var cx = Math.cos(this.ex);
-    var cy = Math.cos(this.ey);
-    var cz = Math.cos(this.ez);
-    var sx = Math.sin(this.ex);
-    var sy = Math.sin(this.ey);
-    var sz = Math.sin(this.ez);
+Camera.prototype.getVectorYScreenPos = function(vector){
+	return Math.floor((vector.y - this.y) / (vector.z - this.z) * this.screensize + height / 2);
+};
 
-    d.x = cy * (sz * ry + cz * rx) - sy * rz;
-    d.y = sx * (cy * rz + sy * (sz * ry + cz * rx)) + cx * (cz * ry - sz * rx);
-    d.z = cx * (cy * rz + sy * (sz * ry + cz * rx)) - sx * (cz * ry - sz * rx);
-
-    var bx = (viewer.z / d.z) * d.x - viewer.x;
-    var by = (viewer.z / d.z) * d.y - viewer.y;
-
-    console.log("x = " + bx + ",y = " + by);
+Camera.prototype.drawLine = function(vector1,vector2){
+	if(vector1.z < this.z || vector2.z < this.z){
+		return
+	}
+	ctxt.beginPath();
+	ctxt.moveTo(this.getVectorXScreenPos(vector1),this.getVectorYScreenPos(vector1));
+	ctxt.lineTo(this.getVectorXScreenPos(vector2),this.getVectorYScreenPos(vector2));
+	ctxt.stroke();
 };
