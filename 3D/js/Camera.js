@@ -1,6 +1,6 @@
 function Camera(x,y,z){
     Vector.call(this,x,y,z);
-	this.screensize = 14;
+	this.screensize = 40;
     //orientation yaw pitch roll
     //fov
 }
@@ -20,7 +20,7 @@ Camera.prototype.getVectorXScreenPos = function(vector){
 };
 
 Camera.prototype.getVectorYScreenPos = function(vector){
-	return Math.floor((vector.y - this.y) / (vector.z - this.z) * this.screensize + height / 2);
+	return Math.floor((vector.y - this.y) / (vector.z - this.z) * this.screensize * -1 + height / 2);
 };
 
 Camera.prototype.drawLine = function(vector1,vector2){
