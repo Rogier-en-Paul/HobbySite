@@ -6,14 +6,14 @@ var ctxt = canvas.getContext("2d");
 
 var camera = new Camera(0,0,0);
 var vertices = [
-    new Vector(-10,-10,10),//front
-    new Vector(10,-10,10),
-    new Vector(-10,10,10),
-    new Vector(10,10,10),
-    new Vector(-10,-10,20),//back
-    new Vector(10,-10,20),
-    new Vector(-10,10,20),
-    new Vector(10,10,20)
+    new Vector(-10,-10,90),//front
+    new Vector(10,-10,90),
+    new Vector(-10,10,90),
+    new Vector(10,10,90),
+    new Vector(-10,-10,100),//back
+    new Vector(10,-10,100),
+    new Vector(-10,10,100),
+    new Vector(10,10,100)
 ];
 
 drawScene();

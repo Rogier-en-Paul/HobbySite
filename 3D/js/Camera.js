@@ -1,6 +1,6 @@
 function Camera(x,y,z){
     Vector.call(this,x,y,z);
-	this.screensize = 40;
+	this.screensize = 300;
     //orientation yaw pitch roll
     //fov
 }
