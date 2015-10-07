@@ -1,4 +1,4 @@
-Number.prototype.mod = function(n) { return ((this%n)+n)%n; }
+Number.prototype.mod = function(n) { return ((this%n)+n)%n; };
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
 var message = "abc xyz";
 var key = Math.floor(Math.random() * 100);
@@ -23,16 +23,6 @@ function caeserEncrypt(plaintext,key){
 }
 
 function caeserDecrypt(cyphertext,key){
-    var plaintext = "";
-    for(var i = 0; i < cyphertext.length; i ++){
-        var char = cyphertext.charAt(i);
-        var index = alphabet.indexOf(char);
-        if(index == -1){
-            plaintext += " ";
-        }else{
-            plaintext += alphabet.charAt((index - key).mod(alphabet.length));
-        }
-    }
-    return plaintext;
+    return caeserEncrypt(cyphertext,-key)
 }
 
