@@ -9,6 +9,3 @@ Camera.prototype.drawVector = function(vector){
 	ctxt.fillRect(x,y,10,10);
 };
 
-Camera.prototype.getIntersect = function(){
-
-};

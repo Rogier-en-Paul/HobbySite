@@ -4,13 +4,13 @@ var height = canvas.height;
 canvas.addEventListener( "keydown", doKeyDown);
 var ctxt = canvas.getContext("2d");
 
-var camera = new Camera(0,0,0);
-
-var projection = new Vector(5,1);
+var camera = new Camera(0,0);
+var projection = new Vector(-6, 3);
+var point1 = new Vector(0, 8);
+var point2 = new Vector(1, 8.5);
 
 
 drawScene();
-ctxt.fillRect(10,10,10,10);
 
 function doKeyDown(e) {
     var speed = 1;
@@ -35,5 +35,7 @@ function update(){
 }
 
 function drawScene(){
-
+    point1.drawLine(point2);
+    camera.drawLine(projection);
+    Vector.getInterSectPoint(camera, projection, point1, point2);
 }
