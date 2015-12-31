@@ -4,11 +4,14 @@ var height = canvas.height;
 canvas.addEventListener( "keydown", doKeyDown);
 var ctxt = canvas.getContext("2d");
 
-var camera = new Camera(0,0);
-var projection = new Vector(-6, 3);
-var point1 = new Vector(0, 8);
-var point2 = new Vector(1, 8.5);
+var camera = new Camera(0, 0);
+var projection = new Vector(300, 200);
+var point1 = new Vector(0, 12);
+var point2 = new Vector(100, 30);
 
+var tri1 = new Vector(0, 0);
+var tri2 = new Vector(0, 5);
+var tri3 = new Vector(5, 5);
 
 drawScene();
 
@@ -37,5 +40,6 @@ function update(){
 function drawScene(){
     point1.drawLine(point2);
     camera.drawLine(projection);
-    Vector.getInterSectPoint(camera, projection, point1, point2);
+    Vector.getInterSectPoint(camera, projection, point1, point2).draw();
+    Vector.getTriangleArea(tri1,tri2,tri3);
 }

@@ -48,6 +48,14 @@ function update(){
 }
 
 function drawScene(){
+    var A = new Vector(5,5,0);
+    var B = new Vector(0,5,0);
+    var C = new Vector(5,0,0);
+    var point = new Vector(1,1,0);
+
+    Vector.getTriangleArea(A, B, C);
+    B.cross(C);
+    B.angle(C);
     //vertices.forEach(function(vector){
     //    camera.drawVector(vector);
     //});

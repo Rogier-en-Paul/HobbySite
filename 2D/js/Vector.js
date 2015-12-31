@@ -24,9 +24,17 @@ Vector.getInterSectPoint = function(C, P, vector1, vector2){
     var slope = dy / dx;
     var yIntercept = vector1.y - vector1.x * slope;
 
-    var t = (C.x - 2* C.y + 16) / (C.x - 2 * C.y - P.x + 2 * P.y);
-    var ix = (1 - t) * C.x + t * P.x;
-    var iy = (1 - t) * C.y + t * P.y;
+    var t = (C.x * dy - C.y * dx + yIntercept) / (C.x * dy - C.y * dx + dx * P.y - dy * P.x);
+    var ix = (1 - t) * C.x + t * P.x * dx;
+    var iy = (1 - t) * C.y + t * P.y * dx;
 
     return new Vector(ix, iy);
+};
+
+Vector.prototype.isInTriangle = function(){
+
+};
+
+Vector.getTriangleArea = function(A, B, C){
+    return Math.abs(A.x * (B.y - C.y) + B.x * (C.y - A.y) + C.x * (A.y - B.y) / 2)
 };
