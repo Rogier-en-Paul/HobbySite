@@ -1,3 +1,11 @@
+Array.matrix = function(numrows){
+    var array = [];
+    for(var i = 0;i < numrows; i ++){
+        array[i] = [];
+    }
+    return array
+};
+
 var canvas = document.getElementById("mycanvas");
 var width = canvas.width;
 var height = canvas.height;
@@ -5,16 +13,6 @@ canvas.addEventListener( "keydown", doKeyDown);
 var ctxt = canvas.getContext("2d");
 
 var camera = new Camera(0,0,0);
-var vertices = [
-    new Vector(-10,-10,10),//front
-    new Vector(10,-10,10),
-    new Vector(-10,10,10),
-    new Vector(10,10,10),
-    new Vector(-10,-10,20),//back
-    new Vector(10,-10,20),
-    new Vector(-10,10,20),
-    new Vector(10,10,20)
-];
 
 drawScene();
 ctxt.fillRect(10,10,10,10);
@@ -48,10 +46,16 @@ function update(){
 }
 
 function drawScene(){
-    var A = new Vector(-5,-5,5);
-    var B = new Vector(0,5,5);
-    var C = new Vector(5,-5,5);
-    var point1 = new Vector(0,0,1);
-    var point2 = new Vector(0,2,2);
-    Vector.getPlaneIntersect(point1,point2,A,B,C).isInTriangle(A,B,C);
+    drawImage(camera.generateImage());
 }
+
+function drawImage(image){
+    for(var x = 0; x < image.length; x ++) {
+        for (var y = 0; y < image[0].length; y++) {
+            ctxt.fillStyle = 'rgb('+ image[y][x].r +',' + image[y][x].g +','+image[y][x].b + ')';
+            ctxt.fillRect(x * 10, y * 10,40,40)
+        }
+    }
+    ctxt.fillStyle = 'rgb(0,0,0)';
+}
+
