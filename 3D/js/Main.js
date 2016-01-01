@@ -48,29 +48,10 @@ function update(){
 }
 
 function drawScene(){
-    var A = new Vector(5,5,0);
-    var B = new Vector(0,5,0);
-    var C = new Vector(5,0,0);
-    var point = new Vector(1,1,0);
-
-    Vector.getTriangleArea(A, B, C);
-    B.cross(C);
-    B.angle(C);
-    //vertices.forEach(function(vector){
-    //    camera.drawVector(vector);
-    //});
-    camera.drawLine(vertices[0],vertices[1]);
-    camera.drawLine(vertices[1],vertices[3]);
-    camera.drawLine(vertices[3],vertices[2]);
-    camera.drawLine(vertices[2],vertices[0]);
-
-    camera.drawLine(vertices[4],vertices[5]);
-    camera.drawLine(vertices[5],vertices[7]);
-    camera.drawLine(vertices[7],vertices[6]);
-    camera.drawLine(vertices[6],vertices[4]);
-
-    camera.drawLine(vertices[0],vertices[4]);
-    camera.drawLine(vertices[1],vertices[5]);
-    camera.drawLine(vertices[2],vertices[6]);
-    camera.drawLine(vertices[3],vertices[7]);
+    var A = new Vector(-5,-5,5);
+    var B = new Vector(0,5,5);
+    var C = new Vector(5,-5,5);
+    var point1 = new Vector(0,0,1);
+    var point2 = new Vector(0,2,2);
+    Vector.getPlaneIntersect(point1,point2,A,B,C).isInTriangle(A,B,C);
 }

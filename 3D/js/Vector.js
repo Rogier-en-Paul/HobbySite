@@ -13,15 +13,9 @@ Vector.getTriangleArea = function(A, B, C){
 };
 
 Vector.getPlaneIntersect = function(line1, line2, plane1, plane2, plane3){
-
-};
-
-Vector.prototype.isInTriangle = function(tri1, tri2, tri3){
-    var totalArea = Vector.getTriangleArea(tri1, tri2, tri3);
-    var sub1 = Vector.getTriangleArea(tri1, tri2, this);
-    var sub2 = Vector.getTriangleArea(tri1, this, tri3);
-    var sub3 = Vector.getTriangleArea(this, tri2, tri3);
-    return sub1 + sub2 + sub3 <= totalArea; //watch out fr floating point errors
+    var normal = Vector.normal(plane1,plane2,plane3);
+    var u = normal.dot(plane1.subtract(line1)) / normal.dot(line2.subtract(line1));
+    return line1.add(line2.subtract(line1).scale(u));
 };
 
 Vector.prototype.dot = function(vector){
@@ -59,6 +53,63 @@ Vector.prototype.length = function(){
 
 Vector.prototype.angle = function(vector){
     return Math.acos(this.dot(vector) / (this.length() * vector.length()));
+};
+
+Vector.normal = function(A,B,C){
+    return B.subtract(A).cross(C.subtract(A));
+};
+
+Vector.prototype.isInTriangle = function(A,B,C){
+    var u = B.subtract(A);
+    var v = C.subtract(A);
+    var w = this.subtract(A);
+
+    var vCrossW = v.cross(w);
+    var vCrossU = v.cross(u);
+
+    if (vCrossW.dot(vCrossU) < 0){
+        return false;
+    }
+
+    var uCrossW = u.cross(w);
+    var uCrossV = u.cross(v);
+
+    if (uCrossW.dot(uCrossV) < 0) {
+        return false;
+    }
+
+    var denom = uCrossV.length();
+    var r = vCrossW.length() / denom;
+    var t = uCrossW.length() / denom;
+
+    return (r + t <= 1);
+};
+
+Vector.rotate = function(x, y, z){
+    this.rotateX(x);
+    this.rotateY(y);
+    this.rotateZ(z);
+};
+
+Vector.rotateX = function(t){
+    var x = new Vector(1, 0, 0).cross(this);
+    var y = new Vector(0, Math.cos(t), -Math.sin(t)).cross(this);
+    var z = new Vector(0, Math.sin(t), Math.cos(t)).cross(this);
+    return new Vector(x,y,z);
+};
+
+Vector.rotateY = function(t){
+    var x = new Vector(Math.cos(t), 0, Math.sin(t)).cross(this);
+    var y = new Vector(0, 1, 0).cross(this);
+    var z = new Vector(-Math.sin(t), 0, Math.cos(t)).cross(this);
+    return new Vector(x,y,z);
+};
+
+Vector.rotateZ = function(t){
+    var x = new Vector(Math.cos(t), -Math.sin(t), 0).cross(this);
+    var y = new Vector(Math.sin(t), -Math.cos(t), 0).cross(this);
+    var z = new Vector(0, 0, 1).cross(this);
+    return new Vector(x,y,z);
 };
 
 
