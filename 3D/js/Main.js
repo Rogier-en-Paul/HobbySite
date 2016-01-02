@@ -1,23 +1,38 @@
+Array.matrix = function(numrows){
+    var array = [];
+    for(var i = 0;i < numrows; i ++){
+        array[i] = [];
+    }
+    return array
+};
+
 var canvas = document.getElementById("mycanvas");
 var width = canvas.width;
 var height = canvas.height;
 canvas.addEventListener( "keydown", doKeyDown);
 var ctxt = canvas.getContext("2d");
 
+var scene = new Scene();
+var A = new Vector(-5,0,10);
+var B = new Vector(0,5,10);
+var C = new Vector(5,0,10);
+var test = new Vector(0,0,10);
+test.rotate(Math.PI,0,0,new Vector(0,0,5));
+test.rotate(Math.PI,0,0,new Vector(0,0,5));
+var triangle = new Triangle(A,B,C);
+//triangle.rotate(1,0,0);
+//triangle.rotate(2,0,0);
+//triangle.rotate(0,0,0);
+scene.objects.push(triangle);
 var camera = new Camera(0,0,0);
-var vertices = [
-    new Vector(-10,-10,90),//front
-    new Vector(10,-10,90),
-    new Vector(-10,10,90),
-    new Vector(10,10,90),
-    new Vector(-10,-10,100),//back
-    new Vector(10,-10,100),
-    new Vector(-10,10,100),
-    new Vector(10,10,100)
-];
 
 drawScene();
 ctxt.fillRect(10,10,10,10);
+
+setInterval(function () {
+    triangle.rotate(0.01,0.01,0.01);
+    update();
+}, 1000/60);
 
 function doKeyDown(e) {
     var speed = 1;
@@ -48,21 +63,16 @@ function update(){
 }
 
 function drawScene(){
-    //vertices.forEach(function(vector){
-    //    camera.drawVector(vector);
-    //});
-    camera.drawLine(vertices[0],vertices[1]);
-    camera.drawLine(vertices[1],vertices[3]);
-    camera.drawLine(vertices[3],vertices[2]);
-    camera.drawLine(vertices[2],vertices[0]);
-
-    camera.drawLine(vertices[4],vertices[5]);
-    camera.drawLine(vertices[5],vertices[7]);
-    camera.drawLine(vertices[7],vertices[6]);
-    camera.drawLine(vertices[6],vertices[4]);
-
-    camera.drawLine(vertices[0],vertices[4]);
-    camera.drawLine(vertices[1],vertices[5]);
-    camera.drawLine(vertices[2],vertices[6]);
-    camera.drawLine(vertices[3],vertices[7]);
+    drawImage(camera.generateImage());
 }
+
+function drawImage(image){
+    for(var x = 0; x < image.length; x ++) {
+        for (var y = 0; y < image[0].length; y++) {
+            ctxt.fillStyle = 'rgb('+ image[y][x].r +',' + image[y][x].g +','+image[y][x].b + ')';
+            ctxt.fillRect(x * 10, y * 10,40,40)
+        }
+    }
+    ctxt.fillStyle = 'rgb(0,0,0)';
+}
+
