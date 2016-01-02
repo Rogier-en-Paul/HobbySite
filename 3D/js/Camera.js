@@ -13,20 +13,24 @@ Camera.prototype.generateImage = function(){
     var image = Array.matrix(this.resolutionWidth);
     for(var x = 0; x < this.resolutionWidth; x ++){
         for(var y = 0; y < this.resolutionHeight; y++){
-            var firstHit = camera.castRay(new Vector(x-20, y-20, 20));
-            if(firstHit == true){
-                image[y][x] = new Color(0,0,0);
-            }else{
-                image[y][x] = new Color(255,255,255);
-            }
+            image[y][x] = camera.castRay(new Vector(x-20, y-20, 20),scene);
         }
     }
     return image;
 };
 
-Camera.prototype.castRay = function(P){
-    var A = new Vector(-5,-5,25);
-    var B = new Vector(0,5,25);
-    var C = new Vector(5,-5,25);
-    return Vector.getPlaneIntersect(this,P,A,B,C).isInTriangle(A,B,C);
+//returns color
+Camera.prototype.castRay = function(P, scene){
+    var closest = new Vector(0,0,99999999);
+    var color = new Color(255,255,255);
+    for(var i = 0;i < scene.objects.length; i ++){
+        var intersection = Vector.getPlaneIntersect(this,P,scene.objects[i]);
+        if(intersection.isInTriangle(scene.objects[i])){
+            if(intersection.memlength < closest.memlength){
+
+                color = scene.objects[i].color;
+            }
+        }
+    }
+    return color;
 };

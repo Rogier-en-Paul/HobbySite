@@ -12,10 +12,27 @@ var height = canvas.height;
 canvas.addEventListener( "keydown", doKeyDown);
 var ctxt = canvas.getContext("2d");
 
+var scene = new Scene();
+var A = new Vector(-5,0,10);
+var B = new Vector(0,5,10);
+var C = new Vector(5,0,10);
+var test = new Vector(0,0,10);
+test.rotate(Math.PI,0,0,new Vector(0,0,5));
+test.rotate(Math.PI,0,0,new Vector(0,0,5));
+var triangle = new Triangle(A,B,C);
+//triangle.rotate(1,0,0);
+//triangle.rotate(2,0,0);
+//triangle.rotate(0,0,0);
+scene.objects.push(triangle);
 var camera = new Camera(0,0,0);
 
 drawScene();
 ctxt.fillRect(10,10,10,10);
+
+setInterval(function () {
+    triangle.rotate(0.01,0.01,0.01);
+    update();
+}, 1000/60);
 
 function doKeyDown(e) {
     var speed = 1;

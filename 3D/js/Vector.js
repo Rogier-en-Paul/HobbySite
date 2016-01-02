@@ -2,19 +2,20 @@ function Vector(x,y,z){
     this.x = x;
     this.y = y;
     this.z = z;
+    this.memlength = Math.pow(Math.pow(this.x,2) + Math.pow(this.y,2) + Math.pow(this.z,2), 0.5);
 }
 
-Vector.getTriangleArea = function(A, B, C){
-    var temp = C.subtract(A).cross(C.subtract(B));
+Vector.getTriangleArea = function(triangle){
+    var temp = triangle.C.subtract(triangle.A).cross(triangle.C.subtract(triangle.B));
     var x = Math.pow(temp.x, 2);
     var y = Math.pow(temp.y, 2);
     var z = Math.pow(temp.z, 2);
     return Math.pow(x + y + z, 0.5) / 2;
 };
 
-Vector.getPlaneIntersect = function(line1, line2, plane1, plane2, plane3){
-    var normal = Vector.normal(plane1,plane2,plane3);
-    var u = normal.dot(plane1.subtract(line1)) / normal.dot(line2.subtract(line1));
+Vector.getPlaneIntersect = function(line1, line2,triangle){
+    var normal = triangle.normal;
+    var u = normal.dot(triangle.A.subtract(line1)) / normal.dot(line2.subtract(line1));
     return line1.add(line2.subtract(line1).scale(u));
 };
 
@@ -47,21 +48,21 @@ Vector.prototype.scale = function(scalar){
     return new Vector(this.x * scalar, this.y * scalar, this.z * scalar);
 };
 
-Vector.prototype.length = function(){
+Vector.prototype.calcLength = function(){
     return Math.pow(Math.pow(this.x,2) + Math.pow(this.y,2) + Math.pow(this.z,2), 0.5);
 };
 
 Vector.prototype.angle = function(vector){
-    return Math.acos(this.dot(vector) / (this.length() * vector.length()));
+    return Math.acos(this.dot(vector) / (this.calcLength() * vector.calcLength()));
 };
 
 Vector.normal = function(A,B,C){
     return B.subtract(A).cross(C.subtract(A));
 };
 
-Vector.prototype.isInTriangle = function(A,B,C){
-    var u = B.subtract(A);
-    var v = C.subtract(A);
+Vector.prototype.isInTriangle = function(triangle){
+    var u = triangle.B.subtract(triangle.A);
+    var v = triangle.C.subtract(triangle.A);
     var w = this.subtract(A);
 
     var vCrossW = v.cross(w);
@@ -78,38 +79,35 @@ Vector.prototype.isInTriangle = function(A,B,C){
         return false;
     }
 
-    var denom = uCrossV.length();
-    var r = vCrossW.length() / denom;
-    var t = uCrossW.length() / denom;
+    var denom = uCrossV.calcLength();
+    var r = vCrossW.calcLength() / denom;
+    var t = uCrossW.calcLength() / denom;
 
     return (r + t <= 1);
 };
 
-Vector.rotate = function(x, y, z){
+Vector.prototype.rotate = function(x, y, z, center){
+    Object.assign(this,this.subtract(center));
     this.rotateX(x);
     this.rotateY(y);
     this.rotateZ(z);
+    Object.assign(this,this.add(center));
 };
 
-Vector.rotateX = function(t){
-    var x = new Vector(1, 0, 0).cross(this);
-    var y = new Vector(0, Math.cos(t), -Math.sin(t)).cross(this);
-    var z = new Vector(0, Math.sin(t), Math.cos(t)).cross(this);
-    return new Vector(x,y,z);
+Vector.prototype.rotateX = function(t){
+    this.x = new Vector(1, 0, 0).dot(this);
+    this.y = new Vector(0, Math.cos(t), -Math.sin(t)).dot(this);
+    this.z = new Vector(0, Math.sin(t), Math.cos(t)).dot(this);
 };
 
-Vector.rotateY = function(t){
-    var x = new Vector(Math.cos(t), 0, Math.sin(t)).cross(this);
-    var y = new Vector(0, 1, 0).cross(this);
-    var z = new Vector(-Math.sin(t), 0, Math.cos(t)).cross(this);
-    return new Vector(x,y,z);
+Vector.prototype.rotateY = function(t){
+    this.x = new Vector(Math.cos(t), 0, Math.sin(t)).dot(this);
+    this.y = new Vector(0, 1, 0).dot(this);
+    this.z = new Vector(-Math.sin(t), 0, Math.cos(t)).dot(this);
 };
 
-Vector.rotateZ = function(t){
-    var x = new Vector(Math.cos(t), -Math.sin(t), 0).cross(this);
-    var y = new Vector(Math.sin(t), -Math.cos(t), 0).cross(this);
-    var z = new Vector(0, 0, 1).cross(this);
-    return new Vector(x,y,z);
+Vector.prototype.rotateZ = function(t){
+    this.x = new Vector(Math.cos(t), -Math.sin(t), 0).dot(this);
+    this.y = new Vector(Math.sin(t), Math.cos(t), 0).dot(this);
+    this.z = new Vector(0, 0, 1).dot(this);
 };
-
-
