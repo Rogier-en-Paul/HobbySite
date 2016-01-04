@@ -95,19 +95,23 @@ Vector.prototype.rotate = function(x, y, z, center){
 };
 
 Vector.prototype.rotateX = function(t){
-    this.x = new Vector(1, 0, 0).dot(this);
-    this.y = new Vector(0, Math.cos(t), -Math.sin(t)).dot(this);
-    this.z = new Vector(0, Math.sin(t), Math.cos(t)).dot(this);
+    var newy = this.y * Math.cos(t) - this.z * Math.sin(t);
+    var newz = this.y * Math.sin(t) + this.z * Math.cos(t);
+    this.y = newy;
+    this.z = newz;
 };
 
 Vector.prototype.rotateY = function(t){
-    this.x = new Vector(Math.cos(t), 0, Math.sin(t)).dot(this);
-    this.y = new Vector(0, 1, 0).dot(this);
-    this.z = new Vector(-Math.sin(t), 0, Math.cos(t)).dot(this);
+    var newz = this.z * Math.cos(t) - this.x * Math.sin(t);
+    var newx = this.z * Math.sin(t) + this.x * Math.cos(t);
+    this.z = newz;
+    this.x = newx;
+
 };
 
 Vector.prototype.rotateZ = function(t){
-    this.x = new Vector(Math.cos(t), -Math.sin(t), 0).dot(this);
-    this.y = new Vector(Math.sin(t), Math.cos(t), 0).dot(this);
-    this.z = new Vector(0, 0, 1).dot(this);
+    var newx = this.x * Math.cos(t) - this.y * Math.sin(t);
+    var newy = this.x * Math.sin(t) + this.y * Math.cos(t);
+    this.x = newx;
+    this.y = newy;
 };
