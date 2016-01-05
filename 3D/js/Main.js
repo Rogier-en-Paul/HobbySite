@@ -25,7 +25,7 @@ drawScene();
 ctxt.fillRect(10,10,10,10);
 
 setInterval(function () {
-    triangle.rotate(0.1,0,0);
+    triangle.rotate(0.1,0,0.05);
     update();
 }, 1000/60);
 
