@@ -1,5 +1,6 @@
 function Boid(x,y){
     this.position = new Vector(x,y);
+    this.speed = new Vector(5,0);
     this.nOfNeighbours = 4;
 }
 
@@ -7,11 +8,14 @@ Boid.prototype.update = function(){
     this.separate();
     this.align();
     this.cohese();
+    this.position.add(this.speed);
     this.draw();
 };
 
 Boid.prototype.draw = function(){
-    ctxt.fillRect(x,y,10,10)
+    ctxt.fillRect(this.position.x,this.position.y,10,10);
+    var normal = this.speed.normalize();
+    Boid.drawLine(this.position.x + 5,this.position.y + 5, normal.x * 10, normal.y * 10);
 };
 
 Boid.prototype.getNeighbours = function(boids){
@@ -62,4 +66,11 @@ Boid.prototype.getBoidsInRange = function(boids,range){
             closeBoids.push(boid);
         }
     })
+};
+
+Boid.drawLine = function(x1,y1,x2,y2){
+    ctxt.beginPath();
+    ctxt.moveTo(x1, y1);
+    ctxt.lineTo(x2, y2);
+    ctxt.stroke();
 };

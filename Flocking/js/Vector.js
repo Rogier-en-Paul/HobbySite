@@ -44,3 +44,7 @@ Vector.prototype.rotate = function(angle){
 Vector.prototype.distance = function(vector){
     return this.subtract(vector).calcLength();
 };
+
+Vector.prototype.normalize = function(){
+    return new Vector(this.x / this.length, this.y / this.length)
+};
