@@ -19,7 +19,7 @@ var C = new Vector(5,0,10);
 var triangle = new Triangle(A,B,C);
 triangle.centroid = new Vector(0,0,10);
 triangle.color = new Color(255,0,0);
-//scene.objects.push(triangle);
+scene.objects.push(triangle);
 
 var A2 = new Vector(-5,0,8);
 var B2 = new Vector(0,5,8);
@@ -34,8 +34,8 @@ drawScene();
 ctxt.fillRect(10,10,10,10);
 
 setInterval(function () {
-    //triangle.rotate(0,0,0);
-    triangle2.rotate(0.03,0,0);
+    triangle.rotate(0,-0.01,0.03);
+    triangle2.rotate(0.03,0,0.01);
     update();
 }, 1000/60);
 
