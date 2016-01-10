@@ -10,7 +10,7 @@ Vector.prototype.add = function(vector){
     return this;
 };
 
-Vector.prototype.subtract= function(vector){
+Vector.prototype.subtract = function(vector){
     this.x -= vector.x;
     this.y -= vector.y;
     return this;
@@ -35,16 +35,20 @@ Vector.prototype.setAngle = function(angle){
 
 Vector.prototype.rotate = function(angle){
     var newX = this.x * Math.cos(angle) - this.y * Math.sin(angle);
-    var newY = this.x * Math.sin(angle) + this.y *Math.cos(angle);
+    var newY = this.x * Math.sin(angle) + this.y * Math.cos(angle);
     this.x = newX;
     this.y = newY;
     return this;
 };
 
-Vector.prototype.distance = function(vector){
+Vector.prototype.calcDistance = function(vector){
     return this.subtract(vector).calcLength();
 };
 
 Vector.prototype.normalize = function(){
     return new Vector(this.x / this.length, this.y / this.length)
+};
+
+Vector.prototype.calcAngle = function(){
+    return Math.atan(this.x / this.y);
 };

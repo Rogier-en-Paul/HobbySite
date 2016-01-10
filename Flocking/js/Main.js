@@ -19,6 +19,7 @@ function generateBoids(n){
     for(var i = 0; i < n; i++){
         boids.push(new Boid(Math.random() * width,Math.random() * height))
     }
+    return boids;
 }
 
 function updateBoids(boids){
