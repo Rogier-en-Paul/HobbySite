@@ -8,9 +8,9 @@ function Boid(x,y){
 }
 
 Boid.prototype.update = function(){
-    this.separate();
-    this.align();
-    this.cohese();
+    this.speed.add(this.calcSeparationForce());
+    this.speed.add(this.calcCohesionForce());
+    this.speed.align();//todo still doesnt work
     this.position.add(this.speed);
     this.position.x %= width;
     this.position.y %= height;
@@ -23,12 +23,23 @@ Boid.prototype.draw = function(){
     Boid.drawLine(this.position.x + 5,this.position.y + 5, normal.x * 10, normal.y * 10);
 };
 
-Boid.prototype.separate = function(){
-    Boid.calcAveragePosition(this.getBoidsInRange(boids, this.desiredSeparation));
+Boid.prototype.calcSeparationForce = function(){
+    var averagePosition = Boid.calcAveragePosition(this.getBoidsInRange(boids, this.desiredSeparation));
+    var distanceToAveragePosition = this.position.subtract(averagePosition);
+    if(distanceToAveragePosition < this.desiredSeparation){
+        var seperationForce = 1 / distanceToAveragePosition.calcLength();
+        return seperationForce.rotate(2 * Math.PI);
+    }
+    return new Vector(0,0);
 };
 
-Boid.prototype.cohese = function(){
-    Boid.calcAveragePosition(this.getBoidsInRange(boids, this.neighbourRadius));
+Boid.prototype.calcCohesionForce = function(){
+    var averagePosition = Boid.calcAveragePosition(this.getBoidsInRange(boids, this.neighbourRadius));
+    var distanceToAveragePosition = this.position.subtract(averagePosition);
+    if(distanceToAveragePosition < this.neighbourRadius){
+        return 1 / distanceToAveragePosition.calcLength();
+    }
+    return new Vector(0,0);
 };
 
 Boid.prototype.align = function(){
