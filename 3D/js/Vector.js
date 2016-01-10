@@ -63,7 +63,7 @@ Vector.normal = function(A,B,C){
 Vector.prototype.isInTriangle = function(triangle){
     var u = triangle.B.subtract(triangle.A);
     var v = triangle.C.subtract(triangle.A);
-    var w = this.subtract(A);
+    var w = this.subtract(triangle.A);
 
     var vCrossW = v.cross(w);
     var vCrossU = v.cross(u);

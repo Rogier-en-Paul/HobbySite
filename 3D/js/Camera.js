@@ -28,6 +28,7 @@ Camera.prototype.castRay = function(P, scene){
         var intersection = Vector.getPlaneIntersect(this,P,scene.objects[i]);
         if(intersection.isInTriangle(scene.objects[i])){
             if(intersection.memlength < closest.memlength){
+                closest = intersection;
                 color = scene.objects[i].color;
             }
         }
