@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Turing machine</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4">
+                <label>
+                    write
+                    <select class="selectpicker">
+                        <option>0</option>
+                        <option>1</option>
+                        <option>None</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col-xs-4">
+                <label>
+                    move
+                    <select class="selectpicker">
+                        <option>-1</option>
+                        <option>0</option>
+                        <option>1</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col-xs-4">
+                <label>
+                    <input type="text" class="form-control">
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+    <script src="js/ui.js"></script>
+    <script src="js/Option.js"></script>
+    <script src="js/Card.js"></script>
+    <script src="js/Program.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $("#navbar").load("../shared.html");
+    </script>
+</body>
+</html>
