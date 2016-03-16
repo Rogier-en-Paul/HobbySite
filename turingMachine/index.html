@@ -12,21 +12,60 @@
     <div id="navbar"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4">
-                <label>write
-                    <select class="selectpicker" id="writeOption">
-                        <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
-                    </select>
-                </label>
-                <label>move
-                    <select class="selectpicker" id="moveOption">
-                        <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
-                    </select>
-                </label>
-                <label>go to Card<input type="text" class="form-control" ng-model="nextCard"></label>
-                <label>card number<input type="text" class="form-control" ng-model="cardN"></label>
-                <label>add to program<input type="text" class="form-control" ng-model="programN"></label>
-                <button type="button" class="btn btn-primary" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
+            <div class="col-xs-4 col-xs-offset-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">new Card</div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="well">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <select class="selectpicker" data-width="fit" id="writeOption1">
+                                                <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
+                                            </select>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <select class="selectpicker" data-width="fit" id="moveOption1">
+                                                <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
+                                            </select>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <input type="text" class="form-control" ng-model="nextCard1" placeholder="nextCard">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="well">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <select class="selectpicker" data-width="fit" id="writeOption2">
+                                                <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
+                                            </select>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <select class="selectpicker" data-width="fit" id="moveOption2">
+                                                <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
+                                            </select>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <input type="text" class="form-control" ng-model="nextCard2" placeholder="nextCard">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--add new Card button-->
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="cardN" placeholder="cardNumber">
+                    <input type="text" class="form-control" ng-model="programN" placeholder="programNumber">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -38,11 +77,28 @@
                             <div class="col-xs-4" ng-repeat="card in program.cards" ng-if="card != null">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">Card #{{$index}}</div>
-                                    <ul class="list-group">
-                                        <li class="list-group-item">write {{card.zero.write}}</li>
-                                        <li class="list-group-item">move {{card.zero.move}}</li>
-                                        <li class="list-group-item">go to state {{card.zero.nextCard}}</li>
-                                    </ul>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="well">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">write {{card.zero.write}}</li>
+                                                        <li class="list-group-item">move {{card.zero.move}}</li>
+                                                        <li class="list-group-item">go to state {{card.zero.nextCard}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="well">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">write {{card.one.write}}</li>
+                                                        <li class="list-group-item">move {{card.one.move}}</li>
+                                                        <li class="list-group-item">go to state {{card.one.nextCard}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +113,7 @@
                     <input type="text" class="form-control" id="Input" value="{{tape}}">
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" >Run</button>
+                    <button type="button" class="btn btn-primary" ng-click="run()">Run</button>
                     <button id="toggleAuto" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">animate</button>
                 </div>
                 <div class="form-group">
