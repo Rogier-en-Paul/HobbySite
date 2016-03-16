@@ -1,0 +1,10 @@
+.row{
+    margin-top: 10px;
+}
+
+
+#toggleAuto:not(.active){
+    color: #333;
+    background-color: #ccc;
+    border-color: #aaa;
+}
