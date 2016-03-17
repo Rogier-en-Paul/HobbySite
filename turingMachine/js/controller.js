@@ -13,11 +13,11 @@ app.controller('ctrl',function($scope){
 
     programs[0] = new Program();//prints alternating 1s and 0s to the right
     programs[0].cards[1] = new Card(new Option(1, 1, 2), new Option(1, 1, 1));
-    programs[0].cards[2] = new Card(new Option(0, 1, 1), new Option(1, 1, 1));
-    programs[0].cards[3] = new Card(new Option(0, 1, 1), new Option(1, 1, 1));
-    programs[0].cards[4] = new Card(new Option(0, 1, 1), new Option(1, 1, 1));
+    //programs[0].cards[2] = new Card(new Option(0, 1, 1), new Option(1, 1, 1));
+    //programs[0].cards[3] = new Card(new Option(0, 1, 1), new Option(1, 1, 1));
+    //programs[0].cards[4] = new Card(new Option(0, 1, 1), new Option(1, 1, 1));
 
-    programs[2] = new Program();
+    //programs[2] = new Program();
 
 
     $scope.programs = programs;

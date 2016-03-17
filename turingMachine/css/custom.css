@@ -2,9 +2,21 @@
     margin-top: 10px;
 }
 
-
-#toggleAuto:not(.active){
+#toggleAuto:not(.active), .btnDebug:not(.active), #btnDebugMode:not(.active){
     color: #333;
     background-color: #ccc;
     border-color: #aaa;
+}
+
+.panel-success{
+    border-color: #37A908;
+}
+
+.btn-success{
+    background-color: #37A908;
+}
+
+.panel-success>.panel-heading{
+    background-color: #37A908;
+    color:#ffffff;
 }

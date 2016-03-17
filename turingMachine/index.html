@@ -5,28 +5,50 @@
     <title>Turing machine</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css">
     <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="lib/tokenfield/css/bootstrap-tokenfield.min.css">
+    <link rel="stylesheet" href="lib/tokenfield/css/tokenfield-typeahead.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 </head>
 <body ng-controller="ctrl">
     <div id="navbar"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4 col-xs-offset-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">new Card</div>
+            <div class="col-xs-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/dNRDvLACg5Q" allowfullscreen=""></iframe>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        Hello and welcome to make your own turing machine. If you don't know what a turing machine is than this video will
+                        give you a quick introduction. If that one didn't do it for you than you can also have a look at
+                        <a href="https://www.youtube.com/watch?v=DILF8usqp7M">this</a>  one.
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-default" id="btnTour">take a tour</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <input type="text" class="form-control" ng-model="cardN" placeholder="cardNumber">
+                    </div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="well">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <select class="selectpicker" data-width="fit" id="writeOption1">
+                                            <select class="selectpicker" data-width="100%" id="writeOption1">
                                                 <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
                                             </select>
                                         </li>
                                         <li class="list-group-item">
-                                            <select class="selectpicker" data-width="fit" id="moveOption1">
+                                            <select class="selectpicker" data-width="100%" id="moveOption1">
                                                 <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
                                             </select>
                                         </li>
@@ -40,12 +62,12 @@
                                 <div class="well">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <select class="selectpicker" data-width="fit" id="writeOption2">
+                                            <select class="selectpicker" data-width="100%" id="writeOption2">
                                                 <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
                                             </select>
                                         </li>
                                         <li class="list-group-item">
-                                            <select class="selectpicker" data-width="fit" id="moveOption2">
+                                            <select class="selectpicker" data-width="100%" id="moveOption2">
                                                 <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
                                             </select>
                                         </li>
@@ -60,10 +82,9 @@
                 </div>
                 <!--add new Card button-->
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="cardN" placeholder="cardNumber">
-                    <input type="text" class="form-control" ng-model="programN" placeholder="programNumber">
+                    <input type="text" class="form-control col-xs-6" ng-model="programN" placeholder="programNumber">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
+                        <button type="button" class="btn btn-success" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
                     </span>
                 </div>
             </div>
@@ -76,7 +97,9 @@
                         <div class="row">
                             <div class="col-xs-4" ng-repeat="card in program.cards" ng-if="card != null">
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">Card #{{$index}}</div>
+                                    <div class="panel-heading">Card #{{$index}}
+                                        <button type="button" data-toggle="button" class="btnDebug btn btn-danger btn-xs pull-right">break</button>
+                                    </div>
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-xs-6">
@@ -112,13 +135,49 @@
                     <label for="Input">Input</label>
                     <input type="text" class="form-control" id="Input" value="{{tape}}">
                 </div>
+                <div class="form-group">
+                    <label for="programOrder">programs to execute</label>
+                    <input type="text" class="form-control" id="programOrder">
+                </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" ng-click="run()">Run</button>
-                    <button id="toggleAuto" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">animate</button>
+                    <button type="button" class="btn btn-primary">Step</button>
+                    <button id="toggleAuto" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">Animate</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" data-toggle="button" class="btn btn-danger" id="btnDebugMode">Debug</button>
+                    <button type="button" class="btn btn-default">Continue</button>
                 </div>
                 <div class="form-group">
                     <label for="Output">Output</label>
                     <input type="text" class="form-control" id="Output">
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Active Card</div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="well">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">write</li>
+                                        <li class="list-group-item">move</li>
+                                        <li class="list-group-item">go to state</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="well">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">write</li>
+                                        <li class="list-group-item">move</li>
+                                        <li class="list-group-item">go to state</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,14 +185,17 @@
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/controller.js"></script>
+    <script src="lib/tokenfield/bootstrap-tokenfield.min.js"></script>
+
     <script src="js/Option.js"></script>
     <script src="js/Card.js"></script>
     <script src="js/Program.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/controller.js"></script>
     <script>
         $("#navbar").load("../shared.html");
     </script>
