@@ -29,7 +29,7 @@ setInterval(function(){
     if(animating == true){
         programs[0].step();
     }
-}, 100000);
+}, 500);
 
 function addCard(programN, cardN, write, move, nextCard){
     programs[parseInt(programN)].cards[parseInt(cardN)] = new Card(new Option(write, move, parseInt(nextCard)), new Option(1, 1, 1));

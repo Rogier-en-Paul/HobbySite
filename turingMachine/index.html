@@ -5,10 +5,8 @@
     <title>Turing machine</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.7.0/css/shepherd-theme-arrows.css">
     <link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="lib/tokenfield/css/bootstrap-tokenfield.min.css">
-    <link rel="stylesheet" href="lib/tokenfield/css/tokenfield-typeahead.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 </head>
 <body ng-controller="ctrl">
@@ -35,7 +33,7 @@
             <div class="col-xs-4">
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <input type="text" class="form-control" ng-model="cardN" placeholder="cardNumber">
+                        <input type="text" class="form-control" ng-model="cardN" placeholder="cardNumber" id="txtCardNumber">
                     </div>
                     <div class="container-fluid">
                         <div class="row">
@@ -86,39 +84,40 @@
                 <div class="input-group">
                     <input type="text" class="form-control col-xs-6" ng-model="programN" placeholder="programNumber">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-success" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
+                        <button type="button" class="btn btn-success" id="btnAddCard" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
                     </span>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="programContainer">
             <div class="col-xs-12" ng-repeat="program in programs" ng-if="program != null">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Program #{{$index}}</div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-xs-4" ng-repeat="card in program.cards" ng-if="card != null">
+                            <div class="col-xs-2" ng-repeat="card in program.cards" ng-if="card != null">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">Card #{{$index}}
                                         <button type="button" data-toggle="button" class="btnDebug btn btn-danger btn-xs pull-right">break</button>
+                                        <button type="button" class="btn btn-danger btn-xs">delete</button>
                                     </div>
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-xs-6">
                                                 <div class="panel panel-default">
                                                     <ul class="list-group">
-                                                        <li class="list-group-item">write {{card.zero.write}}</li>
-                                                        <li class="list-group-item">move {{card.zero.move}}</li>
-                                                        <li class="list-group-item">go to state {{card.zero.nextCard}}</li>
+                                                        <li class="list-group-item">{{card.zero.write}}</li>
+                                                        <li class="list-group-item">{{card.zero.move}}</li>
+                                                        <li class="list-group-item">{{card.zero.nextCard}}</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="panel panel-default">
                                                     <ul class="list-group">
-                                                        <li class="list-group-item">write {{card.one.write}}</li>
-                                                        <li class="list-group-item">move {{card.one.move}}</li>
-                                                        <li class="list-group-item">go to state {{card.one.nextCard}}</li>
+                                                        <li class="list-group-item">{{card.one.write}}</li>
+                                                        <li class="list-group-item">{{card.one.move}}</li>
+                                                        <li class="list-group-item">{{card.one.nextCard}}</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -142,20 +141,20 @@
                     <input type="text" class="form-control" id="programOrder">
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" ng-click="run()">Run</button>
-                    <button type="button" class="btn btn-primary">Step</button>
+                    <button type="button" class="btn btn-primary" id="btnRun" ng-click="run()">Run</button>
+                    <button type="button" class="btn btn-primary" id="btnStep" >Step</button>
                     <button id="toggleAuto" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">Animate</button>
                 </div>
                 <div class="btn-group">
                     <button type="button" data-toggle="button" class="btn btn-danger" id="btnDebugMode">Debug</button>
-                    <button type="button" class="btn btn-default">Continue</button>
+                    <button type="button" class="btn btn-default" id="btnContinue">Continue</button>
                 </div>
                 <div class="form-group">
                     <label for="Output">Output</label>
                     <input type="text" class="form-control" id="Output">
                 </div>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-4" id="activeCardContainer">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Active Card #</div>
                     <div class="container-fluid">
@@ -191,7 +190,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-    <script src="lib/tokenfield/bootstrap-tokenfield.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.7.0/js/shepherd.min.js"></script>
 
     <script src="js/Option.js"></script>
     <script src="js/Card.js"></script>
