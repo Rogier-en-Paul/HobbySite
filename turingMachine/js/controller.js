@@ -3,6 +3,7 @@ var programs = [];
 var tape = Array.apply(null, new Array(30)).map(Number.prototype.valueOf,0);
 var writeOptions = [0, 1, "None"];
 var moveOptions = [-1, 0, 1];
+var animating = false;//should probably bind this with angular
 
 app.controller('ctrl',function($scope){
     $scope.writeOptions = writeOptions;
@@ -23,6 +24,12 @@ app.controller('ctrl',function($scope){
     $scope.programs = programs;
 
 });
+
+setInterval(function(){
+    if(animating == true){
+        programs[0].step();
+    }
+}, 100000);
 
 function addCard(programN, cardN, write, move, nextCard){
     programs[parseInt(programN)].cards[parseInt(cardN)] = new Card(new Option(write, move, parseInt(nextCard)), new Option(1, 1, 1));

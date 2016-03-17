@@ -23,12 +23,12 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        Hello and welcome to make your own turing machine. If you don't know what a turing machine is than this video will
+                        Hello and welcome to "make your own turing machine". If you don't know what a turing machine is than this video will
                         give you a quick introduction. If that one didn't do it for you than you can also have a look at
                         <a href="https://www.youtube.com/watch?v=DILF8usqp7M">this</a>  one.
                     </div>
                     <div class="panel-footer">
-                        <button type="button" class="btn btn-default" id="btnTour">take a tour</button>
+                        <button type="button" class="btn btn-default" id="btnTour">take a tour <span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,8 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="well">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">False</div>
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <select class="selectpicker" data-width="100%" id="writeOption1">
@@ -59,7 +60,8 @@
                                 </div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="well">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">True</div>
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <select class="selectpicker" data-width="100%" id="writeOption2">
@@ -103,7 +105,7 @@
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-xs-6">
-                                                <div class="well">
+                                                <div class="panel panel-default">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">write {{card.zero.write}}</li>
                                                         <li class="list-group-item">move {{card.zero.move}}</li>
@@ -112,7 +114,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
-                                                <div class="well">
+                                                <div class="panel panel-default">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">write {{card.one.write}}</li>
                                                         <li class="list-group-item">move {{card.one.move}}</li>
@@ -155,11 +157,11 @@
             </div>
             <div class="col-xs-4">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Active Card</div>
+                    <div class="panel-heading">Active Card #</div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="well">
+                                <div class="panel panel-default">
                                     <ul class="list-group">
                                         <li class="list-group-item">write</li>
                                         <li class="list-group-item">move</li>
@@ -168,7 +170,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="well">
+                                <div class="panel panel-default">
                                     <ul class="list-group">
                                         <li class="list-group-item">write</li>
                                         <li class="list-group-item">move</li>

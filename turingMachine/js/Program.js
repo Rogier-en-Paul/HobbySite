@@ -15,7 +15,6 @@ Program.prototype.run = function(tape){
         if(answer.move != 0)this.position += answer.move;
         this.currentCard = this.cards[answer.nextCard];
     }
-
     return tape;
 };
 
