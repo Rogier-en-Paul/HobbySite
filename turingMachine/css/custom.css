@@ -24,3 +24,14 @@
 body{
     margin-bottom: 100px;
 }
+
+#challenges{
+
+    border-color: gold;
+}
+
+#challenges .panel-heading{
+    color: black;
+    background-color: gold;
+    border-color: gold;
+}

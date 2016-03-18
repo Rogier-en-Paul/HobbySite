@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Turing machine</title>
+    <link rel="shortcut icon" type="image/png" href="resources/onoff.png"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.9.0/css/bootstrap-tour.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.7.0/css/shepherd-theme-arrows.css">
     <link rel="stylesheet" href="css/custom.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.7/angular-strap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.7/angular-strap.tpl.min.js"></script>
 </head>
 <body ng-controller="ctrl">
     <div id="navbar"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-sm-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="embed-responsive embed-responsive-16by9">
@@ -26,39 +29,44 @@
                         <a href="https://www.youtube.com/watch?v=DILF8usqp7M">this</a>  one.
                     </div>
                     <div class="panel-footer">
-                        <button type="button" class="btn btn-default" id="btnTour">take a tour <span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-default" id="btnTour" ng-click="startTour()">take a tour <span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-4">
+            <div class="col-sm-4">
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <input type="text" class="form-control" ng-model="cardN" placeholder="cardNumber" id="txtCardNumber">
+                        <input type="text" class="form-control" ng-model="cardNumber" placeholder="cardNumber" id="txtCardNumber">
                     </div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-6">
-                                <div class="panel panel-default">
+                                <div class="panel panel-default" id="optionFalse">
                                     <div class="panel-heading">False</div>
                                     <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <select class="selectpicker" data-width="100%" id="writeOption1">
-                                                <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
-                                            </select>
+                                        <li class="list-group-item" >
+                                            <div id="writeOption1">
+                                                <select  class="selectpicker" data-width="100%">
+                                                    <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
+                                                </select>
+                                            </div>
+
                                         </li>
-                                        <li class="list-group-item">
-                                            <select class="selectpicker" data-width="100%" id="moveOption1">
-                                                <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
-                                            </select>
+                                        <li class="list-group-item" >
+                                            <div id="moveOption1">
+                                                <select  class="selectpicker" data-width="100%">
+                                                    <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
+                                                </select>
+                                            </div>
                                         </li>
-                                        <li class="list-group-item">
-                                            <input type="text" class="form-control" ng-model="nextCard1" placeholder="nextCard">
+                                        <li  class="list-group-item">
+                                            <input id="nextCard1" type="text" class="form-control" ng-model="nextCard0" placeholder="nextCard">
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-xs-6">
-                                <div class="panel panel-default">
+                                <div class="panel panel-default" id="optionTrue">
                                     <div class="panel-heading">True</div>
                                     <ul class="list-group">
                                         <li class="list-group-item">
@@ -72,7 +80,7 @@
                                             </select>
                                         </li>
                                         <li class="list-group-item">
-                                            <input type="text" class="form-control" ng-model="nextCard2" placeholder="nextCard">
+                                            <input type="text" class="form-control" ng-model="nextCard1" placeholder="nextCard">
                                         </li>
                                     </ul>
                                 </div>
@@ -81,25 +89,26 @@
                     </div>
                 </div>
                 <!--add new Card button-->
-                <div class="input-group">
-                    <input type="text" class="form-control col-xs-6" ng-model="programN" placeholder="programNumber">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-success" id="btnAddCard" ng-click="addCard(programN, cardN, 1, 1, nextCard)">add Card to program</button>
-                    </span>
-                </div>
+                <!--<div class="input-group" id="btnAddCard">-->
+                    <!--<input type="text" class="form-control col-xs-6" ng-model="programNumber" placeholder="programNumber">-->
+                    <!--<span class="input-group-btn">-->
+                        <!--<button type="button" class="btn btn-success"  ng-click="addCard()">add Card to program</button>-->
+                    <!--</span>-->
+                <!--</div>-->
+                <button type="button" class="btn btn-success"  ng-click="addCard()">add Card to program</button>
             </div>
         </div>
         <div class="row" id="programContainer">
-            <div class="col-xs-12" ng-repeat="program in programs" ng-if="program != null">
+            <div class="col-xs-12" ng-repeat="program in system.programs track by $index" ng-if="program != null">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Program #{{$index}}</div>
+                    <div class="panel-heading">Program {{$index}} <!--<button type="button" class="btn btn-danger btn-xs pull-right">delete</button>--></div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-xs-2" ng-repeat="card in program.cards" ng-if="card != null">
+                            <div class="col-md-2 col-sm-3 col-xs-6" ng-repeat="card in program.cards track by $index" ng-if="card != null">
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">Card #{{$index}}
-                                        <button type="button" data-toggle="button" class="btnDebug btn btn-danger btn-xs pull-right">break</button>
-                                        <button type="button" class="btn btn-danger btn-xs">delete</button>
+                                    <div class="panel-heading">Card {{$index}}
+                                        <button type="button"  class="btnDebug btn btn-danger btn-xs pull-right" ng-model="card.isBreakpoint" bs-checkbox>break</button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="deleteCard($index)">delete</button>
                                     </div>
                                     <div class="container-fluid">
                                         <div class="row">
@@ -136,49 +145,57 @@
                     <label for="Input">Input</label>
                     <input type="text" class="form-control" id="Input" value="{{tape}}">
                 </div>
-                <div class="form-group">
-                    <label for="programOrder">programs to execute</label>
-                    <input type="text" class="form-control" id="programOrder">
-                </div>
-                <div class="btn-group">
+                <!--<div class="form-group">-->
+                    <!--<label for="programOrder">programs to execute</label>-->
+                    <!--<input type="text" class="form-control" id="programOrder">-->
+                <!--</div>-->
+                <div class="btn-group" id="programActionGroup">
                     <button type="button" class="btn btn-primary" id="btnRun" ng-click="run()">Run</button>
-                    <button type="button" class="btn btn-primary" id="btnStep" >Step</button>
-                    <button id="toggleAuto" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">Animate</button>
+                    <button type="button" class="btn btn-primary" id="btnStep" ng-click="system.step()">Step</button>
+                    <button id="toggleAuto" type="button" class="btn btn-primary" ng-model="animating" bs-checkbox>Animate</button>
                 </div>
                 <div class="btn-group">
-                    <button type="button" data-toggle="button" class="btn btn-danger" id="btnDebugMode">Debug</button>
+                    <button type="button" class="btn btn-danger" id="btnDebugMode" ng-model="debugMode" bs-checkbox>Debug</button>
                     <button type="button" class="btn btn-default" id="btnContinue">Continue</button>
                 </div>
                 <div class="form-group">
                     <label for="Output">Output</label>
-                    <input type="text" class="form-control" id="Output">
+                    <input type="text" class="form-control" id="Output" ng-model="outputTape" value="{{outputTape}}">
                 </div>
             </div>
-            <div class="col-xs-4" id="activeCardContainer">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Active Card #</div>
+            <div class="col-xs-4" >
+                <div class="panel panel-primary" id="activeCard">
+                    <div class="panel-heading">Active Card {{system.currentProgram.cards.indexOf(system.currentProgram.currentCard)}}</div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="panel panel-default">
                                     <ul class="list-group">
-                                        <li class="list-group-item">write</li>
-                                        <li class="list-group-item">move</li>
-                                        <li class="list-group-item">go to state</li>
+                                        <li class="list-group-item">{{system.currentProgram.currentCard.zero.write}}</li>
+                                        <li class="list-group-item">{{system.currentProgram.currentCard.zero.move}}</li>
+                                        <li class="list-group-item">{{system.currentProgram.currentCard.zero.nextCard}}</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="panel panel-default">
                                     <ul class="list-group">
-                                        <li class="list-group-item">write</li>
-                                        <li class="list-group-item">move</li>
-                                        <li class="list-group-item">go to state</li>
+                                        <li class="list-group-item">{{system.currentProgram.currentCard.one.write}}</li>
+                                        <li class="list-group-item">{{system.currentProgram.currentCard.one.move}}</li>
+                                        <li class="list-group-item">{{system.currentProgram.currentCard.one.nextCard}}</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-xs-4" >
+                <div class="panel panel-primary" id="challenges">
+                    <div class="panel-heading">Challenges <img src="resources/medalBlack.png"></div>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="challenge in challenges">{{challenge.description}}<button type="button" class="btn btn-primary btn-xs pull-right">run</button></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -190,12 +207,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.7.0/js/shepherd.min.js"></script>
 
+    <script src="js/Challenge.js"></script>
     <script src="js/Option.js"></script>
     <script src="js/Card.js"></script>
     <script src="js/Program.js"></script>
+    <script src="js/System.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/controller.js"></script>
     <script>
