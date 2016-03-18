@@ -35,3 +35,7 @@ body{
     background-color: gold;
     border-color: gold;
 }
+
+#writeOption0Container, #moveOption0Container{
+    border-radius: 4px;
+}

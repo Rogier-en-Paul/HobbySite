@@ -1,15 +1,7 @@
-var writeOption = $("#writeOption");
-var moveOption = $("#moveOption");
-var btnTour = $("#btnTour");
-var txtProgramOrder = $("#programOrder");
-
-//$('#programOrder').tokenfield({
-//    autocomplete: {
-//        source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-//        delay: 100
-//    },
-//    showAutocompleteOnFocus: true
-//});
+var writeOption0 = $("#writeOption0");
+var moveOption0 = $("#moveOption0");
+var writeOption1 = $("#writeOption1");
+var moveOption1 = $("#moveOption1");
 
 var challenges = [];
 //a model popup on completion sounds pretty fun
@@ -34,11 +26,11 @@ var tour = new Tour({
     },{
         title: 'Writing',
         content: 'After reading, write a 1, a 0 or nothing on the tape',
-        element: '#writeOption1'
+        element: '#writeOption0Container'
     },{
         title: 'Moving',
         content: 'After writing, move left, right or not at all',
-        element: '#moveOption1'
+        element: '#moveOption0Container'
     },{//not showing up
         title: 'nextCard',
         content: 'Load the next card to execute',
