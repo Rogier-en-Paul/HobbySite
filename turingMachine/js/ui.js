@@ -2,16 +2,16 @@ var writeOption0 = $("#writeOption0");
 var moveOption0 = $("#moveOption0");
 var writeOption1 = $("#writeOption1");
 var moveOption1 = $("#moveOption1");
+var output = $("#output");
 
-var challenges = [];
-//a model popup on completion sounds pretty fun
-challenges.push(new Challenge("Print a whooooole lot of 1's",[1,1,1,1,1]));
-challenges.push(new Challenge("Reverse a string of numbers 11001 becomes 00110",[0,0,1,1,0]));
-challenges.push(new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",[1,1,1,0,1,1,1]));
-challenges.push(new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver problem and is very hard",[1,0,1,0,1,0,1]));
-challenges.push(new Challenge("Make photoshop",[1,0,1,0,1,0,1]));
-challenges.push(new Challenge("Go out and make some crazy patterns",[1,0,1,0,1,0,1]));
-
+var challenges = [
+    new Challenge("Print a whooooole lot of 1's",[0,0,0,0,0],[1,1,1,1,1],0),
+    new Challenge("Reverse a string of numbers 11001 becomes 00110",[1,1,0,0,1],[0,0,1,1,0],0),
+    new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",[1,1,1,0,0,0,0],[1,1,1,0,1,1,1],3),
+    new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver problem and is very hard",[1,0,1,0,1,0,1],[1,1,1,0,1,1,1],3),
+    new Challenge("Make photoshop",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0),
+    new Challenge("Go out and make some crazy patterns",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0)
+];
 
 var tour = new Tour({
     backdrop: true,
@@ -59,15 +59,15 @@ var tour = new Tour({
     },{
         title: 'Go!',
         content: 'Run: Run your selected program',
-        element: '#programActionGroup'
+        element: '#btnRun'
     },{
         title: 'Careful',
         content: 'Step: You can go 1 step at a time. This can be usefull if your program is behaving oddly',
-        element: '#programActionGroup'
+        element: '#stepGroup'
     },{
         title: 'Showtime!',
         content: 'Animate: Automatically steps for you every 0.2 seconds',
-        element: '#programActionGroup'
+        element: '#stepGroup'
     },{
         title: 'bugs ):',
         content: 'If your program is not working as expected you can turn debugmode on and the program will halt on Cards that have their breakpoint enabled',
@@ -79,7 +79,7 @@ var tour = new Tour({
     },{
         title: 'output',
         content: 'The fruit of your labour',
-        element: '#Output'
+        element: '#output'
     },{
         title: 'ActiveCard',
         content: 'While your program is running you can see the card that is currently being evaluated here',

@@ -140,30 +140,42 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-4">
-                <div class="form-group">
-                    <label for="Input">Input</label>
-                    <input type="text" class="form-control" id="Input" ng-model="tape">
+            <div class="col-xs-5">
+                <div class="row">
+                    <!--<label for="Input">Input</label>-->
+                    <div class="col-xs-9"><label for="Input">Input</label><input type="text" class="form-control" id="Input" ng-model="tape"></div>
+                    <div class="col-xs-3"><label for="Input">StartPos</label><input type="text" class="form-control" id="txtStartPosition" ng-model="startPosition"></div>
                 </div>
                 <!--<div class="form-group">-->
                     <!--<label for="programOrder">programs to execute</label>-->
                     <!--<input type="text" class="form-control" id="programOrder">-->
                 <!--</div>-->
-                <div class="btn-group" id="programActionGroup">
-                    <button type="button" class="btn btn-primary" id="btnRun" ng-click="run()">Run</button>
-                    <button type="button" class="btn btn-primary" id="btnStep" ng-click="system.step()">Step</button>
-                    <button id="toggleAuto" type="button" class="btn btn-primary" ng-model="animating" bs-checkbox>Animate</button>
+                <div class="row">
+                    <div class="col-xs-2" id="btnRun"><button type="button" class="btn btn-primary"  ng-click="run()">Run</button></div>
+                    <div class="col-xs-6">
+                        <div class="btn-group" id="stepGroup">
+                            <button type="button" class="btn btn-primary" id="btnStep" ng-click="step()">Step</button>
+                            <button id="toggleAuto" type="button" class="btn btn-primary" ng-model="animating" bs-checkbox>Auto</button>
+                            <button id="btnReset" type="button" class="btn btn-default" ng-click="reset()">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-danger" id="btnDebugMode" ng-model="debugMode" bs-checkbox>Debug</button>
+                            <button type="button" class="btn btn-default" id="btnContinue">Cont</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-danger" id="btnDebugMode" ng-model="debugMode" bs-checkbox>Debug</button>
-                    <button type="button" class="btn btn-default" id="btnContinue">Continue</button>
-                </div>
-                <div class="form-group">
-                    <label for="Output">Output</label>
-                    <input type="text" class="form-control" id="Output" ng-model="outputTape">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="output">Output</label>
+                            <input type="text" class="form-control" id="output" ng-model="outputTape">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-4" >
+            <div class="col-xs-3" >
                 <div class="panel panel-primary" id="activeCard">
                     <div class="panel-heading">Active Card {{system.currentProgram.cards.indexOf(system.currentProgram.currentCard)}}</div>
                     <div class="container-fluid">
@@ -194,7 +206,11 @@
                 <div class="panel panel-primary" id="challenges">
                     <div class="panel-heading">Challenges <img src="resources/medalBlack.png"></div>
                     <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="challenge in challenges">{{challenge.description}}<button type="button" class="btn btn-primary btn-xs pull-right">run</button></li>
+                        <li class="list-group-item" ng-repeat="challenge in challenges track by $index">
+                            {{challenge.description}}
+                            <img ng-if="challenge.completed" src="resources/medalGold.png">
+                            <button ng-click="runChallenge($index)" type="button" class="btn btn-primary btn-xs pull-right">run</button>
+                        </li>
                     </ul>
                 </div>
             </div>
