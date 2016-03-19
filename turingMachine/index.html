@@ -17,16 +17,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4">
-                <div class="panel panel-default">
+                <div class="panel panel-default" id="pnlIntro">
                     <div class="panel-body">
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/dNRDvLACg5Q" allowfullscreen=""></iframe>
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/DILF8usqp7M" allowfullscreen></iframe>
                         </div>
                     </div>
                     <div class="panel-footer">
                         Hello and welcome to "make your own turing machine". If you don't know what a turing machine is than this video will
                         give you a quick introduction. If that one didn't do it for you than you can also have a look at
-                        <a href="https://www.youtube.com/watch?v=DILF8usqp7M">this</a>  one.
+                        <a href="https://www.youtube.com/watch?v=dNRDvLACg5Q">this</a>  one or my own <a href="https://www.youtube.com/watch?v=R8S9iDE3NpM">video</a>.
                     </div>
                     <div class="panel-footer">
                         <button type="button" class="btn btn-default" id="btnTour" ng-click="startTour()">take a tour <span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
@@ -34,19 +34,20 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <input type="text" class="form-control" ng-model="cardNumber" placeholder="cardNumber" id="txtCardNumber">
+                <div class="panel panel-success" id="pnlCreateCard">
+                    <div class="panel-heading" id="txtCardNumber">
+                        <input type="text" class="form-control" ng-model="cardNumber" placeholder="cardNumber" >
                     </div>
                     <div class="container-fluid">
-                        <div class="row">
+                        <div class="row" id="rowOptions">
                             <div class="col-xs-6">
                                 <div class="panel panel-default" id="optionFalse">
                                     <div class="panel-heading">False</div>
                                     <ul class="list-group">
                                         <li class="list-group-item" >
                                             <div id="writeOption0Container">
-                                                <select  class="selectpicker" data-width="100%" id="writeOption0">
+                                                <label for="writeOption0">write</label>
+                                                <select class="selectpicker" data-width="100%" id="writeOption0">
                                                     <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
                                                 </select>
                                             </div>
@@ -54,12 +55,13 @@
                                         </li>
                                         <li class="list-group-item" >
                                             <div id="moveOption0Container">
-                                                <select  class="selectpicker" data-width="100%" id="moveOption0">
-                                                    <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
+                                                <label for="moveOption0">move</label>
+                                                <select class="selectpicker" data-width="100%" id="moveOption0">
+                                                    <option data-icon="{{moveOption.icon}}" ng-repeat="moveOption in moveOptions">{{moveOption.value}}</option>
                                                 </select>
                                             </div>
                                         </li>
-                                        <li  class="list-group-item">
+                                        <li class="list-group-item">
                                             <input id="nextCard1" type="text" class="form-control" ng-model="nextCard0" placeholder="nextCard">
                                         </li>
                                     </ul>
@@ -70,13 +72,15 @@
                                     <div class="panel-heading">True</div>
                                     <ul class="list-group">
                                         <li class="list-group-item">
+                                            <label for="writeOption1">write</label>
                                             <select class="selectpicker" data-width="100%" id="writeOption1">
                                                 <option ng-repeat="writeOption in writeOptions">{{writeOption}}</option>
                                             </select>
                                         </li>
                                         <li class="list-group-item">
+                                            <label for="moveOption1">move</label>
                                             <select class="selectpicker" data-width="100%" id="moveOption1">
-                                                <option ng-repeat="moveOption in moveOptions">{{moveOption}}</option>
+                                                <option data-icon="{{moveOption.icon}}" ng-repeat="moveOption in moveOptions">{{moveOption.value}}</option>
                                             </select>
                                         </li>
                                         <li class="list-group-item">
@@ -95,7 +99,7 @@
                         <!--<button type="button" class="btn btn-success"  ng-click="addCard()">add Card to program</button>-->
                     <!--</span>-->
                 <!--</div>-->
-                <button id="btnAddCard" type="button" class="btn btn-success btn-block"  ng-click="addCard()">add Card to program</button>
+                <button id="btnAddCard" type="button" class="btn btn-success btn-block"  ng-click="addCard()">override or add</button>
             </div>
         </div>
         <div class="row" id="programContainer">
@@ -104,11 +108,11 @@
                     <div class="panel-heading">Program {{$index}} <!--<button type="button" class="btn btn-danger btn-xs pull-right">delete</button>--></div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-2 col-sm-3 col-xs-6" ng-repeat="card in program.cards track by $index" ng-if="card != null">
+                            <div class="col-md-2 col-sm-3 col-xs-6" ng-repeat="card in program.cards track by $index" ng-if="card != null && card != program.cards[0]">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">Card {{$index}}
                                         <button type="button"  class="btnDebug btn btn-danger btn-xs pull-right" ng-model="card.isBreakpoint" bs-checkbox>break</button>
-                                        <button type="button" class="btn btn-danger btn-xs" ng-click="deleteCard($index)">delete</button>
+                                        <button ng-if="$index != 1" type="button" class="btn btn-danger btn-xs" ng-click="deleteCard($index)">delete</button>
                                     </div>
                                     <div class="container-fluid">
                                         <div class="row">
@@ -140,7 +144,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-5" id="bridge">
                 <div class="row">
                     <!--<label for="Input">Input</label>-->
                     <div class="col-xs-9"><label for="Input">Input</label><input type="text" class="form-control" id="Input" ng-model="tape"></div>
@@ -152,17 +156,18 @@
                 <!--</div>-->
                 <div class="row">
                     <div class="col-xs-2" id="btnRun"><button type="button" class="btn btn-primary"  ng-click="run()">Run</button></div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-5">
                         <div class="btn-group" id="stepGroup">
                             <button type="button" class="btn btn-primary" id="btnStep" ng-click="step()">Step</button>
                             <button id="toggleAuto" type="button" class="btn btn-primary" ng-model="animating" bs-checkbox>Auto</button>
                             <button id="btnReset" type="button" class="btn btn-default" ng-click="reset()">Reset</button>
                         </div>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-5">
                         <div class="btn-group pull-right">
                             <button type="button" class="btn btn-danger" id="btnDebugMode" ng-model="debugMode" bs-checkbox>Debug</button>
-                            <button type="button" class="btn btn-default" id="btnContinue">Cont</button>
+                            <button type="button" class="btn btn-danger disabled" ng-model="system.currentProgram.halted" bs-checkbox>Halted</button>
+                            <button type="button" class="btn btn-default" ng-click="system.currentProgram.halted = false" id="btnContinue">Cont</button>
                         </div>
                     </div>
                 </div>
@@ -177,7 +182,10 @@
             </div>
             <div class="col-xs-3" >
                 <div class="panel panel-primary" id="activeCard">
-                    <div class="panel-heading">Active Card {{system.currentProgram.cards.indexOf(system.currentProgram.currentCard)}}</div>
+                    <div class="panel-heading">
+                        <span ng-if="system.currentProgram.cards.indexOf(system.currentProgram.currentCard) != -1">Active Card {{system.currentProgram.cards.indexOf(system.currentProgram.currentCard)}}</span>
+                        <span ng-if="system.currentProgram.cards.indexOf(system.currentProgram.currentCard) == -1">Card does not exist</span>
+                    </div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-6">
@@ -207,9 +215,15 @@
                     <div class="panel-heading">Challenges <img src="resources/medalBlack.png"></div>
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="challenge in challenges track by $index">
-                            {{challenge.description}}
-                            <img ng-if="challenge.completed" src="resources/medalGold.png">
-                            <button ng-click="runChallenge($index)" type="button" class="btn btn-primary btn-xs pull-right">run</button>
+                            <div class="row">
+                                <div class="col-xs-9">
+                                    <span>{{challenge.description}}</span>
+                                    <img ng-if="challenge.completed" src="resources/medalGold.png">
+                                </div>
+                                <div class="col-xs-3">
+                                    <button ng-click="runChallenge($index)" type="button" class="btn btn-primary btn-xs pull-right">run</button>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>

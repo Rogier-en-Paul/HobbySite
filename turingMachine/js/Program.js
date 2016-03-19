@@ -3,12 +3,17 @@ function Program(tape){
     this.currentCard;
     this.position = 0;
     this.tape = tape;
+    this.halted = false;
 }
 
 Program.prototype.run = function(){
     var step = 0;
     this.currentCard = this.cards[1];
-    while(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && step < 1000){
+    while(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && step < 1000 && !this.halted){
+        if(this.currentCard == this.cards[0])break;
+        if(this.currentCard.isBreakpoint){
+            this.halted = true
+        }
         step++;
         this.execute();
     }
@@ -30,4 +35,17 @@ Program.prototype.execute = function(){
     if(answer.write != -1) this.tape[this.position] = answer.write;
     if(answer.move != 0) this.position += answer.move;
     this.currentCard = this.cards[answer.nextCard];
+};
+
+Program.prototype.continue = function(){
+    var step = 0;
+    while(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && step < 1000 && !this.halted){
+        if(this.currentCard == this.cards[0])break;
+        if(this.currentCard.isBreakpoint){
+            this.halted = true
+        }
+        step++;
+        this.execute();
+    }
+    return this.tape;
 };

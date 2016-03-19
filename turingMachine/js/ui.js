@@ -13,9 +13,36 @@ var challenges = [
     new Challenge("Go out and make some crazy patterns",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0)
 ];
 
+var incoming = new Tour({
+    backdrop: true,
+    steps:[{
+        orphan:true,
+        title: 'Turing Machine',
+        content: 'This website simulates a <b>turing machine</b>. A turing machine reads and writes information on a piece of <b>tape</b>.<br/> A turing machine is the most basic computer you can make'
+    },{
+        title: 'Getting Started',
+        content: 'Please watch the tutorial it will help you get started. I put a lot of effort into it (:',
+        element: '#btnTour'
+    }]
+});
+incoming.init(true);
+incoming.start(true);
+
 var tour = new Tour({
     backdrop: true,
     steps:[{
+        title: 'Getting Started',
+        content: 'Over here are some videos to help you get started',
+        element: '#pnlIntro'
+    },{
+        title: 'Creating a card',
+        content: 'A turing machine relies on <b>Cards</b> with instructions on them',
+        element: '#pnlCreateCard'
+    },{
+        title: 'Options',
+        content: 'There are 2 <b>Options</b> a turing machine can choose from',
+        element: '#rowOptions'
+    },{
         title: 'False',
         content: 'This option will be executed if the machine reads a 0 from tape',
         element: '#optionFalse'
@@ -29,23 +56,23 @@ var tour = new Tour({
         element: '#writeOption0Container'
     },{
         title: 'Moving',
-        content: 'After writing, move left, right or not at all',
+        content: 'After writing, move the machine left, right or not at all',
         element: '#moveOption0Container'
-    },{//not showing up
+    },{
         title: 'nextCard',
         content: 'Load the next card to execute',
         element: '#nextCard1'
     },{
         title: 'card identity',
-        content: 'Give the card a number. You can also overwrite old cards that you\'ve made in the past',
+        content: 'Give the card a <b>Card number</b>. You can also overwrite old cards that you\'ve made in the past</br> <b>Card number is what you refer to with the previous <i>nextCard</i> field</b>',
         element: '#txtCardNumber'
     },{
         title: 'Add card',
-        content: 'Select a program to add the card to',
+        content: 'Add the card',
         element: '#btnAddCard'
     },{
         title: 'Program',
-        content: 'This is your program. Execution will start at card 1. Card 0 is reserved and is the stop card. Entering a non existent card is considered crashing',
+        content: 'This is your program. Execution will <b>start at card 1</b>. <b>Card 0</b>(not shown) is reserved and is the <b>stop card</b>. Entering a non existent card is considered crashing',
         element: '#programContainer',
         placement: 'top'
     },{
@@ -53,12 +80,12 @@ var tour = new Tour({
         content: 'These are the 1\'s and 0\'s that your machine is going to change',
         element: '#Input'
     },{
-        title: 'Program piping',
-        content: 'Here you can select which program you want to run. If you feel fancy you can pipe the output of 1 into the other and make 1 monster machine',
-        element: '#programOrder'
+        title: 'Bridge',
+        content: 'Here you can run and debug your program',
+        element: '#bridge'
     },{
         title: 'Go!',
-        content: 'Run: Run your selected program',
+        content: 'Run your program',
         element: '#btnRun'
     },{
         title: 'Careful',

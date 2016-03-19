@@ -1,8 +1,17 @@
 var app = angular.module('app', ['mgcrea.ngStrap']);
 var programs = [];
 
+var moveOptions = [{
+    value:1,
+    icon:'glyphicon-arrow-right'
+},{
+    value:0,
+    icon:'glyphicon-minus'
+},{
+    value:-1,
+    icon:'glyphicon-arrow-left'
+}];
 var writeOptions = [0, 1, "None"];
-var moveOptions = [-1, 0, 1];
 var system = new System();
 
 app.controller('ctrl',function($scope){
@@ -10,6 +19,7 @@ app.controller('ctrl',function($scope){
     $scope.deleteCard = deleteCard;
     $scope.run = run;
     $scope.step = step;
+    $scope.cont = cont;
     $scope.reset = reset;
     $scope.runChallenge = runChallenge;
     $scope.writeOptions = writeOptions;
@@ -26,6 +36,7 @@ app.controller('ctrl',function($scope){
     var program = new Program($scope.tape.split("").map(function(entry){
         return parseInt(entry);
     }));
+    program.cards[0] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
     program.cards[1] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
     program.currentCard = program.cards[1];
 
@@ -47,12 +58,11 @@ app.controller('ctrl',function($scope){
         var move0 = parseInt(moveOption0.find("option:selected").text());
         var write1 = parseInt(writeOption1.find("option:selected").text());
         var move1 = parseInt(moveOption1.find("option:selected").text());
+        if(isNaN(write0))write0 = -1;
+        if(isNaN(write1))write1 = -1;
 
         var zero = new Option(write0, move0, $scope.nextCard0);
         var one = new Option(write1, move1, $scope.nextCard1);
-        //if(system.programs[$scope.programNumber] == null){
-        //    system.programs[$scope.programNumber] = new Program();
-        //}
         system.programs[0].cards[$scope.cardNumber] = new Card(zero, one);
     }
 
@@ -61,7 +71,7 @@ app.controller('ctrl',function($scope){
     }
 
     function run(){
-        system.currentProgram.position = Math.floor($scope.tape.length / 2);
+        system.currentProgram.position = Math.floor($scope.startPosition);
         system.currentProgram.tape = system.currentProgram.tape = $scope.tape.split("").map(function(entry){
             return parseInt(entry);
         });
@@ -72,6 +82,12 @@ app.controller('ctrl',function($scope){
 
     function step(){
         var temp = system.currentProgram.step().join("");
+        temp = placeHead(temp, system.currentProgram.position);
+        $scope.outputTape = temp;
+    }
+
+    function cont(){
+        var temp = system.currentProgram.continue().join("");
         temp = placeHead(temp, system.currentProgram.position);
         $scope.outputTape = temp;
     }
