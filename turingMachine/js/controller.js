@@ -26,7 +26,7 @@ app.controller('ctrl',function($scope){
     var program = new Program($scope.tape.split("").map(function(entry){
         return parseInt(entry);
     }));
-    program.cards[1] = new Card(new Option(1, 1, 1), new Option(1, 1, 1));
+    program.cards[1] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
     program.currentCard = program.cards[1];
 
     system.programs.push(program);
