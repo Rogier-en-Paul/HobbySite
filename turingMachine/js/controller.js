@@ -24,7 +24,7 @@ app.controller('ctrl',function($scope){
     $scope.runChallenge = runChallenge;
     $scope.writeOptions = writeOptions;
     $scope.moveOptions = moveOptions;
-    $scope.tape = "0000000000000100000000110";
+    $scope.tape = "0000101000000100001000110";
     $scope.challenges = challenges;
     $scope.outputTape = "";
     $scope.animating = false;
@@ -57,16 +57,12 @@ app.controller('ctrl',function($scope){
 
     },200);
 
-    function deleteCard(index){
-        system.currentProgram.cards.splice(index, 1);
-    }
-
     function run(){
         $scope.animating = false;
-        system.currentProgram.position = Math.floor($scope.startPosition);//reset position
         system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
         });
+        system.currentProgram.position = Math.floor($scope.startPosition) % system.currentProgram.tape.length;//reset position
         //currentcard is reset in the run function
         var temp = system.currentProgram.run().join("");//run the program and get the output
         temp = placeHead(temp, system.currentProgram.position);//place head cosmetics
@@ -74,11 +70,11 @@ app.controller('ctrl',function($scope){
     }
 
     function autoRun(){
-        system.currentProgram.position = Math.floor($scope.startPosition);//reset position
         system.currentProgram.currentCard = system.currentProgram.cards[1];
         system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
         });
+        system.currentProgram.position = Math.floor($scope.startPosition) % system.currentProgram.tape.length;//reset position
         $scope.animating = true;
     }
 
@@ -110,6 +106,10 @@ app.controller('ctrl',function($scope){
         var one = new Option(write1, move1, parseInt($scope.nextCard1));
         system.currentProgram.cards[parseInt($scope.cardNumber)] = new Card(zero, one);
         system.currentProgram.currentCard = system.currentProgram.cards[1];
+    }
+
+    function deleteCard(index){
+        system.currentProgram.cards.splice(index, 1);
     }
 });
 
