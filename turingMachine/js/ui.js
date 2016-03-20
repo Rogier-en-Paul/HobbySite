@@ -2,11 +2,11 @@ var writeOption0 = $("#writeOption0");
 var moveOption0 = $("#moveOption0");
 var writeOption1 = $("#writeOption1");
 var moveOption1 = $("#moveOption1");
-var output = $("#output");
 
 var challenges = [
     new Challenge("Print a whooooole lot of 1's",[0,0,0,0,0],[1,1,1,1,1],0),
     new Challenge("Reverse a string of numbers 11001 becomes 00110",[1,1,0,0,1],[0,0,1,1,0],0),
+    new Challenge("Print alternating 1\'s and 0\'s e.g. 10101010",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1]),
     new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",[1,1,1,0,0,0,0],[1,1,1,0,1,1,1],3),
     new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver game and is very hard",[1,0,1,0,1,0,1],[1,1,1,0,1,1,1],3),
     new Challenge("Make photoshop",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0),
