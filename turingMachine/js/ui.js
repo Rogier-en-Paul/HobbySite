@@ -13,24 +13,25 @@ var challenges = [
     new Challenge("Go out and make some crazy patterns",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0)
 ];
 
-var incoming = new Tour({
+//var incoming = new Tour({
+//    backdrop: true,
+//    steps:[{
+//        orphan:true,
+//        title: 'Turing Machine',
+//        content: 'This website simulates a <b>turing machine</b>. A turing machine reads and writes information on a piece of <b>tape</b>.<br/> A turing machine is the most basic computer you can make\
+//        <br/>Please watch the tutorial and take the tour it will help you get started. I put a lot of effort into it (:'
+//    }]
+//});
+//incoming.init(true);
+//incoming.start(true);
+
+var tour = new Tour({
     backdrop: true,
     steps:[{
         orphan:true,
         title: 'Turing Machine',
         content: 'This website simulates a <b>turing machine</b>. A turing machine reads and writes information on a piece of <b>tape</b>.<br/> A turing machine is the most basic computer you can make'
     },{
-        title: 'Getting Started',
-        content: 'Please watch the tutorial it will help you get started. I put a lot of effort into it (:',
-        element: '#btnTour'
-    }]
-});
-incoming.init(true);
-incoming.start(true);
-
-var tour = new Tour({
-    backdrop: true,
-    steps:[{
         title: 'Getting Started',
         content: 'Over here are some videos to help you get started',
         element: '#pnlIntro'

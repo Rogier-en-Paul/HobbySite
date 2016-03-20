@@ -20,7 +20,7 @@ app.controller('ctrl',function($scope){
     $scope.run = run;
     $scope.step = step;
     $scope.cont = cont;
-    $scope.reset = reset;
+    //$scope.reset = reset;
     $scope.runChallenge = runChallenge;
     $scope.writeOptions = writeOptions;
     $scope.moveOptions = moveOptions;
@@ -28,7 +28,7 @@ app.controller('ctrl',function($scope){
     $scope.challenges = challenges;
     $scope.outputTape = "";
     $scope.animating = false;
-    $scope.debugMode = false;
+    $scope.debugMode = {on:false};
     $scope.startTour = startTour;
     $scope.programNumber = 0;
     $scope.startPosition = 0;
@@ -37,12 +37,13 @@ app.controller('ctrl',function($scope){
         return parseInt(entry);
     }));
     program.cards[0] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
-    program.cards[1] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
+    program.cards[1] = new Card(new Option(1, 0, 0), new Option(0, 0, 0));
     program.currentCard = program.cards[1];
 
     system.programs.push(program);
     $scope.system = system;
     system.currentProgram = system.programs[0];
+    program.debugmode = $scope.debugMode;
 
     setInterval(function(){
         if($scope.animating){
@@ -61,9 +62,10 @@ app.controller('ctrl',function($scope){
         if(isNaN(write0))write0 = -1;
         if(isNaN(write1))write1 = -1;
 
-        var zero = new Option(write0, move0, $scope.nextCard0);
-        var one = new Option(write1, move1, $scope.nextCard1);
-        system.programs[0].cards[$scope.cardNumber] = new Card(zero, one);
+        var zero = new Option(write0, move0, parseInt($scope.nextCard0));
+        var one = new Option(write1, move1, parseInt($scope.nextCard1));
+        system.currentProgram.cards[parseInt($scope.cardNumber)] = new Card(zero, one);
+        system.currentProgram.currentCard = system.currentProgram.cards[1];
     }
 
     function deleteCard(index){
@@ -71,13 +73,14 @@ app.controller('ctrl',function($scope){
     }
 
     function run(){
-        system.currentProgram.position = Math.floor($scope.startPosition);
-        system.currentProgram.tape = system.currentProgram.tape = $scope.tape.split("").map(function(entry){
+        system.currentProgram.position = Math.floor($scope.startPosition);//reset position
+        system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
         });
-        var temp = system.currentProgram.run().join("");
-        temp = placeHead(temp, system.currentProgram.position);
-        $scope.outputTape = temp;
+        //currentcard is reset in the run function
+        var temp = system.currentProgram.run().join("");//run the program and get the output
+        temp = placeHead(temp, system.currentProgram.position);//place head cosmetics
+        $scope.outputTape = temp;//write output onto page
     }
 
     function step(){
@@ -92,17 +95,17 @@ app.controller('ctrl',function($scope){
         $scope.outputTape = temp;
     }
 
-    function reset(){
-        system.currentProgram.tape = $scope.tape.split("").map(function(entry){
-            return parseInt(entry);
-        });
-        var temp = parseInt($scope.startPosition);
-        if(isNaN(temp)){
-            temp = 0;
-        }
-        system.currentProgram.position = temp;
-        $scope.outputTape = placeHead($scope.tape, system.currentProgram.position);
-    }
+    //function reset(){
+    //    system.currentProgram.tape = $scope.tape.split("").map(function(entry){
+    //        return parseInt(entry);
+    //    });
+    //    var temp = parseInt($scope.startPosition);
+    //    if(isNaN(temp)){
+    //        temp = 0;
+    //    }
+    //    system.currentProgram.position = temp;
+    //    $scope.outputTape = placeHead($scope.tape, system.currentProgram.position);
+    //}
 
     function runChallenge(index){
         challenges[index].tryChallenge(system.currentProgram)

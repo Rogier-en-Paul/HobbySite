@@ -9,10 +9,12 @@ function Program(tape){
 Program.prototype.run = function(){
     var step = 0;
     this.currentCard = this.cards[1];
+    this.halted = false;
     while(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && step < 1000 && !this.halted){
         if(this.currentCard == this.cards[0])break;
-        if(this.currentCard.isBreakpoint){
-            this.halted = true
+        if(this.currentCard.isBreakpoint && this.debugmode.on){
+            this.halted = true;
+            break;
         }
         step++;
         this.execute();
@@ -21,7 +23,21 @@ Program.prototype.run = function(){
 };
 
 Program.prototype.step = function(){
-    if(this.currentCard != null && this.position >= 0 && this.position < this.tape.length){
+    if(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && this.currentCard!= this.cards[0]){
+        this.execute();
+    }
+    return this.tape;
+};
+
+Program.prototype.continue = function(){
+    this.halted = false;
+    var step = 0;
+    while(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && step < 1000 && !this.halted){
+        if(this.currentCard == this.cards[0])break;
+        if(this.currentCard.isBreakpoint){
+            this.halted = true
+        }
+        step++;
         this.execute();
     }
     return this.tape;
@@ -33,19 +49,6 @@ Program.prototype.execute = function(){
     else answer = this.currentCard.zero;
 
     if(answer.write != -1) this.tape[this.position] = answer.write;
-    if(answer.move != 0) this.position += answer.move;
+    this.position += answer.move;
     this.currentCard = this.cards[answer.nextCard];
-};
-
-Program.prototype.continue = function(){
-    var step = 0;
-    while(this.currentCard != null && this.position >= 0 && this.position < this.tape.length && step < 1000 && !this.halted){
-        if(this.currentCard == this.cards[0])break;
-        if(this.currentCard.isBreakpoint){
-            this.halted = true
-        }
-        step++;
-        this.execute();
-    }
-    return this.tape;
 };
