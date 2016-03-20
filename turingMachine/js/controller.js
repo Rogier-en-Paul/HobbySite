@@ -62,6 +62,7 @@ app.controller('ctrl',function($scope){
     }
 
     function run(){
+        $scope.animating = false;
         system.currentProgram.position = Math.floor($scope.startPosition);//reset position
         system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
