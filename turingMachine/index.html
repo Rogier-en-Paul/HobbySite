@@ -105,7 +105,7 @@
         <div class="row" id="programContainer">
             <div class="col-xs-12" ng-repeat="program in system.programs track by $index" ng-if="program != null">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Program {{$index}} <!--<button type="button" class="btn btn-danger btn-xs pull-right">delete</button>--></div>
+                    <div class="panel-heading">Program<!--<button type="button" class="btn btn-danger btn-xs pull-right">delete</button>--></div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-2 col-sm-3 col-xs-6" ng-repeat="card in program.cards track by $index" ng-if="card != null && card != program.cards[0]">
@@ -155,19 +155,24 @@
                     <!--<input type="text" class="form-control" id="programOrder">-->
                 <!--</div>-->
                 <div class="row">
-                    <div class="col-xs-2" id="btnRun"><button type="button" class="btn btn-primary"  ng-click="run()">Run</button></div>
                     <div class="col-xs-5">
-                        <div class="btn-group" id="stepGroup" ng-if="system.currentProgram.halted">
-                            <button type="button" class="btn btn-primary" id="btnStep" ng-click="step()">Step</button>
-                            <button id="toggleAuto" type="button" class="btn btn-primary" ng-model="animating" bs-checkbox>Auto</button>
-                            <!--<button id="btnReset" type="button" class="btn btn-default" ng-click="reset()">Reset</button>-->
+                        <div class="btn-group" id="runGroup">
+                            <button type="button" class="btn btn-primary"  ng-click="run()">Run</button>
+                            <button type="button" class="btn btn-primary"  ng-click="autoRun()">Animate</button>
                         </div>
                     </div>
                     <div class="col-xs-5">
+                        <!--ng-if="system.currentProgram.halted"-->
+                        <div class="btn-group" id="stepGroup" >
+                            <button type="button" class="btn btn-primary" id="btnStep" ng-click="step()">Step</button>
+                            <button id="toggleAuto" type="button" class="btn btn-primary" ng-model="animating" bs-checkbox>Auto</button>
+                            <button type="button" class="btn btn-default" ng-click="cont()" id="btnContinue">Cont</button>
+                            <!--<button id="btnReset" type="button" class="btn btn-default" ng-click="reset()">Reset</button>-->
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
                         <div class="btn-group pull-right">
                             <button type="button" class="btn btn-danger" id="btnDebugMode" ng-model="debugMode.on" bs-checkbox>Debug</button>
-                            <!--<button type="button" class="btn btn-danger disabled" ng-model="system.currentProgram.halted" bs-checkbox>Halted</button>-->
-                            <button type="button" class="btn btn-default" ng-click="cont()" id="btnContinue">Cont</button>
                         </div>
                     </div>
                 </div>

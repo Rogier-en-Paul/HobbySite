@@ -18,9 +18,9 @@ app.controller('ctrl',function($scope){
     $scope.addCard = addCard;
     $scope.deleteCard = deleteCard;
     $scope.run = run;
+    $scope.autoRun = autoRun;
     $scope.step = step;
     $scope.cont = cont;
-    //$scope.reset = reset;
     $scope.runChallenge = runChallenge;
     $scope.writeOptions = writeOptions;
     $scope.moveOptions = moveOptions;
@@ -46,27 +46,15 @@ app.controller('ctrl',function($scope){
     program.debugmode = $scope.debugMode;
 
     setInterval(function(){
+        //console.log($scope.animating);
         if($scope.animating){
             var temp = system.currentProgram.step().join("");
             temp = placeHead(temp, system.currentProgram.position);
             $scope.outputTape = temp;
             output.val(temp);
         }
-    }, 200);
 
-    function addCard(){
-        var write0 = parseInt(writeOption0.find("option:selected").text());
-        var move0 = parseInt(moveOption0.find("option:selected").text());
-        var write1 = parseInt(writeOption1.find("option:selected").text());
-        var move1 = parseInt(moveOption1.find("option:selected").text());
-        if(isNaN(write0))write0 = -1;
-        if(isNaN(write1))write1 = -1;
-
-        var zero = new Option(write0, move0, parseInt($scope.nextCard0));
-        var one = new Option(write1, move1, parseInt($scope.nextCard1));
-        system.currentProgram.cards[parseInt($scope.cardNumber)] = new Card(zero, one);
-        system.currentProgram.currentCard = system.currentProgram.cards[1];
-    }
+    },200);
 
     function deleteCard(index){
         system.currentProgram.cards.splice(index, 1);
@@ -83,6 +71,14 @@ app.controller('ctrl',function($scope){
         $scope.outputTape = temp;//write output onto page
     }
 
+    function autoRun(){
+        system.currentProgram.position = Math.floor($scope.startPosition);//reset position
+        system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
+            return parseInt(entry);
+        });
+        $scope.animating = true;
+    }
+
     function step(){
         var temp = system.currentProgram.step().join("");
         temp = placeHead(temp, system.currentProgram.position);
@@ -95,20 +91,22 @@ app.controller('ctrl',function($scope){
         $scope.outputTape = temp;
     }
 
-    //function reset(){
-    //    system.currentProgram.tape = $scope.tape.split("").map(function(entry){
-    //        return parseInt(entry);
-    //    });
-    //    var temp = parseInt($scope.startPosition);
-    //    if(isNaN(temp)){
-    //        temp = 0;
-    //    }
-    //    system.currentProgram.position = temp;
-    //    $scope.outputTape = placeHead($scope.tape, system.currentProgram.position);
-    //}
-
     function runChallenge(index){
         challenges[index].tryChallenge(system.currentProgram)
+    }
+
+    function addCard(){
+        var write0 = parseInt(writeOption0.find("option:selected").text());
+        var move0 = parseInt(moveOption0.find("option:selected").text());
+        var write1 = parseInt(writeOption1.find("option:selected").text());
+        var move1 = parseInt(moveOption1.find("option:selected").text());
+        if(isNaN(write0))write0 = -1;
+        if(isNaN(write1))write1 = -1;
+
+        var zero = new Option(write0, move0, parseInt($scope.nextCard0));
+        var one = new Option(write1, move1, parseInt($scope.nextCard1));
+        system.currentProgram.cards[parseInt($scope.cardNumber)] = new Card(zero, one);
+        system.currentProgram.currentCard = system.currentProgram.cards[1];
     }
 });
 

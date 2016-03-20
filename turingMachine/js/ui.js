@@ -8,7 +8,7 @@ var challenges = [
     new Challenge("Print a whooooole lot of 1's",[0,0,0,0,0],[1,1,1,1,1],0),
     new Challenge("Reverse a string of numbers 11001 becomes 00110",[1,1,0,0,1],[0,0,1,1,0],0),
     new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",[1,1,1,0,0,0,0],[1,1,1,0,1,1,1],3),
-    new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver problem and is very hard",[1,0,1,0,1,0,1],[1,1,1,0,1,1,1],3),
+    new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver game and is very hard",[1,0,1,0,1,0,1],[1,1,1,0,1,1,1],3),
     new Challenge("Make photoshop",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0),
     new Challenge("Go out and make some crazy patterns",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0)
 ];
@@ -65,7 +65,7 @@ var tour = new Tour({
         element: '#nextCard1'
     },{
         title: 'card identity',
-        content: 'Give the card a <b>Card number</b>. You can also overwrite old cards that you\'ve made in the past</br> <b>Card number is what you refer to with the previous <i>nextCard</i> field</b>',
+        content: 'Give the card a <b>Card number</b>. You can also overwrite old cards that you\'ve made in the past</br> <b>Card number is what you referred to with the previous <i>nextCard</i> field</b>',
         element: '#txtCardNumber'
     },{
         title: 'Add card',
@@ -77,35 +77,39 @@ var tour = new Tour({
         element: '#programContainer',
         placement: 'top'
     },{
-        title: 'Input',
-        content: 'These are the 1\'s and 0\'s that your machine is going to change',
-        element: '#Input'
-    },{
         title: 'Bridge',
         content: 'Here you can run and debug your program',
         element: '#bridge'
     },{
+        title: 'Input',
+        content: 'These are the 1\'s and 0\'s that your machine is going to change',
+        element: '#Input'
+    },{
         title: 'Go!',
         content: 'Run your program',
-        element: '#btnRun'
+        element: '#runGroup'
+    },{
+        title: 'Animate',
+        content: 'Click animate and you\'l see a how the program behaves',
+        element: '#runGroup'
     },{
         title: 'Careful',
         content: 'Step: You can go 1 step at a time. This can be usefull if your program is behaving oddly',
         element: '#stepGroup'
     },{
         title: 'Showtime!',
-        content: 'Animate: Automatically steps for you every 0.2 seconds',
+        content: 'Auto: Automatically steps for you every 0.2 seconds',
         element: '#stepGroup'
-    },{
-        title: 'bugs ):',
-        content: 'If your program is not working as expected you can turn debugmode on and the program will halt on Cards that have their breakpoint enabled',
-        element: '#btnDebugMode'
     },{
         title: 'continue',
         content: 'In contrast to run, continue won\'t go back to the beginning of your program nor reset the input. usefull when debugging',
-        element: '#btnContinue'
+        element: '#stepGroup'
     },{
-        title: 'output',
+        title: 'Bugs ):',
+        content: 'If your program is not working as expected you can turn debugmode on and the program will halt on Cards that have their breakpoint enabled',
+        element: '#btnDebugMode'
+    },{
+        title: 'Output',
         content: 'The fruit of your labour',
         element: '#output'
     },{
