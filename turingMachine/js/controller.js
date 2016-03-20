@@ -24,7 +24,7 @@ app.controller('ctrl',function($scope){
     $scope.runChallenge = runChallenge;
     $scope.writeOptions = writeOptions;
     $scope.moveOptions = moveOptions;
-    $scope.tape = "00000";
+    $scope.tape = "0000000000000100000000110";
     $scope.challenges = challenges;
     $scope.outputTape = "";
     $scope.animating = false;

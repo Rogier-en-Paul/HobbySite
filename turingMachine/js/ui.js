@@ -90,7 +90,7 @@ var tour = new Tour({
         element: '#runGroup'
     },{
         title: 'Animate',
-        content: 'Click animate and you\'l see a how the program behaves',
+        content: 'Click animate and you\'l see how the program behaves',
         element: '#runGroup'
     },{
         title: 'Careful',
