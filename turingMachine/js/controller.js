@@ -102,9 +102,17 @@ app.controller('ctrl',function($scope){
         if(isNaN(write0))write0 = -1;
         if(isNaN(write1))write1 = -1;
 
-        var zero = new Option(write0, move0, parseInt($scope.nextCard0));
-        var one = new Option(write1, move1, parseInt($scope.nextCard1));
-        system.currentProgram.cards[parseInt($scope.cardNumber)] = new Card(zero, one);
+        var nextCard0 = parseInt($scope.nextCard0);
+        var nextCard1 = parseInt($scope.nextCard1);
+        var cardNumber = parseInt($scope.cardNumber);
+        if(isNaN(nextCard0) || isNaN(nextCard1) || isNaN(cardNumber) || nextCard0 < 0 || nextCard1 < 0 || cardNumber < 1){
+            alert("all fields are required");
+           return;
+        }
+        
+        var zero = new Option(write0, move0, nextCard0);
+        var one = new Option(write1, move1, parseInt(nextCard1));
+        system.currentProgram.cards[parseInt(cardNumber)] = new Card(zero, one);
         system.currentProgram.currentCard = system.currentProgram.cards[1];
     }
 
