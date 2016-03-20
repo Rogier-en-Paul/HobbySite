@@ -118,3 +118,10 @@ function placeHead(stringTape, position){
     stringTape = [stringTape.slice(0, position), "|", stringTape.slice(position, stringTape.length)].join('');
     return stringTape;
 }
+
+function compareArray(a, b){
+    var equal = true;
+    if(a.length != b.length)return false;
+    for(var i = 0;i < a.length; i++)if(a[i] != b[i])return false;
+    return equal;
+}

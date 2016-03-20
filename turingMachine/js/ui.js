@@ -4,13 +4,41 @@ var writeOption1 = $("#writeOption1");
 var moveOption1 = $("#moveOption1");
 
 var challenges = [
-    new Challenge("Print a whooooole lot of 1's",[0,0,0,0,0],[1,1,1,1,1],0),
-    new Challenge("Reverse a string of numbers 11001 becomes 00110",[1,1,0,0,1],[0,0,1,1,0],0),
-    new Challenge("Print alternating 1\'s and 0\'s e.g. 10101010",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1]),
-    new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",[1,1,1,0,0,0,0],[1,1,1,0,1,1,1],3),
-    new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver game and is very hard",[1,0,1,0,1,0,1],[1,1,1,0,1,1,1],3),
-    new Challenge("Make photoshop",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0),
-    new Challenge("Go out and make some crazy patterns",[0,0,0,0,0,0,0],[1,0,1,0,1,0,1],0)
+    new Challenge("Print a whooooole lot of 1's e.g. 11111",function(program){
+        var input = [0,0,0,0,0];
+        var output = [1,1,1,1,1];
+        program.reset(input);
+        for(var i = 0; i < output.length; i++)program.execute();
+        return compareArray(input, output);
+    }),new Challenge("Reverse a string of numbers 11001 becomes 00110",function(program){
+        var input = [1,1,0,0,1];
+        var output = [0,0,1,1,0];
+        program.reset(input);
+        for(var i = 0; i < output.length; i++)program.execute();
+        return compareArray(input, output);
+    }),new Challenge("Print alternating 1\'s and 0\'s e.g. 10101010",function(program){
+        var input = [0,0,0,0,0,0,0];
+        var output = [1,0,1,0,1,0,1];
+        program.reset(input);
+        for(var i = 0; i < output.length; i++)program.execute();
+        return compareArray(input, output);
+    }),new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",function(program){
+        var input = [1,1,1,0,0,0,0];
+        var output = [1,1,1,0,1,1,1];
+        program.reset(input);
+        program.position = 3;
+        program.run();
+        return compareArray(input, output);
+    }),new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver game and is very hard",function(program){
+        var input = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        program.reset(input);
+        program.run();
+        return program.currentCard == program.cards[0] && program.cards.length < 5 && program.count1s() == 6;
+    }),new Challenge("Make photoshop",function(program){
+        return true;
+    }),new Challenge("Go out and make some crazy patterns",function(program){
+        return true;
+    })
 ];
 
 //var incoming = new Tour({

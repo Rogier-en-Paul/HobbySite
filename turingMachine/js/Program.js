@@ -53,3 +53,18 @@ Program.prototype.execute = function(){
     this.position %= this.tape.length;
     this.currentCard = this.cards[answer.nextCard];
 };
+
+Program.prototype.reset = function(tape){
+    this.currentCard = this.cards[1];
+    this.position = 0;
+    this.halted = false;
+    this.tape = tape;
+};
+
+Program.prototype.count1s = function(){
+    var score = 0;
+    this.tape.forEach(function(entry){
+        if(entry == 1)score++;
+    });
+    return score;
+};
