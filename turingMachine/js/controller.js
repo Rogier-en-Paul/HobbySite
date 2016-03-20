@@ -37,7 +37,8 @@ app.controller('ctrl',function($scope){
         return parseInt(entry);
     }));
     program.cards[0] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
-    program.cards[1] = new Card(new Option(1, 0, 0), new Option(0, 0, 0));
+    program.cards[1] = new Card(new Option(0, 1, 2), new Option(0, 1, 2));
+    program.cards[2] = new Card(new Option(1, 1, 2), new Option(1, 1, 2));
     program.currentCard = program.cards[1];
 
     system.programs.push(program);
@@ -73,6 +74,7 @@ app.controller('ctrl',function($scope){
 
     function autoRun(){
         system.currentProgram.position = Math.floor($scope.startPosition);//reset position
+        system.currentProgram.currentCard = system.currentProgram.cards[1];
         system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
         });
