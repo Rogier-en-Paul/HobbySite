@@ -52,7 +52,7 @@ app.controller('ctrl',function($scope){
             var temp = system.currentProgram.step().join("");
             temp = placeHead(temp, system.currentProgram.position);
             $scope.outputTape = temp;
-            output.val(temp);
+            $scope.$apply();
         }
 
     },200);
