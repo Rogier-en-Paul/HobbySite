@@ -38,7 +38,7 @@ app.controller('ctrl',function($scope){
     }));
     program.cards[0] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
     program.cards[1] = new Card(new Option(0, 1, 2), new Option(0, 1, 2));
-    program.cards[2] = new Card(new Option(1, 1, 2), new Option(1, 1, 2));
+    program.cards[2] = new Card(new Option(1, 1, 2), new Option(0, 1, 2));
     program.currentCard = program.cards[1];
 
     system.programs.push(program);
