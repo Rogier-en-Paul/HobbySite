@@ -1,5 +1,5 @@
-function Option(write, move, nextCard){
+var Option = function(write, move, next){
     this.write = write;
     this.move = move;
-    this.nextCard = nextCard;
-}
+    this.next = next;
+};

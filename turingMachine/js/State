@@ -1,0 +1,6 @@
+var State = function(expectedSymbol, zero, one){
+    this.expectedSymbol = expectedSymbol;
+    this.zero = zero;
+    this.one = one;
+
+};
