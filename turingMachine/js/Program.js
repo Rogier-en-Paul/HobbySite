@@ -50,7 +50,7 @@ Program.prototype.execute = function(){
 
     if(answer.write != -1) this.tape[this.position] = answer.write;
     this.position += answer.move;
-    this.position %= this.tape.length;
+    this.position = this.position.mod(this.tape.length);
     this.currentCard = this.cards[answer.nextCard];
 };
 

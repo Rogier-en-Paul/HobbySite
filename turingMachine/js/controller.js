@@ -62,7 +62,7 @@ app.controller('ctrl',function($scope){
         system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
         });
-        system.currentProgram.position = Math.floor($scope.startPosition) % system.currentProgram.tape.length;//reset position
+        system.currentProgram.position = Math.floor($scope.startPosition).mod(system.currentProgram.tape.length);//reset position
         //currentcard is reset in the run function
         var temp = system.currentProgram.run().join("");//run the program and get the output
         temp = placeHead(temp, system.currentProgram.position);//place head cosmetics
@@ -74,7 +74,7 @@ app.controller('ctrl',function($scope){
         system.currentProgram.tape = $scope.tape.split("").map(function(entry){//reset tape
             return parseInt(entry);
         });
-        system.currentProgram.position = Math.floor($scope.startPosition) % system.currentProgram.tape.length;//reset position
+        system.currentProgram.position = Math.floor($scope.startPosition).mod(system.currentProgram.tape.length);//reset position
         $scope.animating = true;
     }
 
@@ -133,3 +133,7 @@ function compareArray(a, b){
     for(var i = 0;i < a.length; i++)if(a[i] != b[i])return false;
     return equal;
 }
+
+Number.prototype.mod = function(n) {
+    return ((this % n) + n) % n;
+};
