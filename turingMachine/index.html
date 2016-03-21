@@ -179,8 +179,9 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label for="output">Output</label>
-                            <input type="text" class="form-control" id="output" ng-model="outputTape">
+                            <ul class="pagination">
+                                <li ng-class="{active:$index == system.currentProgram.position}" ng-repeat="cell in system.currentProgram.tape track by $index" ><span class="page-link">{{cell}}</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>

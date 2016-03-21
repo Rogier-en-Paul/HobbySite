@@ -129,8 +129,8 @@ var tour = new Tour({
         content: 'Auto: Automatically steps for you every 0.2 seconds',
         element: '#stepGroup'
     },{
-        title: 'continue',
-        content: 'In contrast to run, continue won\'t go back to the beginning of your program nor reset the input. usefull when debugging',
+        title: 'Continue',
+        content: 'In contrast to run, continue won\'t go back to the beginning of the tape your program nor reset the tape. usefull when debugging',
         element: '#stepGroup'
     },{
         title: 'Bugs ):',
@@ -146,7 +146,7 @@ var tour = new Tour({
         element: '#activeCard'
     },{
         title: 'Challenges',
-        content: 'Well let\'s see how this turings out',
+        content: 'Well let\'s see how this <s>turns</s> turings out',
         element: '#challenges',
         placement: 'left'
     }]
