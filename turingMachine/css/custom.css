@@ -39,3 +39,7 @@ body{
 #writeOption0Container, #moveOption0Container{
     border-radius: 4px;
 }
+
+.page-link{
+    margin-bottom: 5px;
+}
