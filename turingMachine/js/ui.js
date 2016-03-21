@@ -4,7 +4,7 @@ var writeOption1 = $("#writeOption1");
 var moveOption1 = $("#moveOption1");
 
 var challenges = [
-    new Challenge("Print a whooooole lot of 1's e.g. 11111",function(program){
+    new Challenge("Print a whooooole lot of 1's e.g. 00000 becomes 11111",function(program){
         var input = [0,0,0,0,0];
         var output = [1,1,1,1,1];
         program.reset(input);
@@ -16,7 +16,7 @@ var challenges = [
         program.reset(input);
         for(var i = 0; i < output.length; i++)program.execute();
         return compareArray(input, output);
-    }),new Challenge("Print alternating 1\'s and 0\'s e.g. 10101010",function(program){
+    }),new Challenge("Print alternating 1\'s and 0\'s e.g. 0000000 becomes 10101010",function(program){
         var input = [0,0,0,0,0,0,0];
         var output = [1,0,1,0,1,0,1];
         program.reset(input);
