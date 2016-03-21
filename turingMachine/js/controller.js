@@ -75,7 +75,7 @@ app.controller('ctrl',function($scope){
             return parseInt(entry);
         });
         system.currentProgram.position = Math.floor($scope.startPosition).mod(system.currentProgram.tape.length);//reset position
-        $scope.animating = true;
+        $scope.animating = !$scope.animating;
     }
 
     function step(){
