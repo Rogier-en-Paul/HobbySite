@@ -43,3 +43,6 @@ body{
 .page-link{
     margin-bottom: 5px;
 }
+.pagination>li>span{
+    color: black;
+}
