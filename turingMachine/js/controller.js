@@ -24,7 +24,7 @@ app.controller('ctrl',function($scope){
     $scope.runChallenge = runChallenge;
     $scope.writeOptions = writeOptions;
     $scope.moveOptions = moveOptions;
-    $scope.tape = "000011111000010";
+    $scope.tape = "000011110000";
     $scope.challenges = challenges;
     $scope.outputTape = "";
     $scope.animating = false;
@@ -37,8 +37,8 @@ app.controller('ctrl',function($scope){
         return parseInt(entry);
     }));
     program.cards[0] = new Card(new Option(0, 0, 0), new Option(0, 0, 0));
-    program.cards[1] = new Card(new Option(1, 1, 2), new Option(0, 1, 2));
-    program.cards[2] = new Card(new Option(1, 1, 1), new Option(1, 1, 1));
+    program.cards[1] = new Card(new Option(1, 1, 2), new Option(-1, -1, 1));
+    program.cards[2] = new Card(new Option(1, -1, 1), new Option(-1, 1, 2));
     program.currentCard = program.cards[1];
 
     system.programs.push(program);
