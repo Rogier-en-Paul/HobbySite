@@ -179,7 +179,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <ul class="pagination">
+                            <ul class="pagination" id="output">
                                 <li ng-class="{active:$index == system.currentProgram.position}" ng-repeat="cell in system.currentProgram.tape track by $index" ><span class="page-link">{{cell}}</span></li>
                             </ul>
                         </div>
