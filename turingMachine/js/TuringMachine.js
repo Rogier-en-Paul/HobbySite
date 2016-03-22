@@ -1,13 +1,9 @@
-var TuringMachine = function(symbols, blankSymbol, inputSymbols, initialState){
+var TuringMachine = function(blankSymbol){
     this.position = 0;
-    this.tape = [];
-    this.currentState = initialState;
+    this.tape = new Array(49).fill(blankSymbol);
+    this.currentState;
 
-    this.symbols = symbols;//array of strings(could)
-    this.states = {};//array of those Cards
-    this.blankSymbol = symbols[blankSymbol];//points to 1 of the symbols
-
-
+    this.states = {};
     this.haltStates = {};
 };
 
@@ -16,7 +12,9 @@ TuringMachine.prototype.addState = function(stateName){
 };
 
 TuringMachine.prototype.run = function(){
-    while(this.currentState != null && !(this.currentState in this.haltStates)){
+    var i = 0;
+    while(this.currentState != null && !(this.currentState in this.haltStates) && i < 1000){
+        i++;
         if(this.tape[this.position] in this.currentState.rules){
             this.execute();
         }else return 1;
@@ -27,7 +25,7 @@ TuringMachine.prototype.run = function(){
 };
 
 TuringMachine.prototype.step = function(){
-    if(this.tape[this.position] in this.currentState.rules){
+    if(this.currentState != null && this.tape[this.position] in this.currentState.rules && !(this.currentState in this.haltStates)){
         this.execute();
     }else return 1;
 };
@@ -36,5 +34,6 @@ TuringMachine.prototype.execute = function(){
     var rule = this.currentState.rules[this.tape[this.position]];
     this.tape[this.position] = rule.write;
     this.position += rule.move;
+    this.position.mod(this.tape.length);
     this.currentState = this.states[rule.next];
 };
