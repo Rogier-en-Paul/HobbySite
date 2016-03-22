@@ -1,36 +1,40 @@
-var TuringMachine = function(states, symbols, blankSymbol, inputSymbols, initialState, haltStates){
+var TuringMachine = function(symbols, blankSymbol, inputSymbols, initialState){
     this.position = 0;
     this.tape = [];
-    this.currentState = states[initialState];//points to 1 of the states
+    this.currentState = initialState;
 
     this.symbols = symbols;//array of strings(could)
-    this.states = states;//array of those Cards
+    this.states = {};//array of those Cards
     this.blankSymbol = symbols[blankSymbol];//points to 1 of the symbols
-    this.inputSymbols = inputSymbols;//array of pointers
 
-    this.haltStates = haltStates;//array of pointers
+
+    this.haltStates = {};
 };
 
-TuringMachine.prototype.addState = function(id ,expectedSymbol, write, move, next){
-    this.states[id](new State(expectedSymbol,this.symbols[write]),move,this.states[next]);
+TuringMachine.prototype.addState = function(stateName){
+    this.states[stateName] = new State();
 };
 
 TuringMachine.prototype.run = function(){
-    while(this.currentState != this.haltStates){
-
+    while(this.currentState != null && !(this.currentState in this.haltStates)){
+        if(this.tape[this.position] in this.currentState.rules){
+            this.execute();
+        }else return 1;
     }
+    if(this.currentState in this.haltStates){
+        return 0;
+    }else return 1;
 };
 
 TuringMachine.prototype.step = function(){
-    if(this.currentState.expectedSymbol == tape[this.position]){
-        this.execute(this.currentState.one)
-    }else{
-        this.execute(this.currentState.zero)
-    }
+    if(this.tape[this.position] in this.currentState.rules){
+        this.execute();
+    }else return 1;
 };
 
-TuringMachine.prototype.execute = function(option){
-    this.tape[this.position] = option.write;
-    this.position += option.move;
-    this.currentState = option.next;
+TuringMachine.prototype.execute = function(){
+    var rule = this.currentState.rules[this.tape[this.position]];
+    this.tape[this.position] = rule.write;
+    this.position += rule.move;
+    this.currentState = this.states[rule.next];
 };

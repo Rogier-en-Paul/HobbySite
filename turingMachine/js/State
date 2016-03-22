@@ -1,6 +1,7 @@
-var State = function(expectedSymbol, zero, one){
-    this.expectedSymbol = expectedSymbol;
-    this.zero = zero;
-    this.one = one;
+var State = function(){
+    this.rules = {};
+};
 
+State.prototype.addRule = function(ruleSymbol, write, move, next){
+    this.rules[ruleSymbol] = new Rule(write, move, next);
 };
