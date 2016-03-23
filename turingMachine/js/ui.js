@@ -22,13 +22,6 @@ var challenges = [
         program.reset(input);
         for(var i = 0; i < output.length; i++)program.execute();
         return compareArray(input, output);
-    }),new Challenge("Copy the numbers on the left over to the right e.g. 111|0|000 becomes 111|0|111",function(program){
-        var input = [1,1,1,0,0,0,0];
-        var output = [1,1,1,0,1,1,1];
-        program.reset(input);
-        program.position = 3;
-        program.run();
-        return compareArray(input, output);
     }),new Challenge("Print as many 1's as you can with only 3 cards and finish on Card 0. This is is called the busy beaver game and is very hard",function(program){
         var input = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         program.reset(input);
