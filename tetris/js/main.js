@@ -5,9 +5,14 @@ var rows = 20;
 var columns = 10;
 var field = createMatrix(columns,rows);
 var colorField = createMatrix(columns,rows);
-
+var score = 0;
 var activeBlock = new Block(0);
 var dropPosition = activeBlock.dropPosition();
+var scoreCell = $("#scoreCell");
+scoreCell.text(score);
+
+var blockBuffer = [];
+for (var i = 0; i < 3; i++)blockBuffer.push(new Block(Math.floor(Math.random() * tetrominoes.length)));
 
 draw();
 var timer = setInterval(update,dropSpeed);
@@ -27,29 +32,27 @@ function draw(){
             }
         }
     }
-    for (y = 0; y < activeBlock.grid.length; y++) {
-        for (x = 0; x < activeBlock.grid[0].length; x++) {
-            if(activeBlock.grid[y][x] == 1){
-                var spotToDraw = activeBlock.position.add(new Vector(x, y));
-                ctxt.fillRect(spotToDraw.x * size, spotToDraw.y * size, size, size)
-            }
-        }
+    activeBlock.drawAtPosition(dropPosition,"#666");
+    activeBlock.draw();
+
+    for (var i = 0; i < blockBuffer.length; i++) {
+        blockBuffer[i].drawAtPosition(new Vector(12, 1 + i * 3))
     }
     ctxt.strokeRect(0,0,columns * size, rows * size);
 }
 
-document.body.addEventListener("keypress", function (e) {
+document.body.addEventListener("keydown", function (e) {
     console.log(e.keyCode);
-    if (e.keyCode == 119) {//w
+    if (e.keyCode == 87 || e.keyCode == 38) {//w
         activeBlock.rotate();
     }
-    if (e.keyCode == 115) {//s
-        activeBlock.hardDrop();
+    if (e.keyCode == 83 || e.keyCode == 40) {//s
+        activeBlock.sonicDrop();
     }
-    if (e.keyCode == 97) {//a
+    if (e.keyCode == 65 || e.keyCode == 37) {//a
         activeBlock.moveLeft();
     }
-    if (e.keyCode == 100) {//d
+    if (e.keyCode == 68 || e.keyCode == 39) {//d
         activeBlock.moveRight();
     }
     draw();

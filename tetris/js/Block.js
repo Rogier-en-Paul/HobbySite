@@ -1,7 +1,9 @@
 function Block(type){
     this.color = [255,0,0];
     this.position = new Vector(4,0);
-    this.grid = blockTypes[type];
+    this.grid = tetrominoes[type][0];
+    this.type = type;
+    this.rotation = 0;
 }
 
 Block.prototype.dropPosition = function(){
@@ -14,18 +16,7 @@ Block.prototype.dropPosition = function(){
     return dropPosition;
 };
 
-Block.prototype.hardDrop = function(){
-    clearInterval(timer);
-    timer = setInterval(update, dropSpeed);
-    if(this.position.equals(dropPosition)){
-        activeBlock.lock();
-        activeBlock = new Block(Math.floor(Math.random() * blockTypes.length));
-        if(activeBlock.collides(activeBlock.position))field = createMatrix(columns,rows);//game over
-        dropPosition = activeBlock.dropPosition();
-    }else{
-        this.position = dropPosition;
-    }
-};
+
 
 Block.prototype.collides = function(position){
     for (var y = 0; y < this.grid.length; y++) {
@@ -33,7 +24,7 @@ Block.prototype.collides = function(position){
             if(this.grid[y][x] == 1){
                 var spotToCheck = position.add(new Vector(x,y));
 
-                //if(spotToCheck.x >= columns || spotToCheck.x < 0)return true;
+                if(spotToCheck.x >= columns || spotToCheck.x < 0)return true;
                 if(spotToCheck.y >= rows)return true;
                 if(field[spotToCheck.y][spotToCheck.x] == 1)return true
             }
@@ -41,28 +32,6 @@ Block.prototype.collides = function(position){
     }
     return false;
 };
-
-Block.prototype.clone = function(){
-    var clone = new Block(0);
-    clone.grid = this.grid;
-    clone.position = this.position.add(new Vector(0,0));
-    clone.color = this.color.slice(0);
-};
-
-Block.prototype.wallCollides = function(position){
-    for (var y = 0; y < this.grid.length; y++) {
-        for (var x = 0; x < this.grid[0].length; x++) {
-            if(this.grid[y][x] == 1){
-                var spotToCheck = position.add(new Vector(x,y));
-
-                if(spotToCheck.x >= columns || spotToCheck.x < 0)return true;
-            }
-        }
-    }
-    return false;
-};
-
-
 
 Block.prototype.lock = function(){
     var markedForDeletion = [];
@@ -84,7 +53,7 @@ Block.prototype.lock = function(){
         if(complete)markedForDeletion.push(this.position.y + y)
     }
     //deleting complete rows
-    for(var i = markedForDeletion.length - 1; i >= 0; i--){
+    for(var i = 0; i < markedForDeletion.length; i++){
         field[markedForDeletion[i]] = [0,0,0,0,0,0,0,0,0,0];
         for(y = markedForDeletion[i]; y >= 1; y--){
             var temp = field[y];
@@ -92,110 +61,124 @@ Block.prototype.lock = function(){
             field[y - 1] = temp;
         }
     }
+    score += markedForDeletion.length;
+    scoreCell.text(score);
+};
+
+Block.prototype.sonicDrop = function(){
+    clearInterval(timer);
+    timer = setInterval(update, dropSpeed);
+    dropPosition = activeBlock.dropPosition();
+    if(this.position.equals(dropPosition)){
+        Block.placeBlock();
+    }else{
+        this.position = dropPosition;
+    }
 };
 
 Block.prototype.moveDown = function(){
     if(this.collides(this.position.add(new Vector(0,1)))){
-        activeBlock.lock();
-        activeBlock = new Block(Math.floor(Math.random() * blockTypes.length));
-        if(activeBlock.collides(activeBlock.position))field = createMatrix(columns,rows);//game over
-        dropPosition = activeBlock.dropPosition();
+        Block.placeBlock();
     }else this.position.y++;
 };
 
 Block.prototype.moveRight = function(){
     var newPosition = this.position.add(new Vector(1,0));
-    if(this.wallCollides(newPosition))return;
     if(this.collides(newPosition)){
         return;
     }
     this.position = newPosition;
-    dropPosition = this.dropPosition();
+    dropPosition = activeBlock.dropPosition();
 };
 
 Block.prototype.moveLeft = function(){
     var newPosition = this.position.add(new Vector(-1,0));
-    if(this.wallCollides(newPosition))return;
     if(this.collides(newPosition)){
         return;
     }
     this.position = newPosition;
-    dropPosition = this.dropPosition();
+    dropPosition = activeBlock.dropPosition();
 };
 
 Block.prototype.rotate = function(){
     var oldGrid = this.grid;
-    this.grid = Block.reverseRows(Block.transpose(this.grid));
-    if(this.wallCollides(this.position)){
-        this.grid = oldGrid;
-        return;
-    }
+    this.rotation++;
+    this.rotation %= tetrominoes[this.type].length;
+    this.grid = tetrominoes[this.type][this.rotation];
+
     if(this.collides(this.position)){
-        this.grid = oldGrid;
-        return;
-    }
-    dropPosition = this.dropPosition();
+        if(this.wallKick())dropPosition = activeBlock.dropPosition();
+        else this.grid = oldGrid;
+    }else dropPosition = activeBlock.dropPosition()
 
 };
 
-Block.transpose = function(grid){
-    var newMatrix = createMatrix(4,grid.length);
-    for (var y = 0; y < grid.length; y++) {
-        for (var x = 0; x < grid[0].length; x++) {
-            newMatrix[y][x] = grid[x][y];
+Block.prototype.wallKick = function () {//returns if the wallkick was succesfull
+    var left = this.position.add(new Vector(-1,0));
+    var right = this.position.add(new Vector(1,0));
+    if(!this.collides(left)){
+        this.position = left;
+        return true;
+    }
+    else if(!this.collides(right)){
+        this.position = right;
+        return true;
+    }
+    else return false;
+};
+
+Block.placeBlock = function(){
+    activeBlock.lock();
+    blockBuffer.push(new Block(Math.floor(Math.random() * tetrominoes.length)));
+    activeBlock = blockBuffer.shift();
+    if(activeBlock.collides(activeBlock.position)){//game over
+        field = createMatrix(columns,rows);
+        score = 0;
+        scoreCell.text(score);
+    }
+    dropPosition = activeBlock.dropPosition();
+};
+
+Block.prototype.draw = function(){
+    var size = 20;
+    for (var y = 0; y < this.grid.length; y++) {
+        for (var x = 0; x < this.grid[0].length; x++) {
+            if(this.grid[y][x] == 1){
+                var spotToDraw = this.position.add(new Vector(x, y));
+                ctxt.fillRect(spotToDraw.x * size, spotToDraw.y * size, size, size)
+            }
         }
     }
-    return newMatrix;
 };
 
-
-Block.reverseRows = function(grid){
-    var newMatrix = createMatrix(4,4);
-    for (var y = 0; y < grid.length; y++){
-        var reversedRow = [];
-        for (var x = 0; x < grid[0].length; x++) {
-            reversedRow[grid[0].length - x - 1] = grid[y][x]
+Block.prototype.drawAtPosition = function(vector,color){
+    if(color)ctxt.fillStyle = color;
+    else ctxt.fillStyle = "#000";
+    var size = 20;
+    for (var y = 0; y < this.grid.length; y++) {
+        for (var x = 0; x < this.grid[0].length; x++) {
+            if(this.grid[y][x] == 1){
+                var spotToDraw = vector.add(new Vector(x, y));
+                ctxt.fillRect(spotToDraw.x * size, spotToDraw.y * size, size, size)
+            }
         }
-        newMatrix[y] = reversedRow;
     }
-    return newMatrix;
+    ctxt.fillStyle = "#000";
 };
 
-var blockTypes = [
-    [
-        [0,1,0,0],
-        [0,1,0,0],
-        [0,1,0,0],
-        [0,1,0,0]
-    ],
-    [
-        [0,1,0],
-        [0,1,0],
-        [1,1,0]
-    ],
-    [
-        [0,1,0],
-        [0,1,0],
-        [0,1,1]
-    ],
-    [
-        [1,1],
-        [1,1]
-    ],
-    [
-        [0,1,1],
-        [1,1,0],
-        [0,0,0]
-    ],
-    [
-        [0,0,0],
-        [1,1,1],
-        [0,1,0]
-    ],
-    [
+Block.prototype.drawHollow = function(){
+    var size = 20;
+    ctxt.fillStyle = "#666";
+    for (var y = 0; y < this.grid.length; y++) {
+        for (var x = 0; x < this.grid[0].length; x++) {
+            if(this.grid[y][x] == 1){
+                var spotToDraw = this.position.add(new Vector(x, y));
+                ctxt.fillRect(spotToDraw.x * size, spotToDraw.y * size, size, size)
+            }
+        }
+    }
+    ctxt.fillStyle = "#000";
+};
 
-        [1,1,0],
-        [0,1,1],
-        [0,0,0]
-    ]
-];
+
+

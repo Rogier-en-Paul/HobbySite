@@ -18,13 +18,31 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9">
             <canvas width="512" height="512" ID="mycanvas" tabindex="0" >Canvas tag not supported</canvas>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Score card
+                </div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>player</th>
+                        <th>score</th>
+                    </tr>
+                    <tr >
+                        <td></td>
+                        <td id="scoreCell"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/tetrominoes.js"></script>
 <script src="js/Vector.js"></script>
 <script src="js/Block.js"></script>
 <script src="js/main.js"></script>
