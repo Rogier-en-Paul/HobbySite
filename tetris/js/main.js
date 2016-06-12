@@ -1,5 +1,6 @@
 var canvas = document.getElementById("mycanvas");
 var ctxt = canvas.getContext("2d");
+var size = 30;
 var dropSpeed = 500;
 var rows = 20;
 var columns = 10;
@@ -24,21 +25,26 @@ function update(){
 
 function draw(){
     ctxt.clearRect(0, 0, canvas.width, canvas.height);
-    var size = 20;
+    ctxt.fillRect(0,0,columns * size, rows * size);
+    ctxt.fillStyle = "#222";
+    ctxt.fillRect(columns * size,0,canvas.width * size - canvas.width, canvas.height);
+    ctxt.fillStyle = "#000";
     for (var y = 0; y < rows; y++) {
         for (var x = 0; x < columns; x++) {
             if(field[y][x] == 1){
+                ctxt.fillStyle = colorField[y][x];
                 ctxt.fillRect(x * size, y * size, size, size)
             }
         }
     }
-    activeBlock.drawAtPosition(dropPosition,"#666");
-    activeBlock.draw();
+    ctxt.fillStyle = "#000";
+    activeBlock.draw(dropPosition,"#444");
+    activeBlock.draw(activeBlock.position,activeBlock.color);
 
     for (var i = 0; i < blockBuffer.length; i++) {
-        blockBuffer[i].drawAtPosition(new Vector(12, 1 + i * 3))
+        blockBuffer[i].draw(new Vector(12, 1 + i * 3),blockBuffer[i].color)
     }
-    ctxt.strokeRect(0,0,columns * size, rows * size);
+    //ctxt.strokeRect(0,0,columns * size, rows * size);
 }
 
 document.body.addEventListener("keydown", function (e) {

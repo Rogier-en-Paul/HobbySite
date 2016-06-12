@@ -1,5 +1,5 @@
 function Block(type){
-    this.color = [255,0,0];
+    this.color = colors[type];
     this.position = new Vector(4,0);
     this.grid = tetrominoes[type][0];
     this.type = type;
@@ -39,6 +39,7 @@ Block.prototype.lock = function(){
         for (var x = 0; x < this.grid[0].length; x++) {
             if(this.grid[y][x] == 1){
                 field[this.position.y + y][this.position.x + x] = 1;
+                colorField[this.position.y + y][this.position.x + x] = this.color;
             }
         }
 
@@ -139,22 +140,10 @@ Block.placeBlock = function(){
     dropPosition = activeBlock.dropPosition();
 };
 
-Block.prototype.draw = function(){
-    var size = 20;
-    for (var y = 0; y < this.grid.length; y++) {
-        for (var x = 0; x < this.grid[0].length; x++) {
-            if(this.grid[y][x] == 1){
-                var spotToDraw = this.position.add(new Vector(x, y));
-                ctxt.fillRect(spotToDraw.x * size, spotToDraw.y * size, size, size)
-            }
-        }
-    }
-};
-
-Block.prototype.drawAtPosition = function(vector,color){
+Block.prototype.draw = function(vector, color){
     if(color)ctxt.fillStyle = color;
-    else ctxt.fillStyle = "#000";
-    var size = 20;
+    else ctxt.fillStyle = this.color;
+
     for (var y = 0; y < this.grid.length; y++) {
         for (var x = 0; x < this.grid[0].length; x++) {
             if(this.grid[y][x] == 1){

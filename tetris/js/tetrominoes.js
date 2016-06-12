@@ -110,3 +110,5 @@ var tetrominoes = [
         ]
     ]
 ];
+
+var colors = ["#f00","#00f","#fa0","#ff0","#f0f","#0ff","#0f0"];
