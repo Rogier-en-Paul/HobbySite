@@ -1,5 +1,5 @@
-var ctxt = document.getElementById("mycanvas");
-var ctxt = ctxt.getContext("2d");
+var canvas = document.getElementById("mycanvas");
+var ctxt = canvas.getContext("2d");
 ctxt.strokeStyle = '#e1e1e1';
 ctxt.fillStyle = 'cadetblue';
 var cells = init();
