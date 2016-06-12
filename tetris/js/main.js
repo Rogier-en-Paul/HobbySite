@@ -1,9 +1,12 @@
 var canvas = document.getElementById("mycanvas");
+var body = document.body;
+var mc = new Hammer(body);
+mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 var ctxt = canvas.getContext("2d");
-var size = 30;
 var dropSpeed = 500;
 var rows = 20;
 var columns = 10;
+var size = 30;//canvas.height / rows;
 var field = createMatrix(columns,rows);
 var colorField = createMatrix(columns,rows);
 var score = 0;
@@ -11,6 +14,16 @@ var activeBlock = new Block(0);
 var dropPosition = activeBlock.dropPosition();
 var scoreCell = $("#scoreCell");
 scoreCell.text(score);
+fitToContainer(canvas);
+
+function fitToContainer(canvas){
+    // Make it visually fill the positioned parent
+    canvas.style.width ='100%';
+    //canvas.style.height='100%';
+    // ...then set the internal size to match
+    canvas.width  = canvas.offsetWidth;
+    //canvas.height = canvas.offsetHeight;
+}
 
 var blockBuffer = [];
 for (var i = 0; i < 3; i++)blockBuffer.push(new Block(Math.floor(Math.random() * tetrominoes.length)));
@@ -48,7 +61,6 @@ function draw(){
 }
 
 document.body.addEventListener("keydown", function (e) {
-    console.log(e.keyCode);
     if (e.keyCode == 87 || e.keyCode == 38) {//w
         activeBlock.rotate();
     }
@@ -74,3 +86,19 @@ function createMatrix(x,y){
     }
     return newMatrix;
 }
+
+mc.on("swipeleft", function(ev) {
+    activeBlock.moveLeft();
+});
+
+mc.on("swiperight", function(ev) {
+    activeBlock.moveRight();
+});
+
+mc.on("tap", function(ev) {
+    activeBlock.rotate();
+});
+
+mc.on("swipedown", function(ev) {
+    activeBlock.sonicDrop();
+});
