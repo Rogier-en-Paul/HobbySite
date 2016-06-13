@@ -62,8 +62,7 @@ Block.prototype.lock = function(){
             field[y - 1] = temp;
         }
     }
-    score += markedForDeletion.length;
-    scoreCell.text(score);
+    score += Math.pow(markedForDeletion.length, 2);
 };
 
 Block.prototype.sonicDrop = function(){
@@ -135,7 +134,6 @@ Block.placeBlock = function(){
     if(activeBlock.collides(activeBlock.position)){//game over
         field = createMatrix(columns,rows);
         score = 0;
-        scoreCell.text(score);
     }
     dropPosition = activeBlock.dropPosition();
 };
@@ -155,19 +153,6 @@ Block.prototype.draw = function(vector, color){
     ctxt.fillStyle = "#000";
 };
 
-Block.prototype.drawHollow = function(){
-    var size = 20;
-    ctxt.fillStyle = "#666";
-    for (var y = 0; y < this.grid.length; y++) {
-        for (var x = 0; x < this.grid[0].length; x++) {
-            if(this.grid[y][x] == 1){
-                var spotToDraw = this.position.add(new Vector(x, y));
-                ctxt.fillRect(spotToDraw.x * size, spotToDraw.y * size, size, size)
-            }
-        }
-    }
-    ctxt.fillStyle = "#000";
-};
 
 
 

@@ -7,8 +7,12 @@
     <title>Tetris</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        html{
+            height: 100%;
+        }
         body{
             background-color: #333333;
+            height: 100%;
         }
         canvas{
             border: solid black 1px;
@@ -21,25 +25,8 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <canvas width="500" height="600" ID="mycanvas" tabindex="0" >Canvas tag not supported</canvas>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Score card
-                </div>
-                <table class="table table-striped">
-                    <tr>
-                        <th>player</th>
-                        <th>score</th>
-                    </tr>
-                    <tr >
-                        <td></td>
-                        <td id="scoreCell"></td>
-                    </tr>
-                </table>
-            </div>
+        <div class="col-md-12 " id="container">
+            <canvas ID="mycanvas" style="user-select: none; margin-left: auto;margin-right: auto;margin-top: 10px;display: block">Canvas tag not supported</canvas>
         </div>
     </div>
 </div>
