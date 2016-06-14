@@ -2,15 +2,32 @@ function Tetrion(){
     this.columns = 10;
     this.rows = 20;
     this.dropSpeed = 500;
+    this.randomBag = this.generateBag();
     this.matrix = createMatrix(this.columns, this.rows);
     this.colorMatrix = createMatrix(this.columns, this.rows);
-    this.activeTetromino = new Tetromino(Math.floor(Math.random() * tetrominoes.length),this);
+    this.activeTetromino = this.randomBag.shift();
     this.dropPosition = this.activeTetromino.dropPosition();
-    this.tetrominoBuffer = [];
-    for (var i = 0; i < 3; i++)this.tetrominoBuffer.push(new Tetromino(Math.floor(Math.random() * tetrominoes.length),this));
+    this.tetrominoBuffer = this.randomBag.splice(0,3);
     this.timer = setInterval(this.update,this.dropSpeed);
     this.score = 0;
     this.holdLocked = false;
+}
+
+Tetrion.prototype.generateBag = function(){
+    var tetrominoeBag = [];
+    for (var i = 0; i < tetrominoes.length * 3; i++)tetrominoeBag.push(new Tetromino(i % tetrominoes.length,this));
+    var range = tetrominoeBag.length - 1;
+    while(range >= 0){
+        swap(tetrominoeBag, range, Math.floor(Math.random() * range));
+        range--;
+    }
+    return tetrominoeBag;
+};
+
+function swap(array, a ,b){
+    var temp = array[a];
+    array[a] = array[b];
+    array[b] = temp;
 }
 
 Tetrion.prototype.update = function(){
@@ -21,9 +38,9 @@ Tetrion.prototype.update = function(){
 
 Tetrion.prototype.reset = function(){
     this.matrix = createMatrix(this.columns,this.rows);
-    this.tetrominoBuffer = [];
-    for (var i = 0; i < 3; i++)this.tetrominoBuffer.push(new Tetromino(Math.floor(Math.random() * tetrominoes.length),this));
-    this.score = 0;
+    this.randomBag = this.generateBag();
+    this.activeTetromino = this.randomBag.shift();
+    this.tetrominoBuffer = this.randomBag.splice(0,3);this.score = 0;
     this.holdTetromino = null;
 
 };
@@ -54,7 +71,8 @@ Tetrion.prototype.timerReset = function(){
 };
 
 Tetrion.prototype.spawnTetromino = function(){
-    this.tetrominoBuffer.push(new Tetromino(Math.floor(Math.random() * tetrominoes.length),this));
+    this.tetrominoBuffer.push(this.randomBag.shift());
+    if(this.randomBag.length == 0)this.randomBag = this.generateBag();
     this.activeTetromino = this.tetrominoBuffer.shift();
     if(this.activeTetromino.collides(this.activeTetromino.position)){//game over
         this.reset();
