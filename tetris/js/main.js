@@ -1,90 +1,36 @@
 var canvas = document.getElementById("mycanvas");
 var container = document.getElementById("container");
+window.addEventListener("resize",resize);
 var ctxt = canvas.getContext("2d");
-
-
-var rows = 20;
-var columns = 10;
 var size;
-
-//canvas.height = size * rows;
-resize();
 var body = document.body;
 var mc = new Hammer(document);
 mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
-var dropSpeed = 500;
-var field = createMatrix(columns,rows);
-var colorField = createMatrix(columns,rows);
-var score = 0;
-var activeBlock = new Block(0);
-var dropPosition = activeBlock.dropPosition();
+var tetrion = new Tetrion();
 
+//functions in tetromino that use the tetrion attribute could maybe be placed in tetrion
 
-
-var blockBuffer = [];
-for (var i = 0; i < 3; i++)blockBuffer.push(new Block(Math.floor(Math.random() * tetrominoes.length)));
-
-draw();
-var timer = setInterval(update,dropSpeed);
-
-function update(){
-    activeBlock.moveDown();
-    draw();
-}
-
-function draw(){
-    ctxt.clearRect(0, 0, canvas.width, canvas.height);
-    ctxt.fillRect(0,0,columns * size, rows * size);
-    ctxt.fillStyle = "#222";
-    ctxt.fillRect(columns * size,0,canvas.width * size - canvas.width, canvas.height);
-    ctxt.fillStyle = "#000";
-    for (var y = 0; y < rows; y++) {
-        for (var x = 0; x < columns; x++) {
-            if(field[y][x] == 1){
-                ctxt.fillStyle = colorField[y][x];
-                ctxt.fillRect(x * size, y * size, size, size)
-            }
-        }
-    }
-    ctxt.fillStyle = "#000";
-    activeBlock.draw(dropPosition,"#444");
-    activeBlock.draw(activeBlock.position,activeBlock.color);
-
-    for (var i = 0; i < blockBuffer.length; i++) {
-        blockBuffer[i].draw(new Vector(12, 1 + i * 3),blockBuffer[i].color)
-    }
-    ctxt.fillStyle = "#fff";
-    ctxt.font = "30px Arial";
-    ctxt.fillText(""+score,canvas.width / 2 + 2 * size,canvas.height - 4 * size);
-    ctxt.fillStyle = "#000";
-}
-
+resize();
 document.body.addEventListener("keydown", function (e) {
     if (e.keyCode == 87 || e.keyCode == 38) {//w
-        activeBlock.rotate();
+        tetrion.activeTetromino.rotate();
     }
     if (e.keyCode == 83 || e.keyCode == 40) {//s
-        activeBlock.sonicDrop();
+        tetrion.activeTetromino.firmDrop();
     }
     if (e.keyCode == 65 || e.keyCode == 37) {//a
-        activeBlock.moveLeft();
+        tetrion.activeTetromino.moveLeft();
     }
     if (e.keyCode == 68 || e.keyCode == 39) {//d
-        activeBlock.moveRight();
+        tetrion.activeTetromino.moveRight();
     }
-    draw();
+    if (e.keyCode == 67) {//c
+        tetrion.hold();
+    }
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.draw();
 });
 
-function createMatrix(x,y){
-    var newMatrix = [];
-    for (var i = 0; i < y; i++) {
-        newMatrix[i] = [];
-        for (var j = 0; j < x; j++) {
-            newMatrix[i][j] = 0;
-        }
-    }
-    return newMatrix;
-}
 var distanceTraveled = 0;
 var oldDistanceTraveled = 0;
 var sensitivity = 50;
@@ -94,8 +40,9 @@ mc.on("panleft", function(ev) {
     oldDistanceTraveled = ev.deltaX;
     if(distanceTraveled > sensitivity){
         distanceTraveled = 0;
-        activeBlock.moveLeft();
-        draw();
+        tetrion.activeTetromino.moveLeft();
+        tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+        tetrion.draw();
     }
 
 });
@@ -105,8 +52,9 @@ mc.on("panright", function(ev) {
     oldDistanceTraveled = ev.deltaX;
     if(distanceTraveled > sensitivity) {
         distanceTraveled = 0;
-        activeBlock.moveRight();
-        draw();
+        tetrion.activeTetromino.moveRight();
+        tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+        tetrion.draw();
     }
 });
 
@@ -116,27 +64,31 @@ mc.on("panend", function(ev) {
 });
 
 mc.on("tap", function(ev) {
-    activeBlock.rotate();
-    draw();
+    tetrion.activeTetromino.rotate();
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.draw();
 });
 
 mc.on("swipedown", function(ev) {
-    activeBlock.sonicDrop();
-    draw();
+    tetrion.activeTetromino.firmDrop();
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.draw();
 });
 
+mc.on("swipeup", function(ev) {
+    tetrion.hold();
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.draw();
+});
 
 function resize(){
-    console.log(container.clientHeight);
-    console.log(screen.height);
     var maxwidth = container.clientWidth;
-    var maxheight = screen.height - 200;
-    var maxWidthSize = Math.floor(maxwidth / 2.5 / columns);
-    var maxHeightSize = Math.floor(maxheight / rows);
+    var maxheight = screen.height-200;
+    var maxWidthSize = Math.floor(maxwidth / 2.5 / tetrion.columns);
+    var maxHeightSize = Math.floor(maxheight / tetrion.rows);
     if(maxWidthSize > maxHeightSize) size = maxHeightSize;
     else size = maxWidthSize;
-    canvas.width  = columns * size * 2 + 1;
-    canvas.height = size * rows;
+    canvas.width  = tetrion.columns * size * 2 + 1;
+    canvas.height = size * tetrion.rows;
 }
 
-window.addEventListener("resize",resize);
