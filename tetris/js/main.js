@@ -8,26 +8,31 @@ var mc = new Hammer(document);
 mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 var tetrion = new Tetrion();
 
-//functions in tetromino that use the tetrion attribute could maybe be placed in tetrion
-
 resize();
 document.body.addEventListener("keydown", function (e) {
     if (e.keyCode == 87 || e.keyCode == 38) {//w
-        tetrion.activeTetromino.rotate();
+        tetrion.activeTetromino.rotate(tetrion.matrix);
     }
     if (e.keyCode == 83 || e.keyCode == 40) {//s
-        tetrion.activeTetromino.firmDrop();
+        tetrion.timerReset();
+        var oldPosition = tetrion.activeTetromino.position;
+        tetrion.activeTetromino.firmDrop(tetrion.matrix);
+        if(tetrion.activeTetromino.position.equals(oldPosition))tetrion.placeActiveTetromino();
     }
     if (e.keyCode == 65 || e.keyCode == 37) {//a
-        tetrion.activeTetromino.moveLeft();
+        tetrion.activeTetromino.move(new Vector(-1,0), tetrion.matrix);
     }
     if (e.keyCode == 68 || e.keyCode == 39) {//d
-        tetrion.activeTetromino.moveRight();
+        tetrion.activeTetromino.move(new Vector(1,0), tetrion.matrix);
     }
     if (e.keyCode == 67) {//c
         tetrion.hold();
     }
-    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    if (e.keyCode == 191) {//c
+        tetrion.timerReset();
+        tetrion.spawnTetromino();
+    }
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition(tetrion.matrix);
     tetrion.draw();
 });
 
@@ -40,8 +45,8 @@ mc.on("panleft", function(ev) {
     oldDistanceTraveled = ev.deltaX;
     if(distanceTraveled > sensitivity){
         distanceTraveled = 0;
-        tetrion.activeTetromino.moveLeft();
-        tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+        tetrion.activeTetromino.move(new Vector(-1,0), tetrion.matrix);
+        tetrion.dropPosition = tetrion.activeTetromino.dropPosition(tetrion.matrix);
         tetrion.draw();
     }
 
@@ -52,8 +57,8 @@ mc.on("panright", function(ev) {
     oldDistanceTraveled = ev.deltaX;
     if(distanceTraveled > sensitivity) {
         distanceTraveled = 0;
-        tetrion.activeTetromino.moveRight();
-        tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+        tetrion.activeTetromino.move(new Vector(1,0), tetrion.matrix);
+        tetrion.dropPosition = tetrion.activeTetromino.dropPosition(tetrion.matrix);
         tetrion.draw();
     }
 });
@@ -64,20 +69,22 @@ mc.on("panend", function(ev) {
 });
 
 mc.on("tap", function(ev) {
-    tetrion.activeTetromino.rotate();
-    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.activeTetromino.rotate(tetrion.matrix);
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition(tetrion.matrix);
     tetrion.draw();
 });
 
 mc.on("swipedown", function(ev) {
-    tetrion.activeTetromino.firmDrop();
-    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.timerReset();
+    tetrion.activeTetromino.firmDrop(tetrion.matrix);
+    if(tetrion.activeTetromino.position.equals(tetrion.activeTetromino.dropPosition))tetrion.placeActiveTetromino();
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition(tetrion.matrix);
     tetrion.draw();
 });
 
 mc.on("swipeup", function(ev) {
     tetrion.hold();
-    tetrion.dropPosition = tetrion.activeTetromino.dropPosition();
+    tetrion.dropPosition = tetrion.activeTetromino.dropPosition(tetrion.matrix);
     tetrion.draw();
 });
 

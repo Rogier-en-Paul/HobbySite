@@ -22,3 +22,7 @@ Vector.prototype.scale = function(scalar){
 Vector.prototype.equals = function(vector){
     return vector.x == this.x && vector.y == this.y;
 };
+
+Vector.prototype.clone = function(){
+    return new Vector(this.x, this.y);
+};
