@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "target": "es2015",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "outFile": "bundle.js",
+        "watch": true
+    },
+    "files": [
+        "src/main.ts"
+    ]
+}

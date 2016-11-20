@@ -99,3 +99,7 @@ function resize(){
     canvas.height = size * tetrion.rows;
 }
 
+var audio = new Audio('tetris.mp3');
+audio.loop = true;
+audio.volume = 0.5;
+audio.play();
