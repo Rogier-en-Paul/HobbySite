@@ -15,7 +15,7 @@ abstract class View{
 class ConstructorApp extends View{
     addFieldButton: Element;
     fieldscontainer:HTMLElement
-    outputcontainer:HTMLElement
+    outputcontainer:HTMLTextAreaElement
     fieldViews:FieldView[] = []
 
     constructor(element:HTMLElement){
@@ -29,7 +29,7 @@ class ConstructorApp extends View{
             </div>
         `)
         this.fieldscontainer = this.element.querySelector('#fieldscontainer') as HTMLElement
-        this.outputcontainer = this.element.querySelector('#outputcontainer') as HTMLElement
+        this.outputcontainer = this.element.querySelector('#outputcontainer') as HTMLTextAreaElement
         this.addFieldButton = this.element.querySelector('#addFieldButton')
 
         var addFieldView = () => {
@@ -70,6 +70,6 @@ class ConstructorApp extends View{
         }
 
         var ctor = new Constructor('test',fields)
-        this.outputcontainer.innerHTML = ctor.generateString(Language.ts)
+        this.outputcontainer.value = ctor.generateString(Language.ts)
     }
 }
