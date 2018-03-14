@@ -70,6 +70,6 @@ class ConstructorApp extends View{
         }
 
         var ctor = new Constructor('test',fields)
-        this.outputcontainer.value = ctor.generateString(Language.ts)
+        this.outputcontainer['value'] = ctor.generateString(Language.ts)
     }
 }
