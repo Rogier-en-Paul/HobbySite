@@ -1,0 +1,17 @@
+{
+  "name": "typescripttemplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "package.js",
+  "dependencies": {
+    "eventsystemx": "^0.3.0",
+    "utilsx": "^1.9.0",
+    "vectorx": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
