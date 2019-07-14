@@ -12,8 +12,43 @@
     </style>
 </head>
 <body>
-    <input type="file" accept="image/*">
-    <img src="test.bmp">
+    <div>
+        <label for="">choose custom image</label>
+        <input id="imageinput" type="file" accept="image/*">
+    </div>
+    <div style="margin-top: 10px">
+        <label for="">test images</label>
+        <select id="testimages">
+            <option value="res/horizontalgradient.bmp">horizontal gradient</option>
+            <option value="res/diagonalgradient.bmp">diagonal gradient</option>
+            <option value="res/verticalgradient.bmp">vertical gradient</option>
+            <option value="res/real.bmp">real image</option>
+        </select>
+    </div>
+    <div style="margin-top: 10px">
+        <label >ditherlevels</label>
+        <input id="levels" value="6" type="number">    
+    </div>
+    <div style="margin-top: 10px">
+        <label for="">max dither pattern length</label>
+        <input value="12" id="patternlength" type="number">    
+    </div>
+    <div style="margin-top: 10px">
+        <label for="">dither pattern offset amount</label>
+        <select id="offsetmethod">
+            <option value="0">y * dither pattern length * 0.5</option>
+            <option value="1">y</option>
+            <option value="2">0</option>
+            <option value="3">y * dither pattern length * (goldenratio - 1)</option>
+        </select>
+    </div>
+    <div style="margin-top: 10px">right click on dithered image to save it</div>
+    <div style="display: flex; margin-top: 10px;">
+        <canvas width="800" height="600"></canvas>
+        <img src="res/verticalgradient.bmp">
+    </div>
+
+    
     <script src="package.js"></script>
 </body>
 </html>
