@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas{
+            border:1px solid black;
+        }
+
+        .cell{
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .row{
+            display: flex;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .grid{
+            border:2px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <div class="row">
+            <svg class="cell"></svg>
+            <svg class="cell"></svg>
+            <svg class="cell"></svg>
+        </div>
+        <div class="row">
+            <svg class="cell"></svg>
+            <svg class="cell"></svg>
+            <svg class="cell"></svg>
+        </div>
+        <div class="row">
+            <svg class="cell"></svg>
+            <svg class="cell"></svg>
+            <svg class="cell"></svg>
+        </div>
+    </div>
+
+    <button id="computerturn">computer turn</button>
+    <button id="reset">reset</button>
+
+    <script src="package.js"></script>
+</body>
+</html>
