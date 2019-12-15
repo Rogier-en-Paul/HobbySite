@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .nbr{
+            border-right: 0;
+        }
+        .nbl{
+            border-left: 0;
+        }
+
+        .m5{
+            margin: 5px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-around;">
+        <div id="assemblytablecontainer"></div>
+        <div id="machinecodetablecontainer"></div>
+    </div>
+
+    <div class="m5">
+        <h3>syntax</h3>
+        <code>(@label) opcode; ((*...)parameter,...)</code>
+        <p>you can derefernce values with the * character</p>
+    </div>
+    <div class="m5">
+            <button id="compile">compile</button>
+            <button id="run">run</button>
+            <button id="step">step(F10)</button>
+    </div>
+    <div class="m5">
+        <div style="display: inline;">flags</div>
+        <input id="negativeflag" type="checkbox">
+        negative
+        <input id="zeroflag" type="checkbox">
+        zero
+        <input id="carryflag" type="checkbox">
+        carry
+        <button disabled id="flagsetbutton">set</button>
+    </div>
+    <div class="m5">
+        <div style="display: inline;">registers</div>
+        <input style="width: 50px;" id="registera" type="number">
+        <input style="width: 50px;" id="registerb" type="number">
+        <button disabled id="registersetbutton">set</button> 
+    </div>
+    <div class="m5">
+        <div style="display: inline;">instruction counter</div>    
+        <input style="width: 50px;" id="instructioncounter" type="number">
+        <button disabled id="icsetbutton">set</button>
+    </div>
+    <div class="m5">
+        <div style="display: inline;">current instruction</div>    
+        <input style="width: 50px;" readonly id="currentinstruction" type="text">
+    </div>
+    
+    <div style="display: flex; justify-content: space-around;">
+        <div>
+            <p>assembly</p>
+            <textarea style="resize: none;" id="assembly" cols="80" rows="50"></textarea>
+        </div>
+        <div style="display: flex;">
+            <div>
+                <p>line#</p>
+                <textarea readonly class="nbr" style="overflow-y: hidden; resize: none; white-space: pre;" id="linenumber" cols="5" rows="50"></textarea>
+            </div>
+            <div>
+                <p>src</p>
+                <textarea readonly class="nbr" style="overflow-y: hidden; resize: none; white-space: pre;" id="srcassembly" cols="20" rows="50"></textarea>
+            </div>
+            <div>
+                <p>op</p>
+                <textarea readonly class="nbr" style="overflow-y: hidden; resize: none; white-space: pre;" id="opname" cols="5" rows="50"></textarea>
+            </div>
+            <div>
+                <p>ip</p>
+                <textarea readonly class="nbr" style="overflow-y: hidden; resize: none; white-space: pre;" id="instructionpointer" cols="1" rows="50"></textarea>
+            </div>
+            <div>
+                <div style="margin: 16px 0 13px 0;">
+                    <p style="display: inline;">binary</p>
+                    <button disabled id="setmembtn" style="display: inline;">set</button>
+                </div>
+                <textarea style="resize: none; white-space: pre;" id="binary" cols="40" rows="50"></textarea>
+            </div>
+        </div>
+    </div>
+    <script src="package.js"></script>
+</body>
+</html>
