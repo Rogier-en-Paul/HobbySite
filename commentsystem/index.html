@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas{
+            border:1px solid black;
+        }
+    </style>
+    
+    <!-- https://animate.style/ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.css"/>
+</head>
+<body>
+    <div style="display: flex; justify-content: left; align-items: flex-start;">
+        <div>
+            <div>
+                <textarea id="textmessage" style="font-family: Arial, Helvetica, sans-serif; display: block;" cols="60" rows="10">
+
+                </textarea>
+                <button id="sendbtn" style="margin-top:10px;">add comment (shift + enter)</button>
+            </div>
+            <div id="messagecontainer">
+        
+            </div>
+        </div>
+        <div style="position:relative">
+            <div id="conversationcontainer" style="position: fixed; border: 1px solid black; margin: 0px 10px 0 10px; padding:10px; max-width: 600px;">
+                <b>Conversation inspector</b><br />
+                Clicking on a comment link (for example <a href="#">@1</a>) adds the comment to this conversation inspector.
+                Clicking on comment links of comments that are already in the conversation inspector allows you to dive deeper into a conversation.
+    
+                <p>
+                    This conversation inspector is meant as a proof of concept for busy comment sections of websites like reddit and youtube.
+                    The problem it tries to solve is the case where you have a very busy comment section and the comments arent ordered chronologically but
+                    instead by upvotes or relevance. The problems you get are that:
+                    <ol>
+                        <li>When people start replying to each others comments the conversation can get lost because of
+                            the none chronological ordering of the comments.</li>
+                        <li>When a conversation is long and you use a "view replies" button to expand it, the comments become very deeply nested (this happens alot on reddit).</li>
+                        <li>Reddit and Youtube use a system where you can only reply to a single comment. This system allows people to reply/address multiple comments at once.</li>
+                    </ol>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="cursorfloater" style="position: absolute;  display: none;">
+        hey
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.js"></script>
+    <script src="package.js"></script>
+</body>
+</html>
