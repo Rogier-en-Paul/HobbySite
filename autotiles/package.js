@@ -8,7 +8,7 @@ class Vector {
         }
         return this;
     }
-    mul(v) {
+    mul(v) { 
         return this.map((arr, i) => arr[i] *= v.vals[i]);
     }
     div(v) {
