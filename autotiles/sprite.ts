@@ -1,5 +1,5 @@
 class Sprite{
-    id
+    id:number
     
     constructor(public img:HTMLImageElement, public rotations:number,public ctxt:CanvasRenderingContext2D){
 

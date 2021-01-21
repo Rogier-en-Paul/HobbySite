@@ -100,26 +100,22 @@ function mirrorY(tileid:number,setofpositionwithids:Map<Directions,number>):Rule
 
 class AutoTiler{
 
-    input:List2D<number>
+    input:List2D2<number>
+    vertices:List2D2<number>
+    edges:List2D2<[number,number]>
     tiles:RuleTile[] = []
-    gridrect: Rect
-    output:number[][]
+    output:List2D2<number>
 
     constructor(){
-
-    }
-
-    setup(input:List2D<number>){
-        this.input = input
-        
-        this.output = create2DArray(this.input.dimensions,() => 0)
-        this.gridrect = new Rect(new Vector(0,0), this.input.dimensions.c().add(new Vector(-1,-1)))
+        this.input = new List2D2<number>()
+        this.vertices = new List2D2<number>()
+        this.edges = new List2D2<[number,number]>()
+        this.output = new List2D2<number>()
     }
 
     processAll():void{
-        this.input.dimensions.loop2d(v => {
-            this.processTile(v)
-            
+        this.vertices.loop2d(v => {
+            this.processTile2(v)
         })
     }
 
@@ -127,16 +123,23 @@ class AutoTiler{
         var neighbours = this.getNeighbours(v)
         var firsttile = this.tiles.find(r => r.cb(neighbours))
         if(firsttile){
-            write2D(this.output,v,firsttile.tileid)
+            this.output.set(v,firsttile.tileid)
+        }
+    }
+
+    processTile2(v:Vector){
+        var neighbours = this.getVertexNeighbours(v)
+        var firsttile = this.tiles.find(r => r.cb(neighbours))
+        if(firsttile){
+            this.output.set(v,firsttile.tileid)
         }
     }
 
     processAround(pos:Vector){
-        for(var [alias,direction] of dir2vecmap.entries()){
+        var dirs = [new Vector(-1,-1),new Vector(0,-1),new Vector(0,0),new Vector(-1,0)]
+        for(var direction of dirs){
             var abspos = pos.c().add(direction)
-            if(this.gridrect.collidePoint(abspos)){
-                this.processTile(abspos)
-            }
+            this.processTile2(abspos)
         } 
     }
 
@@ -148,10 +151,40 @@ class AutoTiler{
 
         for(var [alias,direction] of dir2vecmap.entries()){
             var abspos = pos.c().add(direction)
-            if(this.gridrect.collidePoint(abspos)){
-                res.set(alias,this.input.get(abspos))
-            }
+            res.set(alias,this.input.get(abspos))
         }   
+        return res
+    }
+
+    getVertexNeighbours(pos:Vector):Map<Directions,number>{
+        var res = new Map<Directions,number>()
+        for(var [key,value] of dir2vecmap){
+            res.set(key,0)//guarantees the void neigbhours are set to 0
+        }
+        // res.set(Directions.mm,this.input.get(pos))
+
+        var vertexneighbours = [new Vector(0,0),new Vector(1,0),new Vector(0,1),new Vector(1,1),]
+        var vertexdirections = [Directions.tl,Directions.tr,Directions.bl,Directions.br]
+        for(var i = 0; i < vertexneighbours.length;i++){
+            res.set(vertexdirections[i],this.vertices.get(pos.c().add(vertexneighbours[i]))) 
+        }
+        return res
+    }
+
+    getEdgeNeighbours(pos:Vector):Map<Directions,number>{
+        var res = new Map<Directions,number>()
+        for(var [key,value] of dir2vecmap){
+            res.set(key,0)//guarantees the void neigbhours are set to 0
+        }
+
+        var topleftedges = this.edges.get(pos)
+        var botleft = this.edges.get(pos.c().add(new Vector(1,0)))
+        var topright = this.edges.get(pos.c().add(new Vector(0,1)))
+        res.set(Directions.tm,topleftedges[0])
+        res.set(Directions.mr,topright[1])
+        res.set(Directions.ml,topleftedges[1])
+        res.set(Directions.bm,botleft[0])
+
         return res
     }
 }
@@ -187,7 +220,7 @@ function rotateDirectionMap(setofpositionwithids:Map<Directions,number>){
 }
 
 function checkdirections(checks:Map<Directions,number>,neighbours:Map<Directions,number>){
-    return Array.from(checks.entries()).every(([key,value]) =>  neighbours.get(key) == value)
+    return Array.from(checks.entries()).every(([key,value]) => ((neighbours.get(key) ?? 0) == value))
 }
 
 

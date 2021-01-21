@@ -146,6 +146,21 @@ class List2D<T>{
         return res
     }
 
+    checkIndex(index:Vector){
+        return index.x < this.dimensions.x && index.y < this.dimensions.y
+    }
+
+    resize(dimensions:Vector){
+        var newa = new List2D<T>(dimensions,null)
+        var capped = new Vector(Math.min(this.dimensions.x,dimensions.x),Math.min(this.dimensions.y,dimensions.y))
+
+        capped.loop2d(v => {
+            newa.set(v,this.get(v))
+        })
+        this.dimensions = newa.dimensions
+        this.arr = newa.arr
+    }
+
 }
 
 function arrcopy<T>(src:T[],srcstart:number,dst:T[],dststart:number,length:number){

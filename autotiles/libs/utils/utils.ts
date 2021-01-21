@@ -39,10 +39,12 @@ function rangeContain(a1: number, a2: number, b1: number, b2: number):boolean{//
 
 function startMouseListen(localcanvas:HTMLCanvasElement){
     var mousepos = new Vector(0,0)
+    var oldmousepos = new Vector(0,0)
     document.addEventListener('mousemove',(e) => {
+        oldmousepos.overwrite(mousepos)
         mousepos.overwrite(getMousePos(localcanvas,e))
     })
-    return mousepos
+    return [mousepos,oldmousepos]
 }
 
 
