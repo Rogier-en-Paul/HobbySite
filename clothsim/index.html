@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        html, body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div style="position: absolute; left: 10px; top: 10px;">
+        <div>
+            crossed
+            <input id="crossed" checked="true" type="checkbox">
+        </div>
+        <div>
+            stifness
+            <input id="stifness" min="100" value="500" max="2000" type="range" >
+        </div>
+        <div>
+            gravity
+            <input id="gravity" min="-200" value="1000" max="2000" type="range">
+        </div>
+
+        <div>
+            dampening
+            <input id="dampening" min="0.5" value="4" max="10" type="range">
+        </div>
+        <div>
+            resolution
+            <input id="resolution" min="5" max="20" type="range">
+        </div>
+        <button id="regen">regen</button>
+    </div>
+    <script src="package.js"></script>
+</body>
+</html>
