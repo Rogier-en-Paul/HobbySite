@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div>
+        <div id="rotbtncontainer"></div>
+        <div id="invrotbtncontainer"></div>
+        <div id="doublerotbtncontainer"></div>
+        <div id="specialbtncontainer"></div>
+        <div>
+            <div>
+                <label for="seedvalue">RNG seed value</label>
+                <input value="0" type="number" id="seedvalue">
+            </div>
+            <div>
+                <label for="perspectiveSelect">Select perspective</label>
+                <select id="perspectiveSelect">
+                    <option value="F">F</option>
+                    <option value="B">B</option>
+                    <option value="R">R</option>
+                    <option value="L">L</option>
+                    <option value="U">U</option>
+                    <option value="D">D</option>
+                    <option value="I">I</option>
+                </select>
+            </div>
+        </div>
+        <p>
+            <a target="_blank" href="https://rubikscu.be/">https://rubikscu.be/</a>
+        </p>
+        <div style="color:red;" id="erroroutput"></div>
+        <textarea rows="10" cols="70" id="outputinput"></textarea>
+    </div>
+    
+    <!-- <textarea id="actionpanel"></textarea> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/quaternion@1.2.1/quaternion.js"></script>
+    <script src="package.js"></script>
+</body>
+</html>
