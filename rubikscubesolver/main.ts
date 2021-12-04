@@ -99,8 +99,10 @@ createButton('Apply1', e => {
     cube.apply(take1fromoutputinput(),true,perspectiveSelect.value)
 })
 createButton('Undo', e => {
-    outputinput.value = cube.undo() + ' ' + outputinput.value
-    
+    var out = cube.undo()
+    if(out){
+        outputinput.value = out + ' ' + outputinput.value
+    }
 })
 createButton('Scramble & Solve', e => {
     cube.apply(cube.scramble())
