@@ -326,6 +326,7 @@ class Cube{
         result += tempcube.apply(tempcube.pathfind2d(new Vector(4,2))) + '\n'
         tempcube.generateGraph(['L','D','Li','Di'].concat(composites))
         result += tempcube.apply(tempcube.pathfind2d(new Vector(3,1))) + '\n '
+        result += '\n'
 
         // 2 solve white corners
         composites = ['Ri Di R D','F D Fi Di','Ri D2 R D Ri Di R']
@@ -335,7 +336,7 @@ class Cube{
         result += tempcube.apply(tempcube.pathfind2d(new Vector(5,0))) + '\n'
         result += tempcube.apply(tempcube.pathfind2d(new Vector(5,2))) + '\n'
         result += tempcube.apply(tempcube.pathfind2d(new Vector(3,2))) + '\n'
-        
+        result += '\n'
 
         // 3 MIDDLE
         composites = tempcube.changePerspective(['Ui Li U L U F Ui Fi','U R Ui Ri Ui Fi U F'],'I')
@@ -345,7 +346,7 @@ class Cube{
         result += tempcube.apply(tempcube.pathfind2d(new Vector(5,4))) + '\n'//6,4
         result += tempcube.apply(tempcube.pathfind2d(new Vector(0,4))) + '\n'//11,4
         result += tempcube.apply(tempcube.pathfind2d(new Vector(8,4))) + '\n'//9,4
-
+        result += '\n'
 
         
         
@@ -370,7 +371,7 @@ class Cube{
                 result += tempcube.apply(composites[0]) + '\n'
             }
         }
-
+        // result += '\n'
 
         // 5 swap last layer edges
         composites = ['R U Ri U R U2 Ri U']//, 'R U Ri U R U2 Ri U y2 U yi R U Ri U R U2 Ri U'
@@ -380,7 +381,7 @@ class Cube{
         result += tempcube.apply(tempcube.pathfind2d(new Vector(5,7))) + '\n'
         result += tempcube.apply(tempcube.pathfind2d(new Vector(4,8))) + '\n'
         result += tempcube.apply(tempcube.pathfind2d(new Vector(3,7))) + '\n'
-
+        // result += '\n'
 
         // 6 position last layer corners
         composites = ['U R Ui Li U Ri Ui L']
@@ -391,7 +392,7 @@ class Cube{
         composites = tempcube.changePerspective(['U R Ui Li U Ri Ui L'],'I')
         tempcube.generateGraph(composites);
         result += tempcube.apply(tempcube.pathfind3d(new Vector(1,-1,-1))) + '\n'
-
+        // result += '\n'
 
         //7 orient corners
         //for every corner
@@ -409,7 +410,7 @@ class Cube{
         tempcube.generateGraph(['D']);
         result += tempcube.apply(tempcube.pathfind2d(new Vector(4,5))) + '\n'
 
-        return result.replace(/\s\s+/g,' ').trim()
+        return result.replace(/ +/g,' ').trim()
     }
 
     //check pattern against 2dgrid
@@ -444,25 +445,6 @@ class Cube{
 
     getFace(position:Vector){
         return this.cubeletFaces.find(f => f.getCurrentPosition2D(this).equals(position))
-    }
-
-    checkIfPieceCorrectPos(piecePos:Vector):boolean{
-        var foundpiece = this.cubelets.find(cl => vectorequals(cl.pos,piecePos))
-        return vectorequals(foundpiece.startpos, foundpiece.pos)
-    }
-
-    checkIfPieceCorrectOrientationAndPos(piecePos:Vector):boolean{
-        var foundpiece = this.cubelets.find(cl => vectorequals(cl.pos,piecePos))
-        if(vectorequals(foundpiece.startpos, foundpiece.pos)){
-            for(var face of foundpiece.faces){
-                if(vectorequals(face.normal,face.startnormal) == false){
-                    return false
-                }
-            }
-            return true
-        }else{
-            return false
-        }
     }
     
     scramble(){
@@ -549,15 +531,11 @@ ${gf(0,5)},${gf(1,5)},${gf(2,5)},${gf(3,5)},${gf(4,5)},${gf(5,5)},${gf(6,5)},${g
                         cubelet.faces.push(newface)
                         this.cubeletFaces.push(newface)
                     }
-
-
-                    
                 }
             }
         }
-        // if(errors.length > 0){
-        //     throw errors
-        // }
+
+        
         return this
     }
 

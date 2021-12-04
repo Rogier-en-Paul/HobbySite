@@ -85,7 +85,7 @@ createButton('Solve', e => {
         outputinput.value = cube.gensolve()
         erroroutput.innerText = ''
     } catch (errors) {
-        erroroutput.innerText = errors
+        erroroutput.innerText = errors.join('\n')
     }
     
 })
@@ -96,9 +96,7 @@ createButton('Apply', (e) => {
     }
 })
 createButton('Apply1', e => {
-    var actions = outputinput.value.split(/\s+/)
-    cube.apply(actions.splice(0,1)[0],true,perspectiveSelect.value)
-    outputinput.value = actions.join(' ')
+    cube.apply(take1fromoutputinput(),true,perspectiveSelect.value)
 })
 createButton('Undo', e => {
     outputinput.value = cube.undo() + ' ' + outputinput.value
@@ -112,7 +110,7 @@ createButton('Scramble & Solve', e => {
         outputinput.value = out
         erroroutput.innerText = ''
     } catch (errors) {
-        erroroutput.innerText = errors
+        erroroutput.innerText = errors.join('\n')
     }
     
 })
@@ -152,9 +150,16 @@ function drawCube(cube:Cube,ctxt){
         var abs = pos2d.c().scale(gridsize)
         ctxt.fillStyle = face.color
         ctxt.fillRect(abs.x,abs.y,gridsize,gridsize)
-        ctxt.fillStyle = 'black'
-        ctxt.textAlign = 'center'
-        ctxt.textBaseline = 'middle'
-        ctxt.fillText(`${pos2d.x},${pos2d.y}`,abs.x + gridsize / 2,abs.y + gridsize / 2)
+        // ctxt.fillStyle = 'black'
+        // ctxt.textAlign = 'center'
+        // ctxt.textBaseline = 'middle'
+        // ctxt.fillText(`${pos2d.x},${pos2d.y}`,abs.x + gridsize / 2,abs.y + gridsize / 2)
     }
+}
+
+function take1fromoutputinput(){
+    var index = outputinput.value.search(/\s+/)
+    var out = outputinput.value.substr(0,index)
+    outputinput.value = outputinput.value.substr(index).trim()
+    return out
 }
